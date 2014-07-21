@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drawer_open"> </string>
+    <string name="drawer_close"> </string>
+
+    <item type="id" name="fragment_livestream"/>
+    <item type="id" name="fragment_liveticker" />
+    <item type="id" name="fragment_overview" />
+    <item type="id" name="fragment_news" />
+    <item type="id" name="fragment_schedule_results" />
+    <item type="id" name="fragment_standings" />
+    <item type="id" name="fragment_team" />
+
+</resources>
