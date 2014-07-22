@@ -28,6 +28,8 @@
             android:background="@color/black"
             android:overScrollFooter="@null"
             android:listSelector="@color/transparent"
+            android:scrollbars="none"
+            android:drawSelectorOnTop="false"
             />
     </LinearLayout>
 

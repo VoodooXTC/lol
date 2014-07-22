@@ -3,4 +3,5 @@
     <color name="transparent">#00000000</color>
     <color name="white">#FFF</color>
     <color name="black">#000</color>
+    <color name="drawer_item_selector_state">#11FFFFFF</color>
 </resources>
