@@ -7,10 +7,8 @@ import android.view.Window;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import joss.jacobo.lol.lcs.Datastore;
 import joss.jacobo.lol.lcs.MainApp;
-import joss.jacobo.lol.lcs.R;
 
 /**
  * Created by jossayjacobo on 7/20/14.
