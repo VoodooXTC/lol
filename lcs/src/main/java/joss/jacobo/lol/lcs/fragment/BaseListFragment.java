@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,12 +26,13 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
     RelativeLayout container;
     @InjectView(R.id.listview)
     ListView listView;
+    @InjectView(R.id.loadingView)
+    ProgressBar loadingView;
     @InjectView(R.id.emptyView)
-    ProgressBar emptyView;
+    TextView emptyView;
 
     ListAdapter adapter;
-    View loadingView;
-
+    View loadingItem;
     View customEmptyView;
 
     @Override
@@ -45,7 +48,7 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
                 container, false);
         ButterKnife.inject(this, view);
 
-        loadingView = inflater.inflate(R.layout.view_item_loading, null);
+        loadingItem = inflater.inflate(R.layout.view_item_loading, listView, false);
         setHasOptionsMenu(true);
 
         return view;
@@ -58,8 +61,8 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
         listView.setOnItemClickListener(this);
     }
 
-    public void setupListViewWithLoadingView(){
-        listView.addFooterView(loadingView);
+    public void setupListViewWithLoadingItemView(){
+        listView.addFooterView(loadingItem);
         setupListView();
     }
 
@@ -74,7 +77,7 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
      */
     public void setEmptyView(View view){
         this.container.addView(view);
-        this.customerEmptyView = view;
+        this.customEmptyView = view;
     }
 
 
@@ -95,7 +98,7 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
     }
 
     public void removeLoadingItem(){
-        listView.removeFooterView(loadingView);
+        listView.removeFooterView(loadingItem);
     }
 
     @Override
@@ -103,13 +106,35 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
 
     }
 
+    /**
+     * Scroll Listener
+     *
+     * When the user reaches the end of the list it calls onLoadMore()
+     */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+        int lastItemOnScreen = firstVisibleItem + visibleItemCount;
+        boolean loadMore = lastItemOnScreen == totalItemCount;
+        if(loadMore)
+            onLoadMore();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // Empty Method
+    }
 
+    public void onLoadMore() {
+        // Empty Method
+    }
+
+    public void showLoading(){
+        listView.setVisibility(View.INVISIBLE);
+        loadingView.setVisibility(View.VISIBLE);
+    }
+
+    public void showContent(){
+        listView.setVisibility(View.VISIBLE);
+        loadingView.setVisibility(View.GONE);
     }
 }

@@ -1,9 +1,9 @@
-package joss.jacobo.lol.lcs.model;
+package joss.jacobo.lol.lcs.items;
 
 /**
  * Created by Joss on 7/21/2014
  */
-public class DrawerItemModel {
+public class DrawerItem {
 
     public static final int TYPE_LIVESTREAM = 0;
     public static final int TYPE_LIVETICKER = 1;
@@ -19,7 +19,7 @@ public class DrawerItemModel {
     public int teamId;
     public String title;
 
-    public DrawerItemModel(int type, int teamId, String title){
+    public DrawerItem(int type, int teamId, String title){
         this.type = type;
         this.teamId = teamId;
         this.title = title;

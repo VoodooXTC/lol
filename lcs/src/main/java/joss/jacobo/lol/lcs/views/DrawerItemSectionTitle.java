@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import joss.jacobo.lol.lcs.R;
-import joss.jacobo.lol.lcs.model.DrawerItemModel;
 
 /**
  * Created by Joss on 7/21/2014.
@@ -34,7 +33,7 @@ public class DrawerItemSectionTitle extends LinearLayout {
         title = (TextView) findViewById(R.id.drawer_item_title);
     }
 
-    public void setContent(DrawerItemModel item){
+    public void setContent(joss.jacobo.lol.lcs.items.DrawerItem item){
         this.title.setText(item.title.toUpperCase());
     }
 

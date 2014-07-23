@@ -17,4 +17,6 @@
     <string name="font_gothic_bold">Trade-Gothic-Bold.ttf</string>
     <string name="font_gothic_regular">Trade-Gothic-Regular.ttf</string>
 
+    <string name="no_results">No Results</string>
+
 </resources>

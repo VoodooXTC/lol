@@ -1,15 +1,12 @@
 package joss.jacobo.lol.lcs.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,17 +14,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import joss.jacobo.lol.lcs.R;
-import joss.jacobo.lol.lcs.model.DrawerItemModel;
-import joss.jacobo.lol.lcs.views.DrawerItem;
+import joss.jacobo.lol.lcs.items.DrawerItem;
 import joss.jacobo.lol.lcs.views.DrawerItemSectionTitle;
 
 
@@ -139,28 +132,28 @@ public class MainActivity extends BaseActivity{
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private List<DrawerItemModel> getDrawerItems() {
-        List<DrawerItemModel> items = new ArrayList<DrawerItemModel>();
+    private List<DrawerItem> getDrawerItems() {
+        List<DrawerItem> items = new ArrayList<DrawerItem>();
 
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_SECTION_TITLE, 0, "LIVE"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_LIVESTREAM, 0, "Livesteam"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_LIVETICKER, 0, "Liveticker"));
+        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "LIVE"));
+        items.add(new DrawerItem(DrawerItem.TYPE_LIVESTREAM, 0, "Livesteam"));
+        items.add(new DrawerItem(DrawerItem.TYPE_LIVETICKER, 0, "Liveticker"));
 
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_SECTION_TITLE, 0, "GENERAL"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_OVERVIEW, 0, "Overview"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_NEWS, 0, "News"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_SCHEDULE_RESULTS, 0, "Schedule & Results"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_STANDINGS, 0, "Standings"));
+        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "GENERAL"));
+        items.add(new DrawerItem(DrawerItem.TYPE_OVERVIEW, 0, "Overview"));
+        items.add(new DrawerItem(DrawerItem.TYPE_NEWS, 0, "News"));
+        items.add(new DrawerItem(DrawerItem.TYPE_SCHEDULE_RESULTS, 0, "Schedule & Results"));
+        items.add(new DrawerItem(DrawerItem.TYPE_STANDINGS, 0, "Standings"));
 
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_SECTION_TITLE, 0, "Teams"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_TEAM, 9, "Cloud 9"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_TEAM, 10, "Counter Logic Gaming"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_TEAM, 11, "Curse"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_TEAM, 12, "Evil Geniuses"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_TEAM, 13, "Complexity Black"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_TEAM, 14, "Team Dignitas"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_TEAM, 15, "Team Solomid"));
-        items.add(new DrawerItemModel(DrawerItemModel.TYPE_TEAM, 16, "LMQ"));
+        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "Teams"));
+        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 9, "Cloud 9"));
+        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 10, "Counter Logic Gaming"));
+        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 11, "Curse"));
+        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 12, "Evil Geniuses"));
+        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 13, "Complexity Black"));
+        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 14, "Team Dignitas"));
+        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 15, "Team Solomid"));
+        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 16, "LMQ"));
 
         return items;
     }
@@ -168,15 +161,15 @@ public class MainActivity extends BaseActivity{
     public class MenuListAdapter extends BaseAdapter {
 
         private Context context;
-        private List<DrawerItemModel> items;
+        private List<DrawerItem> items;
         private int hintPosition;
 
-        public MenuListAdapter(Context c, List<DrawerItemModel> i) {
+        public MenuListAdapter(Context c, List<DrawerItem> i) {
             this.context = c;
             this.items = i;
         }
 
-        public void setItems(List<DrawerItemModel> items){
+        public void setItems(List<DrawerItem> items){
             this.items = items;
             notifyDataSetChanged();
         }
@@ -193,7 +186,7 @@ public class MainActivity extends BaseActivity{
 
         @Override
         public int getViewTypeCount(){
-            return DrawerItemModel.TYPE_MAX;
+            return DrawerItem.TYPE_MAX;
         }
 
         @Override
@@ -214,16 +207,16 @@ public class MainActivity extends BaseActivity{
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
 
-            DrawerItemModel item = items.get(i);
+            DrawerItem item = items.get(i);
 
             switch(item.type){
-                case DrawerItemModel.TYPE_SECTION_TITLE:
+                case DrawerItem.TYPE_SECTION_TITLE:
                     DrawerItemSectionTitle drawerItemSectionTitle = view == null ? new DrawerItemSectionTitle(context) : (DrawerItemSectionTitle) view;
                     drawerItemSectionTitle.setContent(item);
                     drawerItemSectionTitle.setSelected(i == hintPosition);
                     return drawerItemSectionTitle;
                 default:
-                    DrawerItem drawerItem = view == null ? new DrawerItem(context) : (DrawerItem) view;
+                    joss.jacobo.lol.lcs.views.DrawerItem drawerItem = view == null ? new joss.jacobo.lol.lcs.views.DrawerItem(context) : (joss.jacobo.lol.lcs.views.DrawerItem) view;
                     drawerItem.setContent(item);
                     drawerItem.title.setSelected(i == hintPosition);
                     return drawerItem;
@@ -237,37 +230,37 @@ public class MainActivity extends BaseActivity{
             if (position > 0) {
 
                 //Compensate for headerView in position 0
-                DrawerItemModel clicked = adapter.items.get(position);
+                DrawerItem clicked = adapter.items.get(position);
 
-                if(clicked.type != DrawerItemModel.TYPE_SECTION_TITLE)
+                if(clicked.type != DrawerItem.TYPE_SECTION_TITLE)
                     adapter.setHint(position);
 
                 switch (clicked.type){
-                    case DrawerItemModel.TYPE_LIVESTREAM:
+                    case DrawerItem.TYPE_LIVESTREAM:
 
                         break;
 
-                    case DrawerItemModel.TYPE_LIVETICKER:
+                    case DrawerItem.TYPE_LIVETICKER:
 
                         break;
 
-                    case DrawerItemModel.TYPE_OVERVIEW:
+                    case DrawerItem.TYPE_OVERVIEW:
 
                         break;
 
-                    case DrawerItemModel.TYPE_NEWS:
+                    case DrawerItem.TYPE_NEWS:
 
                         break;
 
-                    case DrawerItemModel.TYPE_SCHEDULE_RESULTS:
+                    case DrawerItem.TYPE_SCHEDULE_RESULTS:
 
                         break;
 
-                    case DrawerItemModel.TYPE_STANDINGS:
+                    case DrawerItem.TYPE_STANDINGS:
 
                         break;
 
-                    case DrawerItemModel.TYPE_TEAM:
+                    case DrawerItem.TYPE_TEAM:
 
                         break;
                 }
