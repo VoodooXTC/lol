@@ -31,7 +31,6 @@ public class DrawerItem extends LinearLayout {
     }
 
     private void init(Context context) {
-
         LayoutInflater.from(context).inflate(R.layout.view_drawer_item, this, true);
         title = (TextView) findViewById(R.id.drawer_item_title);
     }

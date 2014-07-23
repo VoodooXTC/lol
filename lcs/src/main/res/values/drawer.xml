@@ -10,5 +10,6 @@
     <item type="id" name="fragment_schedule_results" />
     <item type="id" name="fragment_standings" />
     <item type="id" name="fragment_team" />
+    <item type="id" name="fragment_feedback" />
 
 </resources>

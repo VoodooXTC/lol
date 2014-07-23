@@ -1,10 +1,13 @@
 package joss.jacobo.lol.lcs.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.fragment.OverviewFragment;
 import joss.jacobo.lol.lcs.items.DrawerItem;
 import joss.jacobo.lol.lcs.views.DrawerItemSectionTitle;
 
@@ -53,10 +57,8 @@ public class MainActivity extends BaseActivity{
 
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
         if (fragment == null) {
-//            selectFragment(R.id.fragment_location_finder, 0);
+            selectFragment(R.id.fragment_overview, 4);
         }
-
-        Log.e("MainActivity", datastore.getVersion() + "");
     }
 
     @Override
@@ -103,7 +105,6 @@ public class MainActivity extends BaseActivity{
     }
 
     private void setUpDrawerLayout() {
-//        mDrawerLayout.setScrimColor(Color.TRANSPARENT);
         adapter = new MenuListAdapter(this, getDrawerItems());
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -213,7 +214,6 @@ public class MainActivity extends BaseActivity{
                 case DrawerItem.TYPE_SECTION_TITLE:
                     DrawerItemSectionTitle drawerItemSectionTitle = view == null ? new DrawerItemSectionTitle(context) : (DrawerItemSectionTitle) view;
                     drawerItemSectionTitle.setContent(item);
-                    drawerItemSectionTitle.setSelected(i == hintPosition);
                     return drawerItemSectionTitle;
                 default:
                     joss.jacobo.lol.lcs.views.DrawerItem drawerItem = view == null ? new joss.jacobo.lol.lcs.views.DrawerItem(context) : (joss.jacobo.lol.lcs.views.DrawerItem) view;
@@ -231,9 +231,6 @@ public class MainActivity extends BaseActivity{
 
                 //Compensate for headerView in position 0
                 DrawerItem clicked = adapter.items.get(position);
-
-                if(clicked.type != DrawerItem.TYPE_SECTION_TITLE)
-                    adapter.setHint(position);
 
                 switch (clicked.type){
                     case DrawerItem.TYPE_LIVESTREAM:
@@ -265,6 +262,89 @@ public class MainActivity extends BaseActivity{
                         break;
                 }
             }
+        }
+    }
+
+    public void selectFragment(int nextFrag, int position) {
+        if (nextFrag != currentFrag) {
+            switch (nextFrag) {
+                case R.id.fragment_livestream:
+                    currentFrag = R.id.fragment_livestream;
+                    break;
+                case R.id.fragment_liveticker:
+                    currentFrag = R.id.fragment_liveticker;
+                    break;
+                case R.id.fragment_overview:
+                    currentFrag = R.id.fragment_overview;
+                    break;
+                case R.id.fragment_news:
+                    currentFrag = R.id.fragment_news;
+                    break;
+                case R.id.fragment_schedule_results:
+                    currentFrag = R.id.fragment_schedule_results;
+                    break;
+                case R.id.fragment_standings:
+                    currentFrag = R.id.fragment_standings;
+                    break;
+                case R.id.fragment_team:
+                    currentFrag = R.id.fragment_team;
+                    break;
+                case R.id.fragment_feedback:
+
+//                    closeDrawer();
+//
+//                    String query = Saguaro.getSendFeedbackIntent(this).getData().toString();
+//                    query += Uri.encode("\n");
+//                    query += Uri.encode(Device.getFullDeviceName());
+//                    query += Uri.encode("\n");
+//                    query += Uri.encode(Device.getOSVersion());
+//
+//                    Intent feedBackIntent = new Intent(Intent.ACTION_SENDTO);
+//                    feedBackIntent.setData(Uri.parse(query));
+//                    startActivity(feedBackIntent);
+
+                    return;
+            }
+            adapter.setHint(position);
+            replaceFragment();
+        } else {
+            closeDrawer();
+        }
+    }
+
+    private void replaceFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment frag = new OverviewFragment();
+        switch (currentFrag) {
+            case R.id.fragment_livestream:
+//                frag = new LocationFragment();
+                break;
+            case R.id.fragment_liveticker:
+//                frag = new SentaraTodayFragment();
+                break;
+            case R.id.fragment_overview:
+//                frag = new AboutFragment();
+                break;
+            case R.id.fragment_news:
+                break;
+            case R.id.fragment_schedule_results:
+                break;
+            case R.id.fragment_standings:
+                break;
+            case R.id.fragment_team:
+                break;
+        }
+
+        ft.setCustomAnimations(R.anim.slide_in_from_right, R.anim.fade_out);
+        ft.replace(contentView.getId(), frag, FRAGMENT_TAG);
+        ft.commit();
+        closeDrawer();
+    }
+
+
+    public void closeDrawer() {
+        if (mDrawerLayout.isShown()) {
+            mDrawerLayout.closeDrawers();
         }
     }
 

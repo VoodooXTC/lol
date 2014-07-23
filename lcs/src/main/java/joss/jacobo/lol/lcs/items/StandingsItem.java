@@ -8,16 +8,16 @@ public class StandingsItem extends OverviewItem {
     public String league;
     public int week;
     public int position;
-    public String teamAbrv;
+    public String teamName;
     public int wins;
     public int losses;
 
-    public StandingsItem(int type, String league, int week, int position, String teamAbrv, int wins, int losses){
+    public StandingsItem(int type, String league, int week, int position, String teamName, int wins, int losses){
         this.type = type;
         this.league = league;
         this.week = week;
         this.position = position;
-        this.teamAbrv = teamAbrv;
+        this.teamName = teamName;
         this.wins = wins;
         this.losses = losses;
     }

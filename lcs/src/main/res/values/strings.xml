@@ -19,4 +19,8 @@
 
     <string name="no_results">No Results</string>
 
+    <string name="item_overview_L">L</string>
+    <string name="item_overview_W">W</string>
+    <string name="item_match_details_vs">vs</string>
+
 </resources>

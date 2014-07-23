@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_overview_section_title_first_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:textSize="22sp"
+        oak:oakFont="@string/font_roboto_medium_condensed"
+        tools:text="UPCOMING"
+        tools:background="@color/main_bg_color"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_overview_section_title_second_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gold"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:textSize="22sp"
+        android:gravity="center_vertical"
+        android:duplicateParentState="true"
+        oak:oakFont="@string/font_roboto_medium_condensed"
+        tools:text="MATCHES"
+        tools:background="@color/main_bg_color"
+        />
+
+</LinearLayout>

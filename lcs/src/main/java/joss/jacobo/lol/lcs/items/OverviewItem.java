@@ -12,5 +12,17 @@ public class OverviewItem {
     public static final int TYPE_MAX = TYPE_SECTION_TITLE + 1;
 
     public int type;
+    public String titleFirstWord;
+    public String titleSecondWord;
+
+    public OverviewItem(){
+
+    }
+
+    public OverviewItem(int type, String firstWord, String secondWord){
+        this.type = type;
+        this.titleFirstWord = firstWord;
+        this.titleSecondWord = secondWord;
+    }
 
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/main_bg_color"
+    >
+
+    <LinearLayout
+        android:id="@+id/item_match_details_center_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:padding="4dp"
+        >
+        <LinearLayout
+            android:id="@+id/item_match_details_score_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <oak.widget.TextViewWithFont
+                android:id="@+id/item_match_details_blue_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                oak:oakFont="@string/font_roboto_thin"
+                tools:text="0"
+                />
+            <oak.widget.TextViewWithFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:padding="4dp"
+                android:text="@string/item_match_details_vs"
+                oak:oakFont="@string/font_roboto_thin"
+                />
+            <oak.widget.TextViewWithFont
+                android:id="@+id/item_match_details_purple_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                oak:oakFont="@string/font_roboto_thin"
+                tools:text="1"
+                />
+        </LinearLayout>
+        <oak.widget.TextViewWithFont
+            android:id="@+id/item_match_details_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            oak:oakFont="@string/font_roboto_thin"
+            tools:text="18:00"
+            />
+        <oak.widget.TextViewWithFont
+            android:id="@+id/item_match_details_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            oak:oakFont="@string/font_roboto_thin"
+            tools:text="Saturday, July 21"
+            />
+    </LinearLayout>
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_details_blue_team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:padding="8dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/item_match_details_center_container"
+        oak:oakFont="@string/font_roboto_regular"
+        tools:text="SK Gaming"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_details_purple_team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:padding="8dp"
+        android:gravity="right"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/item_match_details_center_container"
+        oak:oakFont="@string/font_roboto_regular"
+        tools:text="Alliance"
+        />
+
+
+
+</RelativeLayout>

@@ -15,13 +15,20 @@ import joss.jacobo.lol.lcs.Datastore;
 import joss.jacobo.lol.lcs.MainApp;
 import joss.jacobo.lol.lcs.activity.BaseActivity;
 import joss.jacobo.lol.lcs.activity.MainActivity;
+import joss.jacobo.lol.lcs.fragment.BaseFragment;
+import joss.jacobo.lol.lcs.fragment.BaseListFragment;
+import joss.jacobo.lol.lcs.fragment.OverviewFragment;
 
 @Module(
         injects = {
-            Injector.class,
-            MainApp.class,
-            BaseActivity.class,
-            MainActivity.class
+                Injector.class,
+                MainApp.class,
+                BaseActivity.class,
+                MainActivity.class,
+
+                BaseFragment.class,
+                BaseListFragment.class,
+                OverviewFragment.class,
 
 }, library = true, complete = true)
 public class AppModule {
