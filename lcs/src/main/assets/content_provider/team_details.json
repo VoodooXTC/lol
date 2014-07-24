@@ -1,0 +1,32 @@
+{
+	"fields": [
+		{
+			"name" : "team_id",
+			"type" : "Integer"
+		},
+		{
+            "name" : "abrev",
+            "type" : "String"
+        },
+        {
+            "name" : "name",
+            "type" : "String"
+        },
+        {
+            "name" : "logo",
+            "type" : "String"
+
+        },
+        {
+            "name" : "team_picture",
+            "type" : "String"
+        }
+	],
+
+	"constraints" : [
+	    {
+	        "name" : "team_id",
+	        "definition" : "unique (team_id) on conflict replace"
+	    }
+	]
+}

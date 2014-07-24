@@ -1,0 +1,16 @@
+{
+    "toolVersion": "1.0",
+    "projectPackageId": "joss.jacobo.lol.lcs",
+    "authority": "joss.jacobo.lol.lcs.provider",
+    "providerJavaPackage": "joss.jacobo.lol.lcs.provider",
+    "providerClassName": "LcsProvider",
+    "sqliteHelperClassName": "LcsSQLiteOpenHelper",
+    "databaseFileName": "lcs.db",
+    "enableForeignKeys": true,
+    "generateProvider":true,
+    "generateModels":true,
+    "generateViews":false,
+    "generateApi": false,
+    "projectBaseUrl": "http://lcs.voodootvdb.com",
+    "generateFragments": false
+}

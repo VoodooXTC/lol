@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/main_bg_color">
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/drawer_header_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:padding="8dp"
+        android:drawableRight="@drawable/ic_action_expand"
+        tools:text="NA-LCS - Menu"
+        oak:oakFont="@string/font_roboto_thin"
+        />
+
+    <LinearLayout
+        android:id="@+id/drawer_sub_containers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

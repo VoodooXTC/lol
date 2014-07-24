@@ -1,0 +1,24 @@
+{
+	"fields": [
+		{
+			"name" : "team_id",
+			"type" : "Integer"
+		},
+		{
+            "name" : "team_abrev",
+            "type" : "String"
+        },
+        {
+            "name" : "tournament_id",
+            "type" : "Integer"
+        },
+        {
+            "name" : "tournament_abrev",
+            "type" : "String"
+        },
+        {
+            "name" : "team_name",
+            "type" : "String"
+        }
+	]
+}

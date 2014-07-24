@@ -1,0 +1,79 @@
+{
+	"fields": [
+	    {
+            "name" : "match_id",
+            "type" : "Integer"
+        },
+		{
+			"name" : "tournament_id",
+			"type" : "Integer"
+		},
+		{
+            "name" : "tournament_abrev",
+            "type" : "String"
+        },
+        {
+            "name" : "split",
+            "type" : "String"
+        },
+        {
+            "name" : "datetime",
+            "type" : "String"
+        },
+        {
+            "name" : "week",
+            "type" : "Integer"
+        },
+        {
+            "name" : "day",
+            "type" : "Integer"
+        },
+        {
+            "name" : "date",
+            "type" : "String"
+        },
+        {
+            "name" : "team1_id",
+            "type" : "Integer"
+        },
+        {
+            "name" : "team2_id",
+            "type" : "Integer"
+        },
+        {
+            "name" : "team1",
+            "type" : "String"
+        },
+        {
+            "name" : "team2",
+            "type" : "String"
+        },
+        {
+            "name" : "time",
+            "type" : "String"
+        },
+        {
+            "name" : "result",
+            "type" : "Integer"
+        },
+        {
+            "name" : "played",
+            "type" : "Integer"
+        },
+        {
+            "name" : "match_no",
+            "type" : "Integer"
+        },
+        {
+            "name" : "match_position",
+            "type" : "Integer"
+        }
+	],
+
+	"constraints" : [
+	    {
+	        "name" : "match_id",
+	        "definition" : "unique (match_id) on conflict replace"
+	    }
+	]
+}

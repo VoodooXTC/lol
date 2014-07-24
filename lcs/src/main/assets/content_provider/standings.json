@@ -1,0 +1,40 @@
+{
+	"fields": [
+	    {
+            "name" : "standing_id",
+            "type" : "Integer"
+        },
+		{
+            "name" : "tournament_abrev",
+            "type" : "String"
+        },
+        {
+            "name" : "standing_week",
+            "type" : "Integer"
+        },
+        {
+            "name" : "team_name",
+            "type" : "String"
+        },
+        {
+            "name" : "team_abrev",
+            "type" : "String"
+        },
+        {
+            "name" : "wins",
+            "type" : "Integer"
+        },
+        {
+            "name" : "losses",
+            "type" : "Integer"
+        },
+        {
+            "name" : "delta",
+            "type" : "Integer"
+        },
+        {
+            "name" : "standing_position",
+            "type" : "Integer"
+        }
+	]
+}

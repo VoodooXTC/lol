@@ -1,0 +1,36 @@
+{
+	"fields": [
+		{
+			"name" : "tournament_id",
+			"type" : "Integer"
+		},
+		{
+            "name" : "abrev",
+            "type" : "String"
+        },
+        {
+            "name" : "name",
+            "type" : "String"
+        },
+        {
+            "name" : "year",
+            "type" : "Integer"
+
+        },
+        {
+            "name" : "season",
+            "type" : "String"
+        },
+        {
+            "name" : "ongoing",
+            "type" : "Integer"
+        }
+	],
+
+	"constraints" : [
+	    {
+	        "name" : "tournament_id",
+	        "definition" : "unique (tournament_id) on conflict replace"
+	    }
+	]
+}
