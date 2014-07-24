@@ -38,6 +38,5 @@ public class BaseActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
-//        getSupportActionBar().setIcon(R.drawable.ab_sentara_logo);
     }
 }

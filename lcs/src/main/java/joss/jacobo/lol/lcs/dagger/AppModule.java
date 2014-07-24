@@ -18,6 +18,7 @@ import joss.jacobo.lol.lcs.activity.MainActivity;
 import joss.jacobo.lol.lcs.fragment.BaseFragment;
 import joss.jacobo.lol.lcs.fragment.BaseListFragment;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
+import joss.jacobo.lol.lcs.views.DrawerHeader;
 
 @Module(
         injects = {
@@ -29,6 +30,8 @@ import joss.jacobo.lol.lcs.fragment.OverviewFragment;
                 BaseFragment.class,
                 BaseListFragment.class,
                 OverviewFragment.class,
+
+                DrawerHeader.class
 
 }, library = true, complete = true)
 public class AppModule {

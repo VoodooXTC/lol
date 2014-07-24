@@ -1,6 +1,13 @@
 package joss.jacobo.lol.lcs.fragment;
 
+import android.content.ContentProviderClient;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,53 +15,87 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.api.ApiService;
+import joss.jacobo.lol.lcs.api.model.Standings.Standings;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.OverviewItem;
 import joss.jacobo.lol.lcs.items.StandingsItem;
+import joss.jacobo.lol.lcs.provider.LcsProvider;
+import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
+import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
+import joss.jacobo.lol.lcs.provider.matches.MatchesSelection;
+import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
+import joss.jacobo.lol.lcs.provider.standings.StandingsCursor;
+import joss.jacobo.lol.lcs.provider.standings.StandingsSelection;
+import joss.jacobo.lol.lcs.provider.tournaments.TournamentsCursor;
+import joss.jacobo.lol.lcs.provider.tournaments.TournamentsSelection;
 import joss.jacobo.lol.lcs.views.OverviewMatchDetailsItem;
 import joss.jacobo.lol.lcs.views.OverviewSectionTitle;
 import joss.jacobo.lol.lcs.views.OverviewStandingsItem;
 
 /**
- * Created by Joss on 7/22/2014.
+ * Created by Joss on 7/22/2014
  */
 public class OverviewFragment extends BaseListFragment {
 
-    private List<OverviewItem> items;
+    private static final int STANDINGS_CALLBACK = 3;
+
     private OverviewAdapter adapter;
 
+    private int selectedTournament;
+    private String selectedTournamentAbrev;
+
     @Override
-    public void onCreate(Bundle savedIntance){
-        super.onCreate(savedIntance);
+    public void onCreate(Bundle savedInstance){
+        super.onCreate(savedInstance);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedState){
+        super.onViewCreated(view, savedState);
+
+        selectedTournament = datastore.getSelectedTournament();
+        selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);
+
         setupListView();
         showLoading();
+        showContent();
         adapter = new OverviewAdapter(getItems());
         setAdapter(adapter);
-        showContent();
+
+        getLoaderManager().initLoader(STANDINGS_CALLBACK, null, new StandingsCallBack());
+        ApiService.getLatestStandings(getActivity());
+    }
+
+    public void setSelectedTournament(int tournamentId){
+        datastore.persistSelectedTeam(tournamentId);
+        selectedTournament = tournamentId;
+        selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), tournamentId);
+
+        adapter.setItems(getItems());
     }
 
     private List<OverviewItem> getItems(){
         List<OverviewItem> items = new ArrayList<OverviewItem>();
 
-        items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "TOP", "TEAMS"));
-        items.add(new StandingsItem(OverviewItem.TYPE_STANDINGS, "NA-LCS", 8, 1, "Alliance", 14, 4));
-        items.add(new StandingsItem(OverviewItem.TYPE_STANDINGS, "NA-LCS", 8, 2, "SK Gaming", 11, 7));
-        items.add(new StandingsItem(OverviewItem.TYPE_STANDINGS, "NA-LCS", 8, 3, "Alliance", 11, 7));
+        List<StandingsItem> standings = getStandings(selectedTournamentAbrev);
+        if(standings != null && standings.size() > 0){
+            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "TOP", "TEAMS"));
+            items.addAll(standings);
+        }
 
-        items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "LATEST", "RESULTS"));
-        items.add(new MatchDetailsItem(OverviewItem.TYPE_MATCH_RESULTS, "Sk Gaming", "0", "Alliance", "1", "Saturday, July 21", "18:00", 1));
-        items.add(new MatchDetailsItem(OverviewItem.TYPE_MATCH_RESULTS, "Supa Hot Crew", "1", "Copahagen Wolves", "0", "Saturday, July 21", "18:00", 0));
-        items.add(new MatchDetailsItem(OverviewItem.TYPE_MATCH_RESULTS, "Millenium", "0", "Roccat", "1", "Saturday, July 21", "18:00", 1));
 
-        items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "UPCOMING", "MATCHES"));
-        items.add(new MatchDetailsItem(OverviewItem.TYPE_MATCH_UPCOMING, "SK Gaming", "0", "Alliance", "0", "Saturday, July 21", "18:00", 1));
-        items.add(new MatchDetailsItem(OverviewItem.TYPE_MATCH_UPCOMING, "Supa Hot Crew", "0", "Copahagen Wolves", "0", "Saturday, July 21", "18:00", 1));
-        items.add(new MatchDetailsItem(OverviewItem.TYPE_MATCH_UPCOMING, "Millenium", "0", "Roccat", "0", "Saturday, July 21", "18:00", 1));
+        List<MatchDetailsItem> latestResults = getLatestResults(selectedTournament);
+        if(latestResults != null && latestResults.size() > 0){
+            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "LATEST", "RESULTS"));
+            items.addAll(latestResults);
+        }
+
+        List<MatchDetailsItem> upcomingMatches = getUpcomingMatches(selectedTournament);
+        if(upcomingMatches != null && upcomingMatches.size() > 0){
+            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "UPCOMING", "MATCHES"));
+            items.addAll(upcomingMatches);
+        }
 
         return items;
     }
@@ -141,6 +182,71 @@ public class OverviewFragment extends BaseListFragment {
 
             return convertView;
         }
+    }
+
+    private class StandingsCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            return new CursorLoader(getActivity(), StandingsColumns.CONTENT_URI, null, null, null, null);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            if(data != null){
+                adapter.setItems(getItems());
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+
+        }
+    }
+
+    private List<StandingsItem> getStandings(String tournamentAbrev){
+        StandingsSelection standingsSelection = new StandingsSelection();
+        standingsSelection.tournamentAbrev(selectedTournamentAbrev);
+        StandingsCursor c = new StandingsCursor(
+                standingsSelection.query(
+                        getActivity().getContentResolver(),
+                        null,
+                        StandingsColumns.STANDING_POSITION));
+        return c.getListAsStandingItemsTop3();
+    }
+
+    private List<MatchDetailsItem> getLatestResults(int selectedTournament){
+        MatchesSelection matchesSelection = new MatchesSelection();
+        matchesSelection.played(1).and().tournamentId(selectedTournament);
+        Cursor cursor = getActivity().getContentResolver().query(MatchesColumns.CONTENT_URI,
+                MatchesColumns.FULL_PROJECTION,
+                matchesSelection.sel(),
+                matchesSelection.args(),
+                "DATETIME(" + MatchesColumns.DATETIME + ") DESC LIMIT 3");
+
+        MatchesCursor matchesCursor = new MatchesCursor(cursor);
+        return matchesCursor.geListAsMatchDetailsItems(OverviewItem.TYPE_MATCH_RESULTS);
+    }
+
+    private List<MatchDetailsItem> getUpcomingMatches(int selectedTournament){
+        MatchesSelection matchesSelection = new MatchesSelection();
+        matchesSelection.played(0).and().tournamentId(selectedTournament);
+        Cursor cursor = getActivity().getContentResolver().query(MatchesColumns.CONTENT_URI,
+                MatchesColumns.FULL_PROJECTION,
+                matchesSelection.sel(),
+                matchesSelection.args(),
+                "DATETIME(" + MatchesColumns.DATETIME + ") ASC LIMIT 3");
+
+        MatchesCursor matchesCursor = new MatchesCursor(cursor);
+        return matchesCursor.geListAsMatchDetailsItems(OverviewItem.TYPE_MATCH_UPCOMING);
+    }
+
+    private Cursor rawQuery(String rawQuery, String[] args){
+        ContentProviderClient client = getActivity().getContentResolver().acquireContentProviderClient(LcsProvider.AUTHORITY);
+        SQLiteOpenHelper dbHandle = ((LcsProvider)client.getLocalContentProvider()).mLcsSQLiteOpenHelper;
+        Cursor cursor = dbHandle.getReadableDatabase().rawQuery(rawQuery,args);
+        client.release();
+        return cursor;
     }
 
 }

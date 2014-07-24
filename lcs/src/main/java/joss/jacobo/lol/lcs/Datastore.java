@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 public class Datastore {
 
     private static final String DEVICE_VERSION = "DeviceVersion";
+    private static final String SELECTED_TOURNAMENT = "selected_tournament";
 
     EncryptedSharedPreferences encryptedSharedPreferences;
 
@@ -30,6 +31,14 @@ public class Datastore {
     }
     public void persistVersion(int version) {
         getEditor().putInt(DEVICE_VERSION, version).commit();
+    }
+
+    public int getSelectedTournament(){
+        return getPrefs().getInt(SELECTED_TOURNAMENT, -1);
+    }
+
+    public void persistSelectedTeam(int teamId){
+        getEditor().putInt(SELECTED_TOURNAMENT, teamId).commit();
     }
 
 }

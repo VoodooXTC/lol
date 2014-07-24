@@ -1,5 +1,7 @@
 package joss.jacobo.lol.lcs.items;
 
+import joss.jacobo.lol.lcs.provider.standings.StandingsCursor;
+
 /**
  * Created by Joss on 7/22/2014.
  */
@@ -20,5 +22,14 @@ public class StandingsItem extends OverviewItem {
         this.teamName = teamName;
         this.wins = wins;
         this.losses = losses;
+    }
+
+    public StandingsItem(StandingsCursor standingsCursor) {
+        this.league = standingsCursor.getTournamentAbrev();
+        this.week = standingsCursor.getStandingWeek();
+        this.position = standingsCursor.getStandingPosition();
+        this.teamName = standingsCursor.getTeamName();
+        this.wins = standingsCursor.getWins();
+        this.losses = standingsCursor.getLosses();
     }
 }

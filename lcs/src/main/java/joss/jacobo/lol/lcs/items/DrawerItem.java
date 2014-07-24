@@ -1,5 +1,7 @@
 package joss.jacobo.lol.lcs.items;
 
+import joss.jacobo.lol.lcs.provider.teams.TeamsCursor;
+
 /**
  * Created by Joss on 7/21/2014
  */
@@ -23,5 +25,11 @@ public class DrawerItem {
         this.type = type;
         this.teamId = teamId;
         this.title = title;
+    }
+
+    public DrawerItem(TeamsCursor teamsCursor) {
+        this.type = TYPE_TEAM;
+        this.teamId = teamsCursor.getTeamId();
+        this.title = teamsCursor.getTeamName();
     }
 }

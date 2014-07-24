@@ -1,15 +1,16 @@
 package joss.jacobo.lol.lcs.activity;
 
+import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Intent;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.content.res.Configuration;
-import android.net.Uri;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,22 +24,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
 import joss.jacobo.lol.lcs.items.DrawerItem;
+import joss.jacobo.lol.lcs.model.TournamentsModel;
+import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
+import joss.jacobo.lol.lcs.provider.teams.TeamsCursor;
+import joss.jacobo.lol.lcs.provider.teams.TeamsSelection;
+import joss.jacobo.lol.lcs.provider.tournaments.TournamentsColumns;
+import joss.jacobo.lol.lcs.provider.tournaments.TournamentsCursor;
+import joss.jacobo.lol.lcs.views.DrawerHeader;
 import joss.jacobo.lol.lcs.views.DrawerItemSectionTitle;
+import joss.jacobo.lol.lcs.views.DrawerItemView;
 
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity implements DrawerHeader.TournamentListener{
+
+    private static final String TAG = "MainActivity";
 
     private static final String FRAGMENT_TAG = "fragment_tag";
     private static final String CURRENT_FRAG = "current_frag";
+
+    private static final int TOURNAMENT_CALLBACK = 0;
+    private static final int TEAM_CALLBACK = 1;
 
     public FrameLayout contentView;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private MenuListAdapter adapter;
     private ActionBarDrawerToggle mDrawerToggle;
+
     private int currentFrag = 0;
+    private Fragment frag;
+
+    int selectedTournament;
+    private List<TournamentsModel> tournaments;
+    private List<DrawerItem> teams;
+
+    private DrawerHeader drawerHeader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +71,10 @@ public class MainActivity extends BaseActivity{
         contentView = (FrameLayout) findViewById(R.id.content_container);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.drawer_list_view);
+
+        teams = new ArrayList<DrawerItem>();
+        tournaments = new ArrayList<TournamentsModel>();
+        selectedTournament = datastore.getSelectedTournament();
 
         setUpDrawerLayout();
         setupActionBar();
@@ -59,6 +86,11 @@ public class MainActivity extends BaseActivity{
         if (fragment == null) {
             selectFragment(R.id.fragment_overview, 4);
         }
+
+        ApiService.getInitialConfig(this);
+
+        getLoaderManager().initLoader(TOURNAMENT_CALLBACK, null, new TournamentCallBack());
+        getLoaderManager().initLoader(TEAM_CALLBACK, null, new TeamsCallBack());
     }
 
     @Override
@@ -105,6 +137,10 @@ public class MainActivity extends BaseActivity{
     }
 
     private void setUpDrawerLayout() {
+
+        drawerHeader = new DrawerHeader(this);
+        mDrawerList.addHeaderView(drawerHeader);
+
         adapter = new MenuListAdapter(this, getDrawerItems());
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -147,16 +183,28 @@ public class MainActivity extends BaseActivity{
         items.add(new DrawerItem(DrawerItem.TYPE_STANDINGS, 0, "Standings"));
 
         items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "Teams"));
-        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 9, "Cloud 9"));
-        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 10, "Counter Logic Gaming"));
-        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 11, "Curse"));
-        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 12, "Evil Geniuses"));
-        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 13, "Complexity Black"));
-        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 14, "Team Dignitas"));
-        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 15, "Team Solomid"));
-        items.add(new DrawerItem(DrawerItem.TYPE_TEAM, 16, "LMQ"));
+        items.addAll(teams);
 
         return items;
+    }
+
+    @Override
+    public void onTournamentSelected(int tournamentId) {
+        selectedTournament = tournamentId;
+        datastore.persistSelectedTeam(tournamentId);
+
+        TeamsSelection selection = new TeamsSelection();
+        selection.tournamentId(selectedTournament);
+
+        teams.clear();
+        teams = selection.query(getContentResolver()).getListAsDrawerItems();
+
+        adapter.setItems(getDrawerItems());
+
+        if(currentFrag == R.id.fragment_overview){
+            replaceFragment();
+        }
+
     }
 
     public class MenuListAdapter extends BaseAdapter {
@@ -216,7 +264,7 @@ public class MainActivity extends BaseActivity{
                     drawerItemSectionTitle.setContent(item);
                     return drawerItemSectionTitle;
                 default:
-                    joss.jacobo.lol.lcs.views.DrawerItem drawerItem = view == null ? new joss.jacobo.lol.lcs.views.DrawerItem(context) : (joss.jacobo.lol.lcs.views.DrawerItem) view;
+                    DrawerItemView drawerItem = view == null ? new DrawerItemView(context) : (DrawerItemView) view;
                     drawerItem.setContent(item);
                     drawerItem.title.setSelected(i == hintPosition);
                     return drawerItem;
@@ -230,7 +278,7 @@ public class MainActivity extends BaseActivity{
             if (position > 0) {
 
                 //Compensate for headerView in position 0
-                DrawerItem clicked = adapter.items.get(position);
+                DrawerItem clicked = adapter.items.get(position - 1);
 
                 switch (clicked.type){
                     case DrawerItem.TYPE_LIVESTREAM:
@@ -260,6 +308,14 @@ public class MainActivity extends BaseActivity{
                     case DrawerItem.TYPE_TEAM:
 
                         break;
+                }
+            }else if(position == 0){
+
+                DrawerHeader header = (DrawerHeader) view;
+                if(header.subMenuShowing){
+                    header.hideSub();
+                }else{
+                    header.showSub();
                 }
             }
         }
@@ -314,7 +370,7 @@ public class MainActivity extends BaseActivity{
 
     private void replaceFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment frag = new OverviewFragment();
+        frag = new OverviewFragment();
         switch (currentFrag) {
             case R.id.fragment_livestream:
 //                frag = new LocationFragment();
@@ -348,4 +404,67 @@ public class MainActivity extends BaseActivity{
         }
     }
 
+    private class TournamentCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            return new CursorLoader(MainActivity.this, TournamentsColumns.CONTENT_URI,
+                    TournamentsColumns.FULL_PROJECTION, null, null, null);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            if(data != null){
+                TournamentsCursor tournamentsCursor = new TournamentsCursor(data);
+                tournaments.clear();
+                tournaments.addAll(tournamentsCursor.getList());
+
+                int match = 0;
+                for(TournamentsModel t : tournaments){
+                    if(t.tournamentId == selectedTournament) {
+                        match = 1;
+                        break;
+                    }
+                }
+
+                if(match == 0 || selectedTournament == -1)
+                    if(tournaments.size() > 0)
+                        selectedTournament = tournaments.get(0).tournamentId;
+
+                drawerHeader.setContent(tournaments, selectedTournament);
+
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+
+        }
+    }
+
+    private class TeamsCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            TeamsSelection selection = new TeamsSelection();
+            selection.tournamentId(selectedTournament);
+            return new CursorLoader(MainActivity.this, TeamsColumns.CONTENT_URI,
+                    TeamsColumns.FULL_PROJECTION, selection.sel(), selection.args(), null);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            if(data != null){
+                TeamsCursor teamsCursor = new TeamsCursor(data);
+                teams.clear();
+                teams.addAll(teamsCursor.getListAsDrawerItems());
+                adapter.setItems(getDrawerItems());
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+
+        }
+    }
 }
