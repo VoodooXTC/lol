@@ -49,8 +49,8 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
 
     private static final int TOURNAMENT_CALLBACK = 0;
 
-    public FrameLayout contentView;
     private DrawerLayout mDrawerLayout;
+    private FrameLayout contentView;
     private ListView mDrawerList;
     private MenuListAdapter adapter;
     private ActionBarDrawerToggle mDrawerToggle;

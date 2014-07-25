@@ -1,12 +1,13 @@
 package joss.jacobo.lol.lcs.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,7 +17,6 @@ import javax.inject.Inject;
 
 import joss.jacobo.lol.lcs.Datastore;
 import joss.jacobo.lol.lcs.R;
-import joss.jacobo.lol.lcs.api.model.Tournament;
 import joss.jacobo.lol.lcs.model.TournamentsModel;
 
 /**
@@ -28,7 +28,9 @@ public class DrawerHeader extends LinearLayout implements View.OnClickListener{
     Datastore datastore;
 
     Context context;
+    LinearLayout titleContainer;
     TextView title;
+    ImageView dropdownIcon;
     LinearLayout subContainer;
 
     List<TournamentsModel> tournaments;
@@ -60,7 +62,9 @@ public class DrawerHeader extends LinearLayout implements View.OnClickListener{
         }
 
         LayoutInflater.from(context).inflate(R.layout.view_drawer_header, this, true);
+        titleContainer = (LinearLayout) findViewById(R.id.drawer_header_title_container);
         title = (TextView) findViewById(R.id.drawer_header_title);
+        dropdownIcon = (ImageView) findViewById(R.id.drawer_header_dropwown_icon);
         subContainer = (LinearLayout) findViewById(R.id.drawer_sub_containers);
     }
 
@@ -102,29 +106,73 @@ public class DrawerHeader extends LinearLayout implements View.OnClickListener{
 
     public void showSub(){
         subMenuShowing = true;
-        subContainer.setVisibility(View.VISIBLE);
-        subContainer.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+
+        Animation rotate180 = AnimationUtils.loadAnimation(context, R.anim.rotate_juan_eighty);
+        dropdownIcon.setRotation(180);
+        dropdownIcon.startAnimation(rotate180);
+
+        expand(subContainer);
     }
 
     public void hideSub(){
         subMenuShowing = false;
-        Animation fadeOutAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-        fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
 
+        Animation rotate180 = AnimationUtils.loadAnimation(context, R.anim.rotate_negative_juan_eighty);
+        dropdownIcon.setRotation(0);
+        dropdownIcon.startAnimation(rotate180);
+
+        collapse(subContainer);
+    }
+
+    private void expand(final View v) {
+        v.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        final int targtetHeight = v.getMeasuredHeight();
+
+        v.getLayoutParams().height = 0;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation(){
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? LayoutParams.WRAP_CONTENT
+                        : (int)(targtetHeight * interpolatedTime);
+                v.requestLayout();
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
-                subContainer.setVisibility(View.GONE);
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 1dp/ms
+        a.setDuration((int)(targtetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+    private void collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
-
+            public boolean willChangeBounds() {
+                return true;
             }
-        });
-        subContainer.startAnimation(fadeOutAnimation);
+        };
+
+        // 1dp/ms
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
     }
 }

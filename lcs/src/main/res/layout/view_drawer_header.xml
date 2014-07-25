@@ -9,17 +9,37 @@
     android:layout_height="match_parent"
     tools:background="@color/main_bg_color">
 
-    <oak.widget.TextViewWithFont
-        android:id="@+id/drawer_header_title"
+    <LinearLayout
+        android:id="@+id/drawer_header_title_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:padding="8dp"
-        android:drawableRight="@drawable/ic_action_expand"
-        tools:text="NA-LCS - Menu"
-        oak:oakFont="@string/font_roboto_thin"
-        />
+        android:orientation="horizontal"
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical">
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/drawer_header_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:padding="8dp"
+            tools:text="NA-LCS - Menu"
+            android:layout_weight="1"
+            oak:oakFont="@string/font_roboto_thin"
+            />
+
+        <ImageView
+            android:id="@+id/drawer_header_dropwown_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_expand"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/image_description_expand_collapse_icon"
+            />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/drawer_sub_containers"
