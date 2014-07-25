@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.view.ViewPager
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:joss="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/teams_view_pager"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <joss.jacobo.lol.lcs.views.PagerTitleStripWithFont
+        android:id="@+id/teams_page_strip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        joss:font="@string/font_roboto_light"
+        />
+
+</android.support.v4.view.ViewPager>

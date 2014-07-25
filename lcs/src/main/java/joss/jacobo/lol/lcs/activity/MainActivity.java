@@ -29,6 +29,7 @@ import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
 import joss.jacobo.lol.lcs.fragment.ScheduleFragment;
 import joss.jacobo.lol.lcs.fragment.StandingsFragment;
+import joss.jacobo.lol.lcs.fragment.TeamsFragment;
 import joss.jacobo.lol.lcs.items.DrawerItem;
 import joss.jacobo.lol.lcs.model.TournamentsModel;
 import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
@@ -302,7 +303,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                         break;
 
                     case DrawerItem.TYPE_TEAM:
-
+                        selectFragment(R.id.fragment_team, position - 1);
                         break;
                 }
             }else if(position == 0){
@@ -381,6 +382,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                 frag = new StandingsFragment();
                 break;
             case R.id.fragment_team:
+                frag = new TeamsFragment();
                 break;
         }
 
