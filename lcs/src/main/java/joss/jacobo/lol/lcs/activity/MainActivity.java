@@ -40,13 +40,10 @@ import joss.jacobo.lol.lcs.views.DrawerItemView;
 
 public class MainActivity extends BaseActivity implements DrawerHeader.TournamentListener{
 
-    private static final String TAG = "MainActivity";
-
     private static final String FRAGMENT_TAG = "fragment_tag";
     private static final String CURRENT_FRAG = "current_frag";
 
     private static final int TOURNAMENT_CALLBACK = 0;
-    private static final int TEAM_CALLBACK = 1;
 
     public FrameLayout contentView;
     private DrawerLayout mDrawerLayout;
@@ -59,7 +56,6 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
 
     int selectedTournament;
     private List<TournamentsModel> tournaments;
-    private List<DrawerItem> teams;
 
     private DrawerHeader drawerHeader;
 
@@ -72,7 +68,6 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.drawer_list_view);
 
-        teams = new ArrayList<DrawerItem>();
         tournaments = new ArrayList<TournamentsModel>();
         selectedTournament = datastore.getSelectedTournament();
 
@@ -90,7 +85,6 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         ApiService.getInitialConfig(this);
 
         getLoaderManager().initLoader(TOURNAMENT_CALLBACK, null, new TournamentCallBack());
-        getLoaderManager().initLoader(TEAM_CALLBACK, null, new TeamsCallBack());
     }
 
     @Override
@@ -182,8 +176,12 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         items.add(new DrawerItem(DrawerItem.TYPE_SCHEDULE_RESULTS, 0, "Schedule & Results"));
         items.add(new DrawerItem(DrawerItem.TYPE_STANDINGS, 0, "Standings"));
 
-        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "Teams"));
-        items.addAll(teams);
+        List<DrawerItem> teams = getTeams(datastore.getSelectedTournament());
+        if(teams != null && teams.size() > 0){
+            items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "Teams"));
+            items.addAll(teams);
+
+        }
 
         return items;
     }
@@ -191,14 +189,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
     @Override
     public void onTournamentSelected(int tournamentId) {
         selectedTournament = tournamentId;
-        datastore.persistSelectedTeam(tournamentId);
-
-        TeamsSelection selection = new TeamsSelection();
-        selection.tournamentId(selectedTournament);
-
-        teams.clear();
-        teams = selection.query(getContentResolver()).getListAsDrawerItems();
-
+        datastore.persistSelectedTournament(tournamentId);
         adapter.setItems(getDrawerItems());
 
         if(currentFrag == R.id.fragment_overview){
@@ -428,10 +419,13 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                 }
 
                 if(match == 0 || selectedTournament == -1)
-                    if(tournaments.size() > 0)
+                    if(tournaments.size() > 0){
                         selectedTournament = tournaments.get(0).tournamentId;
+                        datastore.persistSelectedTournament(selectedTournament);
+                    }
 
                 drawerHeader.setContent(tournaments, selectedTournament);
+                adapter.setItems(getDrawerItems());
 
             }
         }
@@ -442,29 +436,10 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         }
     }
 
-    private class TeamsCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
-
-        @Override
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            TeamsSelection selection = new TeamsSelection();
-            selection.tournamentId(selectedTournament);
-            return new CursorLoader(MainActivity.this, TeamsColumns.CONTENT_URI,
-                    TeamsColumns.FULL_PROJECTION, selection.sel(), selection.args(), null);
-        }
-
-        @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            if(data != null){
-                TeamsCursor teamsCursor = new TeamsCursor(data);
-                teams.clear();
-                teams.addAll(teamsCursor.getListAsDrawerItems());
-                adapter.setItems(getDrawerItems());
-            }
-        }
-
-        @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
-
-        }
+    private List<DrawerItem> getTeams(int selectedTournament){
+        TeamsSelection where = new TeamsSelection();
+        where.tournamentId(selectedTournament);
+        TeamsCursor cursor = new TeamsCursor(where.query(getContentResolver(), null, TeamsColumns.TEAM_NAME));
+        return cursor.getListAsDrawerItems();
     }
 }

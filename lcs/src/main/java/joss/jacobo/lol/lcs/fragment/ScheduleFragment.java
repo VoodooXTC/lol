@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joss.jacobo.lol.lcs.api.ApiService;
+import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.OverviewItem;
 import joss.jacobo.lol.lcs.items.StandingsItem;
 import joss.jacobo.lol.lcs.model.MatchesModel;
@@ -41,8 +42,7 @@ public class ScheduleFragment extends BaseListFragment {
 
         setupListView();
         showLoading();
-        showContent();
-        adapter = new MatchesAdapter(getItems());
+        adapter = new MatchesAdapter(new ArrayList<OverviewItem>());
         setAdapter(adapter);
 
         getLoaderManager().initLoader(MATCHES_CALLBACK, null, new MatchesCallBack());
@@ -135,6 +135,7 @@ public class ScheduleFragment extends BaseListFragment {
             if(data != null){
                 MatchesCursor cursor = new MatchesCursor(data);
                 adapter.setItems(getItems(cursor.getList()));
+                showContent();
             }
         }
 
@@ -149,15 +150,13 @@ public class ScheduleFragment extends BaseListFragment {
 
         String datetime = "";
         for(MatchesModel match : list){
-
             // Add section title if datetime is new
             if(!match.datetime.equals(datetime)){
                 items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE_STANDINGS, match.datetime, null));
                 datetime = match.datetime;
             }
-
-            
+            items.add(new MatchDetailsItem(match, match.played == 0 ? OverviewItem.TYPE_MATCH_RESULTS : OverviewItem.TYPE_MATCH_UPCOMING));
         }
-        return null;
+        return items;
     }
 }

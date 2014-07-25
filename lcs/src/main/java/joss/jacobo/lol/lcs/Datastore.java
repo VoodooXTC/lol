@@ -37,7 +37,7 @@ public class Datastore {
         return getPrefs().getInt(SELECTED_TOURNAMENT, -1);
     }
 
-    public void persistSelectedTeam(int teamId){
+    public void persistSelectedTournament(int teamId){
         getEditor().putInt(SELECTED_TOURNAMENT, teamId).commit();
     }
 

@@ -1,7 +1,6 @@
 package joss.jacobo.lol.lcs.fragment;
 
 import android.content.ContentProviderClient;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joss.jacobo.lol.lcs.api.ApiService;
-import joss.jacobo.lol.lcs.api.model.Standings.Standings;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.OverviewItem;
 import joss.jacobo.lol.lcs.items.StandingsItem;
@@ -27,7 +25,6 @@ import joss.jacobo.lol.lcs.provider.matches.MatchesSelection;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsCursor;
 import joss.jacobo.lol.lcs.provider.standings.StandingsSelection;
-import joss.jacobo.lol.lcs.provider.tournaments.TournamentsCursor;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsSelection;
 import joss.jacobo.lol.lcs.views.OverviewMatchDetailsItem;
 import joss.jacobo.lol.lcs.views.OverviewSectionTitle;
@@ -38,6 +35,7 @@ import joss.jacobo.lol.lcs.views.OverviewStandingsItem;
  */
 public class OverviewFragment extends BaseListFragment {
 
+    private static final int MATCHES_CALLBACK = 2;
     private static final int STANDINGS_CALLBACK = 3;
 
     private OverviewAdapter adapter;
@@ -59,16 +57,16 @@ public class OverviewFragment extends BaseListFragment {
 
         setupListView();
         showLoading();
-        showContent();
         adapter = new OverviewAdapter(getItems());
         setAdapter(adapter);
 
         getLoaderManager().initLoader(STANDINGS_CALLBACK, null, new StandingsCallBack());
+        getLoaderManager().initLoader(MATCHES_CALLBACK, null, new MatchesCallBack());
         ApiService.getLatestStandings(getActivity());
     }
 
     public void setSelectedTournament(int tournamentId){
-        datastore.persistSelectedTeam(tournamentId);
+        datastore.persistSelectedTournament(tournamentId);
         selectedTournament = tournamentId;
         selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), tournamentId);
 
@@ -82,6 +80,7 @@ public class OverviewFragment extends BaseListFragment {
         if(standings != null && standings.size() > 0){
             items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "TOP", "TEAMS"));
             items.addAll(standings);
+            showContent();
         }
 
 
@@ -89,12 +88,14 @@ public class OverviewFragment extends BaseListFragment {
         if(latestResults != null && latestResults.size() > 0){
             items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "LATEST", "RESULTS"));
             items.addAll(latestResults);
+            showContent();
         }
 
         List<MatchDetailsItem> upcomingMatches = getUpcomingMatches(selectedTournament);
         if(upcomingMatches != null && upcomingMatches.size() > 0){
             items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "UPCOMING", "MATCHES"));
             items.addAll(upcomingMatches);
+            showContent();
         }
 
         return items;
@@ -194,6 +195,28 @@ public class OverviewFragment extends BaseListFragment {
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             if(data != null){
+                selectedTournament = datastore.getSelectedTournament();
+                adapter.setItems(getItems());
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+
+        }
+    }
+
+    private class MatchesCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            return new CursorLoader(getActivity(), MatchesColumns.CONTENT_URI, null, null, null, null);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            if(data != null){
+                selectedTournament = datastore.getSelectedTournament();
                 adapter.setItems(getItems());
             }
         }

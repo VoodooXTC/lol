@@ -27,7 +27,7 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
     @InjectView(R.id.listview)
     ListView listView;
     @InjectView(R.id.loadingView)
-    ProgressBar loadingView;
+    LinearLayout loadingView;
     @InjectView(R.id.emptyView)
     TextView emptyView;
 
@@ -129,12 +129,10 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
     }
 
     public void showLoading(){
-        listView.setVisibility(View.INVISIBLE);
         loadingView.setVisibility(View.VISIBLE);
     }
 
     public void showContent(){
-        listView.setVisibility(View.VISIBLE);
         loadingView.setVisibility(View.GONE);
     }
 }

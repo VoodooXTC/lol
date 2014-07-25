@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import joss.jacobo.lol.lcs.model.MatchesModel;
 import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
 
 /**
@@ -39,6 +40,17 @@ public class MatchDetailsItem extends OverviewItem {
         this.date = formatDate(cursor.getDatetime());
         this.time = cursor.getTime();
         this.winner = cursor.getResult();
+    }
+
+    public MatchDetailsItem(MatchesModel match, int type) {
+        this.type = type;
+        this.blueTeam = match.team1;
+        this.blueScore = match.result == 0 ? "1" : "0";
+        this.purpleTeam = match.team2;
+        this.purpleScore = match.result == 1 ? "1" : "0";
+        this.date = formatDate(match.datetime);
+        this.time = match.time;
+        this.winner = match.result;
     }
 
     private String formatDate(String dateString){
