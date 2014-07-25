@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/black">
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:paddingTop="8dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        tools:text="1"
+        oak:oakFont="@string/font_roboto_regular"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_delta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:layout_toRightOf="@id/item_match_position"
+        android:layout_centerInParent="true"
+        tools:text="+2"
+        tools:textColor="@color/green"
+        oak:oakFont="@string/font_roboto_regular"
+        />
+
+    <ImageView
+        android:id="@+id/item_match_team_logo"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/image_description_team_logo"
+        android:layout_toRightOf="@id/item_match_delta"
+        android:src="@drawable/ic_launcher"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/item_match_team_logo"
+        android:layout_toLeftOf="@+id/item_match_wins"
+        tools:text="Alliance"
+        oak:oakFont="@string/font_roboto_thin"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_L"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="18sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="4dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/item_overview_L"
+        oak:oakFont="@string/font_roboto_thin"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_losses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@id/item_match_L"
+        tools:text="4"
+        oak:oakFont="@string/font_roboto_thin"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_W"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@id/item_match_losses"
+        android:textSize="18sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:textColor="@color/green"
+        android:text="@string/item_overview_W"
+        oak:oakFont="@string/font_roboto_thin"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/item_match_wins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@id/item_match_W"
+        tools:text="14"
+        oak:oakFont="@string/font_roboto_thin"
+        />
+
+</RelativeLayout>

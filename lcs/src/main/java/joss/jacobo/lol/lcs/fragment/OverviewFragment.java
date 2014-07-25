@@ -44,16 +44,13 @@ public class OverviewFragment extends BaseListFragment {
     private String selectedTournamentAbrev;
 
     @Override
-    public void onCreate(Bundle savedInstance){
-        super.onCreate(savedInstance);
-    }
-
-    @Override
     public void onViewCreated(View view, Bundle savedState){
         super.onViewCreated(view, savedState);
 
         selectedTournament = datastore.getSelectedTournament();
         selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);
+
+        listener.onSetActionBarTitle("Overview", selectedTournamentAbrev);
 
         setupListView();
         showLoading();

@@ -78,9 +78,18 @@ public class OverviewMatchDetailsItem extends RelativeLayout {
 
     }
 
+    public void setAsScheduleMatchItem(){
+        date.setVisibility(View.GONE);
+        scoreContainer.setVisibility(View.VISIBLE);
+        time.setVisibility(View.VISIBLE);
+        time.setTextColor(getResources().getColor(R.color.blue));
+    }
+
     public void setNoWinner(){
         blueTeamName.setTextColor(getResources().getColor(R.color.white));
         purpleTeamName.setTextColor(getResources().getColor(R.color.white));
+        blueScore.setText("0");
+        purpleScore.setText("0");
     }
 
     public void setBlueWinner(){

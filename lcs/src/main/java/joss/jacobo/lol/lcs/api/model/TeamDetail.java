@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class TeamDetail {
 
     @SerializedName("_id")
-    public String id;
+    public Integer id;
     
     public String team;
     
@@ -15,6 +15,6 @@ public class TeamDetail {
     public String logo;
     
     @SerializedName("team_picture")
-    public Object teamPicture;
+    public String teamPicture;
 
 }

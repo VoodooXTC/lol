@@ -9,14 +9,18 @@ import javax.inject.Inject;
 
 import joss.jacobo.lol.lcs.Datastore;
 import joss.jacobo.lol.lcs.MainApp;
+import joss.jacobo.lol.lcs.interfaces.BaseFragmentListener;
+import joss.jacobo.lol.lcs.views.ActionBarCustomTitle;
 
 /**
  * Created by jossayjacobo on 7/20/14.
  */
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends ActionBarActivity implements BaseFragmentListener{
 
     @Inject
     Datastore datastore;
+
+    ActionBarCustomTitle customTitle;
 
     @Override
     public void onCreate(Bundle savedState){
@@ -38,5 +42,30 @@ public class BaseActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    @Override
+    public void onSetActionBarTitle(String title, String subtitle) {
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        if(customTitle == null){
+            customTitle = new ActionBarCustomTitle(this);
+            getSupportActionBar().setCustomView(customTitle);
+        }
+
+        customTitle.setContent(title, subtitle);
+
+        if(title == null) {
+            customTitle.hideTitle();
+        }else{
+            customTitle.showTitle();
+        }
+
+        if(subtitle == null) {
+            customTitle.hideSubtitle();
+        }else{
+            customTitle.showSubtitle();
+        }
     }
 }

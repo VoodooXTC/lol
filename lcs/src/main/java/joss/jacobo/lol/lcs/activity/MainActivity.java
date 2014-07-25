@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,8 @@ import java.util.List;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
+import joss.jacobo.lol.lcs.fragment.ScheduleFragment;
+import joss.jacobo.lol.lcs.fragment.StandingsFragment;
 import joss.jacobo.lol.lcs.items.DrawerItem;
 import joss.jacobo.lol.lcs.model.TournamentsModel;
 import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
@@ -134,7 +137,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
 
         drawerHeader = new DrawerHeader(this);
         mDrawerList.addHeaderView(drawerHeader);
-
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         adapter = new MenuListAdapter(this, getDrawerItems());
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -192,7 +195,9 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         datastore.persistSelectedTournament(tournamentId);
         adapter.setItems(getDrawerItems());
 
-        if(currentFrag == R.id.fragment_overview){
+        if(currentFrag == R.id.fragment_overview
+                || currentFrag == R.id.fragment_schedule_results
+                || currentFrag == R.id.fragment_standings){
             replaceFragment();
         }
 
@@ -281,7 +286,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                         break;
 
                     case DrawerItem.TYPE_OVERVIEW:
-
+                        selectFragment(R.id.fragment_overview, position - 1);
                         break;
 
                     case DrawerItem.TYPE_NEWS:
@@ -289,11 +294,11 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                         break;
 
                     case DrawerItem.TYPE_SCHEDULE_RESULTS:
-
+                        selectFragment(R.id.fragment_schedule_results, position - 1);
                         break;
 
                     case DrawerItem.TYPE_STANDINGS:
-
+                        selectFragment(R.id.fragment_standings, position - 1);
                         break;
 
                     case DrawerItem.TYPE_TEAM:
@@ -364,19 +369,16 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         frag = new OverviewFragment();
         switch (currentFrag) {
             case R.id.fragment_livestream:
-//                frag = new LocationFragment();
                 break;
             case R.id.fragment_liveticker:
-//                frag = new SentaraTodayFragment();
-                break;
-            case R.id.fragment_overview:
-//                frag = new AboutFragment();
                 break;
             case R.id.fragment_news:
                 break;
             case R.id.fragment_schedule_results:
+                frag = new ScheduleFragment();
                 break;
             case R.id.fragment_standings:
+                frag = new StandingsFragment();
                 break;
             case R.id.fragment_team:
                 break;

@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.StandingsItem;
 
 /**

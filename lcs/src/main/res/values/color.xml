@@ -7,6 +7,7 @@
     <color name="green">#B5C54A</color>
     <color name="blue">#89A5EB</color>
     <color name="gold">#D0B061</color>
+    <color name="purple_dark">#0c0f16</color>
 
     <color name="main_bg_color">#1D1D26</color>
     <color name="drawer_item_selector_state">#11FFFFFF</color>

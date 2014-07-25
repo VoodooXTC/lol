@@ -17,6 +17,8 @@
     <string name="font_gothic_bold">Trade-Gothic-Bold.ttf</string>
     <string name="font_gothic_regular">Trade-Gothic-Regular.ttf</string>
 
+    <string name="image_description_team_logo">team logo</string>
+
     <string name="no_results">No Results</string>
 
     <string name="item_overview_L">L</string>

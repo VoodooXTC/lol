@@ -13,6 +13,9 @@ public class StandingsItem extends OverviewItem {
     public String teamName;
     public int wins;
     public int losses;
+    public int delta;
+    public String teamLogoUrl;
+    public String teamAbrev;
 
     public StandingsItem(int type, String league, int week, int position, String teamName, int wins, int losses){
         this.type = type;
@@ -31,5 +34,7 @@ public class StandingsItem extends OverviewItem {
         this.teamName = standingsCursor.getTeamName();
         this.wins = standingsCursor.getWins();
         this.losses = standingsCursor.getLosses();
+        this.delta = standingsCursor.getDelta();
+        this.teamAbrev = standingsCursor.getTeamAbrev();
     }
 }

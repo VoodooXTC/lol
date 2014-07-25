@@ -1,5 +1,6 @@
 package joss.jacobo.lol.lcs.model;
 
+import joss.jacobo.lol.lcs.api.model.TeamDetail;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsCursor;
 import com.google.gson.annotations.SerializedName;
 
@@ -23,10 +24,10 @@ public class TeamDetailsModel{
         this.teamPicture = cursor.getTeamPicture();
     }
 
-    public TeamDetailsModel(TeamDetailsModel teamDetail) {
-        this.teamId = teamDetail.teamId;
-        this.abrev = teamDetail.abrev;
-        this.name = teamDetail.name;
+    public TeamDetailsModel(TeamDetail teamDetail) {
+        this.teamId = teamDetail.id;
+        this.abrev = teamDetail.abrv;
+        this.name = teamDetail.team;
         this.logo = teamDetail.logo;
         this.teamPicture = teamDetail.teamPicture;
     }

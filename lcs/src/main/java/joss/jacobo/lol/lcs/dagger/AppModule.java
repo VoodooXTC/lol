@@ -18,6 +18,8 @@ import joss.jacobo.lol.lcs.activity.MainActivity;
 import joss.jacobo.lol.lcs.fragment.BaseFragment;
 import joss.jacobo.lol.lcs.fragment.BaseListFragment;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
+import joss.jacobo.lol.lcs.fragment.ScheduleFragment;
+import joss.jacobo.lol.lcs.fragment.StandingsFragment;
 import joss.jacobo.lol.lcs.views.DrawerHeader;
 
 @Module(
@@ -30,6 +32,8 @@ import joss.jacobo.lol.lcs.views.DrawerHeader;
                 BaseFragment.class,
                 BaseListFragment.class,
                 OverviewFragment.class,
+                ScheduleFragment.class,
+                StandingsFragment.class,
 
                 DrawerHeader.class
 

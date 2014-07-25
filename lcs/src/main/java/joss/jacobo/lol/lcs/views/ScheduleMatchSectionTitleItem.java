@@ -12,25 +12,25 @@ import joss.jacobo.lol.lcs.items.OverviewItem;
 /**
  * Created by jossayjacobo on 7/24/14.
  */
-public class StandingSectionTitleItem extends LinearLayout {
+public class ScheduleMatchSectionTitleItem extends LinearLayout {
 
     TextView title;
 
-    public StandingSectionTitleItem(Context context) {
+    public ScheduleMatchSectionTitleItem(Context context) {
         this(context, null);
     }
 
-    public StandingSectionTitleItem(Context context, AttributeSet attrs) {
+    public ScheduleMatchSectionTitleItem(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public StandingSectionTitleItem(Context context, AttributeSet attrs, int defStyle) {
+    public ScheduleMatchSectionTitleItem(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.view_item_standing_section_title, this, true);
+        LayoutInflater.from(context).inflate(R.layout.view_item_schedule_match_section_title, this, true);
         title = (TextView) findViewById(R.id.standing_section_title);
     }
 

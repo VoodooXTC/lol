@@ -12,33 +12,37 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.OverviewItem;
-import joss.jacobo.lol.lcs.items.StandingsItem;
 import joss.jacobo.lol.lcs.model.MatchesModel;
 import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
 import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
 import joss.jacobo.lol.lcs.provider.matches.MatchesSelection;
-import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
-import joss.jacobo.lol.lcs.views.OverviewStandingsItem;
-import joss.jacobo.lol.lcs.views.StandingSectionTitleItem;
+import joss.jacobo.lol.lcs.provider.tournaments.TournamentsSelection;
+import joss.jacobo.lol.lcs.views.OverviewMatchDetailsItem;
+import joss.jacobo.lol.lcs.views.ScheduleMatchSectionTitleItem;
 
 /**
- * Created by jossayjacobo on 7/24/14.
+ * Created by jossayjacobo on 7/24/14
  */
 public class ScheduleFragment extends BaseListFragment {
 
     private static final int MATCHES_CALLBACK = 3;
 
     int selectedTournament;
+    String selectedTournamentAbrev;
     MatchesAdapter adapter;
+
+    int scrollToItem = -1;
+    boolean scrolled = false;
 
     @Override
     public void onViewCreated(View view, Bundle savedState){
         super.onViewCreated(view, savedState);
 
         selectedTournament = datastore.getSelectedTournament();
+        selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);
+        listener.onSetActionBarTitle("Schedule", selectedTournamentAbrev);
 
         setupListView();
         showLoading();
@@ -46,7 +50,6 @@ public class ScheduleFragment extends BaseListFragment {
         setAdapter(adapter);
 
         getLoaderManager().initLoader(MATCHES_CALLBACK, null, new MatchesCallBack());
-        ApiService.getLatestStandings(getActivity());
     }
 
     public class MatchesAdapter extends BaseAdapter {
@@ -93,22 +96,33 @@ public class ScheduleFragment extends BaseListFragment {
             OverviewItem item = items.get(position);
 
             switch (item.type){
-                case OverviewItem.TYPE_STANDINGS:
-                    StandingsItem standingsItem = (StandingsItem) item;
+                case OverviewItem.TYPE_MATCH_RESULTS:
+                    MatchDetailsItem matchDetailsItem = (MatchDetailsItem) item;
 
-                    OverviewStandingsItem overviewStandingsItem = convertView == null
-                            ? new OverviewStandingsItem(getActivity())
-                            : (OverviewStandingsItem) convertView;
-                    overviewStandingsItem.setContent(standingsItem);
+                    OverviewMatchDetailsItem overviewMatchDetailsItem = convertView == null
+                            ? new OverviewMatchDetailsItem(getActivity())
+                            : (OverviewMatchDetailsItem) convertView;
+                    overviewMatchDetailsItem.setContent(matchDetailsItem);
+                    overviewMatchDetailsItem.setAsScheduleMatchItem();
+                    return overviewMatchDetailsItem;
 
-                    return overviewStandingsItem;
+                case OverviewItem.TYPE_MATCH_UPCOMING:
+                    MatchDetailsItem matchDetailsUpcomingItem = (MatchDetailsItem) item;
 
-                case OverviewItem.TYPE_SECTION_TITLE_STANDINGS:
-                    StandingSectionTitleItem standingSectionTitleItem = convertView == null
-                            ? new StandingSectionTitleItem(getActivity())
-                            : (StandingSectionTitleItem) convertView;
-                    standingSectionTitleItem.setContent(item);
-                    return standingSectionTitleItem;
+                    OverviewMatchDetailsItem overviewMatchDetailsUpcomingItem = convertView == null
+                            ? new OverviewMatchDetailsItem(getActivity())
+                            : (OverviewMatchDetailsItem) convertView;
+                    overviewMatchDetailsUpcomingItem.setContent(matchDetailsUpcomingItem);
+                    overviewMatchDetailsUpcomingItem.setAsScheduleMatchItem();
+                    return overviewMatchDetailsUpcomingItem;
+
+                case OverviewItem.TYPE_SECTION_TITLE_SCHEDULE_MATCHES:
+                    ScheduleMatchSectionTitleItem scheduleMatchSectionTitleItem = convertView == null
+                            ? new ScheduleMatchSectionTitleItem(getActivity())
+                            : (ScheduleMatchSectionTitleItem) convertView;
+                    scheduleMatchSectionTitleItem.setContent(item);
+
+                    return scheduleMatchSectionTitleItem;
             }
 
             return convertView;
@@ -123,11 +137,11 @@ public class ScheduleFragment extends BaseListFragment {
             MatchesSelection where = new MatchesSelection();
             where.tournamentId(selectedTournament);
 
-            return new CursorLoader(getActivity(), StandingsColumns.CONTENT_URI,
-                    StandingsColumns.FULL_PROJECTION,
+            return new CursorLoader(getActivity(), MatchesColumns.CONTENT_URI,
+                    MatchesColumns.FULL_PROJECTION,
                     where.sel(),
                     where.args(),
-                    "DATETIME(" + MatchesColumns.DATETIME + ") DESC");
+                    "DATETIME(" + MatchesColumns.DATETIME + ") ASC");
         }
 
         @Override
@@ -136,6 +150,11 @@ public class ScheduleFragment extends BaseListFragment {
                 MatchesCursor cursor = new MatchesCursor(data);
                 adapter.setItems(getItems(cursor.getList()));
                 showContent();
+
+                if(adapter.items.size() > 0 && scrollToItem != -1 && !scrolled){
+                    scrolled = true;
+                    listView.setSelection(scrollToItem);
+                }
             }
         }
 
@@ -148,14 +167,19 @@ public class ScheduleFragment extends BaseListFragment {
     private List<OverviewItem> getItems(List<MatchesModel> list) {
         List<OverviewItem> items = new ArrayList<OverviewItem>();
 
-        String datetime = "";
+        String date = "";
         for(MatchesModel match : list){
             // Add section title if datetime is new
-            if(!match.datetime.equals(datetime)){
-                items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE_STANDINGS, match.datetime, null));
-                datetime = match.datetime;
+            if(!match.date.equals(date)){
+                items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE_SCHEDULE_MATCHES, match.date));
+                date = match.date;
             }
-            items.add(new MatchDetailsItem(match, match.played == 0 ? OverviewItem.TYPE_MATCH_RESULTS : OverviewItem.TYPE_MATCH_UPCOMING));
+            items.add(new MatchDetailsItem(match, match.played == 1 ? OverviewItem.TYPE_MATCH_RESULTS : OverviewItem.TYPE_MATCH_UPCOMING));
+
+            if(match.played == 1){
+                scrollToItem = items.size() - 1;
+            }
+
         }
         return items;
     }

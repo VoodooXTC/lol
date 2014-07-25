@@ -32,13 +32,13 @@ public class Config {
     }
 
     public List<TeamDetailsModel> getTeamDetails() {
-        List<TeamDetailsModel> teamDetails = new ArrayList<TeamDetailsModel>();
+        List<TeamDetailsModel> teams = new ArrayList<TeamDetailsModel>();
 
-        for(TeamDetailsModel teamDetail : teamDetails){
-            teamDetails.add(new TeamDetailsModel(teamDetail));
+        for(TeamDetail teamDetail : teamDetails){
+            teams.add(new TeamDetailsModel(teamDetail));
         }
 
-        return teamDetails;
+        return teams;
     }
 
     public List<TeamsModel> getTeams() {

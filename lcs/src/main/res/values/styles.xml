@@ -3,6 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowBackground">@color/main_bg_color</item>
+        <item name="android:actionBarStyle">@style/lol_ActionBar</item>
+    </style>
+
+    <style name="lol_ActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="android:background">@drawable/a</item>
     </style>
 
 </resources>

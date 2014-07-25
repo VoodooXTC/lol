@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/action_bar_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        tools:text="Overview"
+        oak:oakFont="@string/font_roboto_regular_condensed"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/action_bar_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        tools:text="NA-LCS"
+        oak:oakFont="@string/font_roboto_light_condensed"
+        />
+
+</LinearLayout>
