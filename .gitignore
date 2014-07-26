@@ -8,6 +8,7 @@
 .gradle
 .classpath
 .settings/
+build/
 bin/
 gen/
 local.properties
@@ -19,4 +20,3 @@ tmp/
 /local.properties
 /.idea/workspace.xml
 .DS_Store
-*build/
