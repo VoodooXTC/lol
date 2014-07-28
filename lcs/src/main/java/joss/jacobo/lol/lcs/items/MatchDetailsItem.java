@@ -1,12 +1,8 @@
 package joss.jacobo.lol.lcs.items;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import joss.jacobo.lol.lcs.model.MatchesModel;
 import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
-import joss.jacobo.lol.lcs.utils.DateTimeStringFormatter;
+import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 
 /**
  * Created by Joss on 7/22/2014.
@@ -38,7 +34,7 @@ public class MatchDetailsItem extends OverviewItem {
         this.blueScore = cursor.getResult() == 0 ? "1" : "0";
         this.purpleTeam = cursor.getTeam2();
         this.purpleScore = cursor.getResult() == 1 ? "1" : "0";
-        this.date = DateTimeStringFormatter.formatDatetime(cursor.getDatetime());
+        this.date = DateTimeFormatter.formatDatetime(cursor.getDatetime());
         this.time = cursor.getTime();
         this.winner = cursor.getResult();
     }
@@ -49,7 +45,7 @@ public class MatchDetailsItem extends OverviewItem {
         this.blueScore = match.result == 0 ? "1" : "0";
         this.purpleTeam = match.team2;
         this.purpleScore = match.result == 1 ? "1" : "0";
-        this.date = DateTimeStringFormatter.formatDate(match.date);
+        this.date = DateTimeFormatter.formatDate(match.date);
         this.time = match.time;
         this.winner = match.result;
     }

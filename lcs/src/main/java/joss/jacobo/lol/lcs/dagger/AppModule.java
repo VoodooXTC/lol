@@ -20,7 +20,9 @@ import joss.jacobo.lol.lcs.fragment.BaseListFragment;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
 import joss.jacobo.lol.lcs.fragment.ScheduleFragment;
 import joss.jacobo.lol.lcs.fragment.StandingsFragment;
-import joss.jacobo.lol.lcs.fragment.TeamBaseFragment;
+import joss.jacobo.lol.lcs.fragment.TeamAboutFragment;
+import joss.jacobo.lol.lcs.fragment.TeamOverviewFragment;
+import joss.jacobo.lol.lcs.fragment.TeamRosterFragment;
 import joss.jacobo.lol.lcs.fragment.TeamsFragment;
 import joss.jacobo.lol.lcs.views.DrawerHeader;
 
@@ -37,7 +39,9 @@ import joss.jacobo.lol.lcs.views.DrawerHeader;
                 ScheduleFragment.class,
                 StandingsFragment.class,
                 TeamsFragment.class,
-                TeamBaseFragment.class,
+                TeamAboutFragment.class,
+                TeamOverviewFragment.class,
+                TeamRosterFragment.class,
 
                 DrawerHeader.class
 

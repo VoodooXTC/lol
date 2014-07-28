@@ -20,10 +20,7 @@ import joss.jacobo.lol.lcs.provider.standings.StandingsCursor;
 import joss.jacobo.lol.lcs.provider.standings.StandingsSelection;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsCursor;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
-import joss.jacobo.lol.lcs.provider.teams.TeamsCursor;
-import joss.jacobo.lol.lcs.provider.teams.TeamsSelection;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsSelection;
-import joss.jacobo.lol.lcs.views.OverviewStandingsItem;
 import joss.jacobo.lol.lcs.views.StandingsItemView;
 
 /**
@@ -41,6 +38,7 @@ public class StandingsFragment extends BaseListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedState){
         super.onViewCreated(view, savedState);
+        setRetainInstance(true);
 
         selectedTournament = datastore.getSelectedTournament();
         selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);

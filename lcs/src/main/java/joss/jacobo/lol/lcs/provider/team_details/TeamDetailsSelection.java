@@ -125,4 +125,26 @@ public class TeamDetailsSelection extends AbstractSelection<TeamDetailsSelection
         return this;
     }
 
+
+    public TeamDetailsSelection aboutText(String... value) {
+        addEquals(TeamDetailsColumns.ABOUT_TEXT, value);
+        return this;
+    }
+    
+    public TeamDetailsSelection aboutTextNot(String... value) {
+        addNotEquals(TeamDetailsColumns.ABOUT_TEXT, value);
+        return this;
+    }
+
+
+    public TeamDetailsSelection twitterHandle(String... value) {
+        addEquals(TeamDetailsColumns.TWITTER_HANDLE, value);
+        return this;
+    }
+    
+    public TeamDetailsSelection twitterHandleNot(String... value) {
+        addNotEquals(TeamDetailsColumns.TWITTER_HANDLE, value);
+        return this;
+    }
+
 }

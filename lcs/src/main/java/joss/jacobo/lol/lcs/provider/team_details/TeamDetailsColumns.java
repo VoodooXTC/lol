@@ -18,6 +18,8 @@ public interface TeamDetailsColumns extends BaseColumns {
     String NAME = "name";
     String LOGO = "logo";
     String TEAM_PICTURE = "team_picture";
+    String ABOUT_TEXT = "about_text";
+    String TWITTER_HANDLE = "twitter_handle";
 
     String DEFAULT_ORDER = _ID;
 
@@ -28,7 +30,9 @@ public interface TeamDetailsColumns extends BaseColumns {
             ABREV,
             NAME,
             LOGO,
-            TEAM_PICTURE
+            TEAM_PICTURE,
+            ABOUT_TEXT,
+            TWITTER_HANDLE
     };
     // @formatter:on
 }

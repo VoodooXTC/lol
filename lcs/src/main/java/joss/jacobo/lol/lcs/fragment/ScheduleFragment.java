@@ -39,6 +39,7 @@ public class ScheduleFragment extends BaseListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedState){
         super.onViewCreated(view, savedState);
+        setRetainInstance(true);
 
         selectedTournament = datastore.getSelectedTournament();
         selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);
@@ -173,6 +174,11 @@ public class ScheduleFragment extends BaseListFragment {
             if(!match.date.equals(date)){
                 items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE_SCHEDULE_MATCHES, match.date));
                 date = match.date;
+
+                // Hide the bottom divider of the previous item
+                if(items.size() > 1){
+                    items.get(items.size() - 2).showDivider = false;
+                }
             }
             items.add(new MatchDetailsItem(match, match.played == 1 ? OverviewItem.TYPE_MATCH_RESULTS : OverviewItem.TYPE_MATCH_UPCOMING));
 
@@ -181,6 +187,12 @@ public class ScheduleFragment extends BaseListFragment {
             }
 
         }
+
+        // Also remove the last divider
+        if(items.size() > 0){
+            items.get(items.size() - 1).showDivider = false;
+        }
+
         return items;
     }
 }

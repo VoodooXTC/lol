@@ -46,6 +46,7 @@ public class OverviewFragment extends BaseListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedState){
         super.onViewCreated(view, savedState);
+        setRetainInstance(true);
 
         selectedTournament = datastore.getSelectedTournament();
         selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);
@@ -76,6 +77,7 @@ public class OverviewFragment extends BaseListFragment {
         List<StandingsItem> standings = getStandings(selectedTournamentAbrev);
         if(standings != null && standings.size() > 0){
             items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "TOP", "TEAMS"));
+            standings.get(standings.size() - 1).showDivider = false;
             items.addAll(standings);
             showContent();
         }
@@ -84,6 +86,7 @@ public class OverviewFragment extends BaseListFragment {
         List<MatchDetailsItem> latestResults = getLatestResults(selectedTournament);
         if(latestResults != null && latestResults.size() > 0){
             items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "LATEST", "RESULTS"));
+            latestResults.get(latestResults.size() - 1).showDivider = false;
             items.addAll(latestResults);
             showContent();
         }
@@ -91,6 +94,7 @@ public class OverviewFragment extends BaseListFragment {
         List<MatchDetailsItem> upcomingMatches = getUpcomingMatches(selectedTournament);
         if(upcomingMatches != null && upcomingMatches.size() > 0){
             items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "UPCOMING", "MATCHES"));
+            upcomingMatches.get(upcomingMatches.size() - 1).showDivider = false;
             items.addAll(upcomingMatches);
             showContent();
         }

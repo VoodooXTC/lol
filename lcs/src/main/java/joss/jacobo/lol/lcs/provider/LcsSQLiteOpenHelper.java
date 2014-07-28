@@ -12,10 +12,12 @@ import android.util.Log;
 
 import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
+import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
-import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsColumns;
 import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
+import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsColumns;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsColumns;
+import joss.jacobo.lol.lcs.provider.tweets.TweetsColumns;
 
 public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = LcsSQLiteOpenHelper.class.getSimpleName();
@@ -47,6 +49,25 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + ", CONSTRAINT MATCH_ID UNIQUE (MATCH_ID) ON CONFLICT REPLACE"
             + " );";
 
+    private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE IF NOT EXISTS "
+            + PlayersColumns.TABLE_NAME + " ( "
+            + PlayersColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + PlayersColumns.PLAYER_ID + " INTEGER, "
+            + PlayersColumns.NAME + " TEXT, "
+            + PlayersColumns.IRL_FIRST_NAME + " TEXT, "
+            + PlayersColumns.IRL_LAST_NAME + " TEXT, "
+            + PlayersColumns.TEAM_ID + " INTEGER, "
+            + PlayersColumns.PLAYER_POSITION + " TEXT, "
+            + PlayersColumns.ACTIVE + " INTEGER, "
+            + PlayersColumns.FAMOUS_QUOTE + " TEXT, "
+            + PlayersColumns.DESCRIPTION + " TEXT, "
+            + PlayersColumns.IMAGE + " TEXT, "
+            + PlayersColumns.FACEBOOK_LINK + " TEXT, "
+            + PlayersColumns.TWITTER_USERNAME + " TEXT, "
+            + PlayersColumns.STREAMING_LINK + " TEXT "
+            + ", CONSTRAINT PLAYER_ID UNIQUE (PLAYER_ID) ON CONFLICT REPLACE"
+            + " );";
+
     private static final String SQL_CREATE_TABLE_STANDINGS = "CREATE TABLE IF NOT EXISTS "
             + StandingsColumns.TABLE_NAME + " ( "
             + StandingsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -61,17 +82,6 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + StandingsColumns.STANDING_POSITION + " INTEGER "
             + " );";
 
-    private static final String SQL_CREATE_TABLE_TEAM_DETAILS = "CREATE TABLE IF NOT EXISTS "
-            + TeamDetailsColumns.TABLE_NAME + " ( "
-            + TeamDetailsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + TeamDetailsColumns.TEAM_ID + " INTEGER, "
-            + TeamDetailsColumns.ABREV + " TEXT, "
-            + TeamDetailsColumns.NAME + " TEXT, "
-            + TeamDetailsColumns.LOGO + " TEXT, "
-            + TeamDetailsColumns.TEAM_PICTURE + " TEXT "
-            + ", CONSTRAINT TEAM_ID UNIQUE (TEAM_ID) ON CONFLICT REPLACE"
-            + " );";
-
     private static final String SQL_CREATE_TABLE_TEAMS = "CREATE TABLE IF NOT EXISTS "
             + TeamsColumns.TABLE_NAME + " ( "
             + TeamsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -80,6 +90,19 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + TeamsColumns.TOURNAMENT_ID + " INTEGER, "
             + TeamsColumns.TOURNAMENT_ABREV + " TEXT, "
             + TeamsColumns.TEAM_NAME + " TEXT "
+            + " );";
+
+    private static final String SQL_CREATE_TABLE_TEAM_DETAILS = "CREATE TABLE IF NOT EXISTS "
+            + TeamDetailsColumns.TABLE_NAME + " ( "
+            + TeamDetailsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + TeamDetailsColumns.TEAM_ID + " INTEGER, "
+            + TeamDetailsColumns.ABREV + " TEXT, "
+            + TeamDetailsColumns.NAME + " TEXT, "
+            + TeamDetailsColumns.LOGO + " TEXT, "
+            + TeamDetailsColumns.TEAM_PICTURE + " TEXT, "
+            + TeamDetailsColumns.ABOUT_TEXT + " TEXT, "
+            + TeamDetailsColumns.TWITTER_HANDLE + " TEXT "
+            + ", CONSTRAINT TEAM_ID UNIQUE (TEAM_ID) ON CONFLICT REPLACE"
             + " );";
 
     private static final String SQL_CREATE_TABLE_TOURNAMENTS = "CREATE TABLE IF NOT EXISTS "
@@ -92,6 +115,18 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + TournamentsColumns.SEASON + " TEXT, "
             + TournamentsColumns.ONGOING + " INTEGER "
             + ", CONSTRAINT TOURNAMENT_ID UNIQUE (TOURNAMENT_ID) ON CONFLICT REPLACE"
+            + " );";
+
+    private static final String SQL_CREATE_TABLE_TWEETS = "CREATE TABLE IF NOT EXISTS "
+            + TweetsColumns.TABLE_NAME + " ( "
+            + TweetsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + TweetsColumns.TWITTER_HANDLE + " TEXT, "
+            + TweetsColumns.CREATED_AT + " INTEGER, "
+            + TweetsColumns.USER_DESCRIPTION + " TEXT, "
+            + TweetsColumns.USER_NAME + " TEXT, "
+            + TweetsColumns.USER_IMAGE_URL + " TEXT, "
+            + TweetsColumns.SCREEN_NAME + " TEXT, "
+            + TweetsColumns.TEXT + " TEXT "
             + " );";
 
     // @formatter:on
@@ -136,10 +171,12 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         db.execSQL(SQL_CREATE_TABLE_MATCHES);
+        db.execSQL(SQL_CREATE_TABLE_PLAYERS);
         db.execSQL(SQL_CREATE_TABLE_STANDINGS);
-        db.execSQL(SQL_CREATE_TABLE_TEAM_DETAILS);
         db.execSQL(SQL_CREATE_TABLE_TEAMS);
+        db.execSQL(SQL_CREATE_TABLE_TEAM_DETAILS);
         db.execSQL(SQL_CREATE_TABLE_TOURNAMENTS);
+        db.execSQL(SQL_CREATE_TABLE_TWEETS);
     }
 
     @Override

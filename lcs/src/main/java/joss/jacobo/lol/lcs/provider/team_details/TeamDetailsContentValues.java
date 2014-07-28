@@ -84,6 +84,28 @@ public class TeamDetailsContentValues extends AbstractContentValues {
     }
 
 
+    public TeamDetailsContentValues putAboutText(String value) {
+        mContentValues.put(TeamDetailsColumns.ABOUT_TEXT, value);
+        return this;
+    }
+
+    public TeamDetailsContentValues putAboutTextNull() {
+        mContentValues.putNull(TeamDetailsColumns.ABOUT_TEXT);
+        return this;
+    }
+
+
+    public TeamDetailsContentValues putTwitterHandle(String value) {
+        mContentValues.put(TeamDetailsColumns.TWITTER_HANDLE, value);
+        return this;
+    }
+
+    public TeamDetailsContentValues putTwitterHandleNull() {
+        mContentValues.putNull(TeamDetailsColumns.TWITTER_HANDLE);
+        return this;
+    }
+
+
     public static ContentValues[] getContentValues(List<TeamDetailsModel> items){
         List<ContentValues> values = new ArrayList<ContentValues>();
         for(TeamDetailsModel item : items){
@@ -99,6 +121,8 @@ public class TeamDetailsContentValues extends AbstractContentValues {
         values.putName(item.name);
         values.putLogo(item.logo);
         values.putTeamPicture(item.teamPicture);
+        values.putAboutText(item.aboutText);
+        values.putTwitterHandle(item.twitterHandle);
         return values.values();
     }
 }

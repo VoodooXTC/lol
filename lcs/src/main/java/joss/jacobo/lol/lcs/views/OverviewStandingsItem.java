@@ -3,6 +3,7 @@ package joss.jacobo.lol.lcs.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class OverviewStandingsItem extends RelativeLayout {
     TextView teamName;
     TextView wins;
     TextView losses;
+    View divider;
 
     public OverviewStandingsItem(Context context) {
         this(context, null);
@@ -39,6 +41,7 @@ public class OverviewStandingsItem extends RelativeLayout {
         teamName = (TextView) findViewById(R.id.item_overview_team_name);
         wins = (TextView) findViewById(R.id.item_overview_wins);
         losses = (TextView) findViewById(R.id.item_overview_losses);
+        divider = findViewById(R.id.item_divider);
     }
 
     public void setContent(StandingsItem standingsItem){
@@ -46,5 +49,6 @@ public class OverviewStandingsItem extends RelativeLayout {
         teamName.setText(standingsItem.teamName);
         wins.setText(standingsItem.wins + "");
         losses.setText(standingsItem.losses + "");
+        divider.setVisibility(standingsItem.showDivider ? View.VISIBLE : View.INVISIBLE);
     }
 }

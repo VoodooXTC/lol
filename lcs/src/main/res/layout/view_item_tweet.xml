@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingRight="8dp"
+    android:paddingLeft="8dp"
+    >
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/tweet_item_avatar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:contentDescription="@string/image_description_tweet_avatar"
+            android:layout_centerVertical="true"
+            tools:src="@drawable/ic_launcher"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/tweet_item_avatar"
+            android:layout_toLeftOf="@+id/tweet_item_twitter_icon"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/tweet_item_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                tools:text="Cloud9 HyperX"
+                oak:oakFont="@string/font_roboto_regular"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/tweet_item_twitter_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:textSize="14sp"
+                tools:text="@Cloud9gg"
+                oak:oakFont="@string/font_roboto_thin"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/tweet_item_twitter_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/image_description_twitter_icon"
+            android:src="@drawable/twitter_icon"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/tweet_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:padding="8dp"
+        tools:text="C9 Dota 2 falls out of the tournament after an admirable run at #TI4. Thanks to all the fans, we couldn't have done it without your support!"
+        oak:oakFont="@string/font_roboto_regular"
+        />
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/tweet_item_created_at"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:textSize="14sp"
+        android:padding="8dp"
+        tools:text="5:24 PM 27 Jul 14"
+        oak:oakFont="@string/font_roboto_thin"
+        />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/white"
+        android:paddingBottom="8dp"/>
+
+</LinearLayout>

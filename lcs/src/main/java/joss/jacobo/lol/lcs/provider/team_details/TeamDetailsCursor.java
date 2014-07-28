@@ -57,4 +57,22 @@ public class TeamDetailsCursor extends AbstractCursor {
         Integer index = getCachedColumnIndexOrThrow(TeamDetailsColumns.TEAM_PICTURE);
         return getString(index);
     }
+
+    /**
+     * Get the {@code about_text} value.
+     * Can be {@code null}.
+     */
+    public String getAboutText() {
+        Integer index = getCachedColumnIndexOrThrow(TeamDetailsColumns.ABOUT_TEXT);
+        return getString(index);
+    }
+
+    /**
+     * Get the {@code twitter_handle} value.
+     * Can be {@code null}.
+     */
+    public String getTwitterHandle() {
+        Integer index = getCachedColumnIndexOrThrow(TeamDetailsColumns.TWITTER_HANDLE);
+        return getString(index);
+    }
 }

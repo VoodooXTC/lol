@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.items.OverviewItem;
+import joss.jacobo.lol.lcs.model.PlayersModel;
 
 /**
  * Created by jossayjacobo on 7/23/14.
@@ -39,5 +40,10 @@ public class OverviewSectionTitle extends LinearLayout {
     public void setContent(OverviewItem item){
         firstWord.setText(item.titleFirstWord);
         secondWord.setText(item.titleSecondWord);
+    }
+
+    public void setContent(PlayersModel player) {
+        firstWord.setText(player.titleFirstWord);
+        secondWord.setText(player.titleSecondWord);
     }
 }

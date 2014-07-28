@@ -1,6 +1,6 @@
 package joss.jacobo.lol.lcs.items;
 
-import joss.jacobo.lol.lcs.utils.DateTimeStringFormatter;
+import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 
 /**
  * Created by Joss on 7/22/2014.
@@ -18,6 +18,8 @@ public class OverviewItem {
     public String titleFirstWord;
     public String titleSecondWord;
 
+    public boolean showDivider = true;
+
     public OverviewItem(){
 
     }
@@ -30,7 +32,7 @@ public class OverviewItem {
 
     public OverviewItem(int type, String date){
         this.type = type;
-        this.titleFirstWord = DateTimeStringFormatter.formatDate(date);
+        this.titleFirstWord = DateTimeFormatter.formatDate(date);
         this.titleSecondWord = "";
     }
 

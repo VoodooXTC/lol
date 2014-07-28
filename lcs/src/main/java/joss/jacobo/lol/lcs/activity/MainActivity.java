@@ -56,6 +56,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
     private ActionBarDrawerToggle mDrawerToggle;
 
     private int currentFrag = 0;
+    private int currentTeam = -1;
     private Fragment frag;
 
     int selectedTournament;
@@ -192,16 +193,32 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
 
     @Override
     public void onTournamentSelected(int tournamentId) {
-        selectedTournament = tournamentId;
-        datastore.persistSelectedTournament(tournamentId);
-        adapter.setItems(getDrawerItems());
+        if(selectedTournament != tournamentId){
 
-        if(currentFrag == R.id.fragment_overview
-                || currentFrag == R.id.fragment_schedule_results
-                || currentFrag == R.id.fragment_standings){
-            replaceFragment();
+            selectedTournament = tournamentId;
+            datastore.persistSelectedTournament(tournamentId);
+            adapter.setItems(getDrawerItems());
+
+            if(currentFrag == R.id.fragment_overview
+                    || currentFrag == R.id.fragment_schedule_results
+                    || currentFrag == R.id.fragment_standings){
+                replaceFragment(null);
+            }else if(currentFrag == R.id.fragment_team){
+                // remove the hint but do not reload the team fragment
+                adapter.setHint(-1);
+            }
+
         }
+    }
 
+    private void onTeamSelected(int teamId) {
+        if(currentTeam != teamId){
+            currentTeam = teamId;
+
+            Bundle args = new Bundle();
+            args.putInt(TeamsFragment.TEAM_ID, currentTeam);
+            replaceFragment(args);
+        }
     }
 
     public class MenuListAdapter extends BaseAdapter {
@@ -319,7 +336,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
     }
 
     public void selectFragment(int nextFrag, int position) {
-        if (nextFrag != currentFrag) {
+        if (nextFrag != currentFrag || nextFrag == R.id.fragment_team) {
             switch (nextFrag) {
                 case R.id.fragment_livestream:
                     currentFrag = R.id.fragment_livestream;
@@ -341,7 +358,9 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                     break;
                 case R.id.fragment_team:
                     currentFrag = R.id.fragment_team;
-                    break;
+                    adapter.setHint(position);
+                    onTeamSelected(adapter.items.get(position).teamId);
+                    return;
                 case R.id.fragment_feedback:
 
 //                    closeDrawer();
@@ -359,13 +378,13 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                     return;
             }
             adapter.setHint(position);
-            replaceFragment();
+            replaceFragment(null);
         } else {
             closeDrawer();
         }
     }
 
-    private void replaceFragment() {
+    private void replaceFragment(Bundle args) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         frag = new OverviewFragment();
         switch (currentFrag) {
@@ -383,6 +402,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                 break;
             case R.id.fragment_team:
                 frag = new TeamsFragment();
+                frag.setArguments(args);
                 break;
         }
 

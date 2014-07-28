@@ -1,0 +1,63 @@
+{
+	"fields": [
+		{
+			"name" : "player_id",
+			"type" : "Integer"
+		},
+		{
+            "name" : "name",
+            "type" : "String"
+        },
+        {
+            "name" : "irl_first_name",
+            "type" : "String"
+        },
+        {
+            "name" : "irl_last_name",
+            "type" : "String"
+        },
+        {
+            "name" : "team_id",
+            "type" : "Integer"
+        },
+        {
+            "name" : "player_position",
+            "type" : "String"
+        },
+        {
+            "name" : "active",
+            "type" : "Integer"
+        },
+        {
+            "name" : "famous_quote",
+            "type" : "String"
+        },
+        {
+            "name" : "description",
+            "type" : "String"
+        },
+        {
+            "name" : "image",
+            "type" : "String"
+        },
+        {
+            "name" : "facebook_link",
+            "type" : "String"
+        },
+        {
+            "name" : "twitter_username",
+            "type" : "String"
+        },
+        {
+            "name" : "streaming_link",
+            "type" : "String"
+        }
+	],
+
+    "constraints" : [
+        {
+            "name" : "player_id",
+            "definition" : "unique (player_id) on conflict replace"
+        }
+    ]
+}

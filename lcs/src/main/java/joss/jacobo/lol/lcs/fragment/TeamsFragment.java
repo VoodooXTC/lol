@@ -11,29 +11,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.model.TeamsModel;
+import joss.jacobo.lol.lcs.provider.teams.TeamsCursor;
+import joss.jacobo.lol.lcs.provider.teams.TeamsSelection;
 
 /**
- * Created by jossayjacobo on 7/25/14.
+ * Created by jossayjacobo on 7/25/14
  */
 public class TeamsFragment extends BaseFragment {
+
+    public static final String TEAM_ID = "team_id";
+    public static final String TEAM = "team";
 
     @InjectView(R.id.teams_view_pager)
     ViewPager viewPager;
     @InjectView(R.id.teams_page_strip)
     PagerTitleStrip pagerTitleStrip;
 
-    String[] titles = {"Overview", "Statistics", "Roster"};
+    String[] titles = {"About", "Roster", "Overview", "Statistics", "Replays"};
+    int teamId;
+    TeamsModel team;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        teamId = getArguments().getInt(TEAM_ID);
     }
 
     @Override
@@ -42,41 +53,25 @@ public class TeamsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_teams,
                 container, false);
         ButterKnife.inject(this, view);
-
         setHasOptionsMenu(true);
 
+        team = getTeam(teamId);
+
+        listener.onSetActionBarTitle(team.teamName, null);
         setupPagerTabStrip();
         setupViewPager();
 
         return view;
     }
 
-    private void setupViewPager() {
-        viewPager.setAdapter(new TeamsPagerAdapter(getChildFragmentManager(), getFragments(), titles));
-    }
-
-    private List<TeamBaseFragment> getFragments() {
-        List<TeamBaseFragment> fragments = new ArrayList<TeamBaseFragment>();
-
-        Bundle bundle = new Bundle();
-
-        TeamBaseFragment fragment1 = new TeamBaseFragment();
-        bundle.putString(TeamBaseFragment.TITLE, "Overview");
-        fragment1.setArguments(bundle);
-
-        TeamBaseFragment fragment2 = new TeamBaseFragment();
-        bundle.putString(TeamBaseFragment.TITLE, "Statistics");
-        fragment2.setArguments(bundle);
-
-        TeamBaseFragment fragment3 = new TeamBaseFragment();
-        bundle.putString(TeamBaseFragment.TITLE, "Roster");
-        fragment3.setArguments(bundle);
-
-        fragments.add(fragment1);
-        fragments.add(fragment2);
-        fragments.add(fragment3);
-
-        return fragments;
+    private TeamsModel getTeam(int teamId) {
+        TeamsSelection where = new TeamsSelection();
+        where.teamId(teamId);
+        TeamsCursor teamsCursor = where.query(getActivity().getContentResolver());
+        if(teamsCursor.moveToFirst()){
+            return new TeamsModel(teamsCursor);
+        }
+        return new TeamsModel();
     }
 
     private void setupPagerTabStrip() {
@@ -87,12 +82,43 @@ public class TeamsFragment extends BaseFragment {
         pagerTitleStrip.setTextColor(getResources().getColor(R.color.white));
     }
 
+    private void setupViewPager() {
+        viewPager.setAdapter(new TeamsPagerAdapter(getChildFragmentManager(), getFragments(), titles));
+        viewPager.setCurrentItem(2);
+        viewPager.setOffscreenPageLimit(5);
+    }
+
+    private List<Fragment> getFragments() {
+        List<Fragment> fragments = new ArrayList<Fragment>();
+
+        Gson gson = new Gson();
+        Bundle arguments = new Bundle();
+        arguments.putString(TEAM, gson.toJson(team));
+
+        TeamAboutFragment about = new TeamAboutFragment();
+        about.setArguments(arguments);
+
+        TeamRosterFragment roster = new TeamRosterFragment();
+        roster.setArguments(arguments);
+
+        TeamOverviewFragment overview = new TeamOverviewFragment();
+        overview.setArguments(arguments);
+
+        fragments.add(about);
+        fragments.add(roster);
+        fragments.add(overview);
+        fragments.add(new Fragment());
+        fragments.add(new Fragment());
+
+        return fragments;
+    }
+
     public class TeamsPagerAdapter extends FragmentPagerAdapter{
 
-        List<TeamBaseFragment> fragments;
+        List<Fragment> fragments;
         String[] titles;
 
-        public TeamsPagerAdapter(FragmentManager fm, List<TeamBaseFragment> frags, String[] titles) {
+        public TeamsPagerAdapter(FragmentManager fm, List<Fragment> frags, String[] titles) {
             super(fm);
             this.fragments = frags;
             this.titles = titles;

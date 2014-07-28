@@ -20,6 +20,14 @@
         {
             "name" : "team_picture",
             "type" : "String"
+        },
+        {
+            "name" : "about_text",
+            "type" : "String"
+        },
+        {
+            "name" : "twitter_handle",
+            "type" : "String"
         }
 	],
 

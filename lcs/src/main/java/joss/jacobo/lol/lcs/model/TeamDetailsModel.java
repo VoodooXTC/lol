@@ -13,6 +13,8 @@ public class TeamDetailsModel{
     public String name;
     public String logo;
     public String teamPicture;
+    public String aboutText;
+    public String twitterHandle;
 
     public TeamDetailsModel(){}
 
@@ -22,6 +24,8 @@ public class TeamDetailsModel{
         this.name = cursor.getName();
         this.logo = cursor.getLogo();
         this.teamPicture = cursor.getTeamPicture();
+        this.aboutText = cursor.getAboutText();
+        this.twitterHandle = cursor.getTwitterHandle();
     }
 
     public TeamDetailsModel(TeamDetail teamDetail) {
@@ -30,5 +34,7 @@ public class TeamDetailsModel{
         this.name = teamDetail.team;
         this.logo = teamDetail.logo;
         this.teamPicture = teamDetail.teamPicture;
+        this.aboutText = teamDetail.aboutText;
+        this.twitterHandle = teamDetail.twitterHandle;
     }
 }

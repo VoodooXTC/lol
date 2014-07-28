@@ -24,6 +24,7 @@ public class OverviewMatchDetailsItem extends RelativeLayout {
     LinearLayout scoreContainer;
     TextView time;
     TextView date;
+    View divider;
 
     public OverviewMatchDetailsItem(Context context) {
         this(context, null);
@@ -47,6 +48,7 @@ public class OverviewMatchDetailsItem extends RelativeLayout {
         scoreContainer = (LinearLayout) findViewById(R.id.item_match_details_score_container);
         time = (TextView) findViewById(R.id.item_match_details_time);
         date = (TextView) findViewById(R.id.item_match_details_date);
+        divider = findViewById(R.id.item_divider);
     }
 
     public void setContent(MatchDetailsItem matchDetailsItem){
@@ -75,6 +77,8 @@ public class OverviewMatchDetailsItem extends RelativeLayout {
                 setNoWinner();
                 break;
         }
+
+        divider.setVisibility(matchDetailsItem.showDivider ? View.VISIBLE : View.INVISIBLE);
 
     }
 

@@ -13,6 +13,12 @@ public class TeamDetail {
     public String abrv;
     
     public String logo;
+
+    @SerializedName("twitter_handle")
+    public String twitterHandle;
+
+    @SerializedName("about_text")
+    public String aboutText;
     
     @SerializedName("team_picture")
     public String teamPicture;

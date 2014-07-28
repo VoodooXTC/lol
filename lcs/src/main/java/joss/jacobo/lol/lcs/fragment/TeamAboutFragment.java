@@ -6,16 +6,11 @@ import android.view.View;
 /**
  * Created by jossayjacobo on 7/25/14.
  */
-public class TeamBaseFragment extends BaseFragment {
-
-    public static final String TITLE = "title";
-
-    public String title;
+public class TeamAboutFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        title = getArguments().getString(TITLE);
     }
 
     @Override

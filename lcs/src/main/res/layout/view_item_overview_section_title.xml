@@ -5,7 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="8dp"
+    android:paddingRight="8dp"
+    android:paddingLeft="8dp"
+    >
 
     <oak.widget.TextViewWithFont
         android:id="@+id/item_overview_section_title_first_word"
@@ -13,7 +17,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:paddingRight="4dp"
-        android:paddingLeft="4dp"
         android:textSize="22sp"
         oak:oakFont="@string/font_roboto_medium_condensed"
         tools:text="UPCOMING"
@@ -26,7 +29,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/gold"
         android:paddingRight="4dp"
-        android:paddingLeft="4dp"
         android:textSize="22sp"
         android:gravity="center_vertical"
         android:duplicateParentState="true"

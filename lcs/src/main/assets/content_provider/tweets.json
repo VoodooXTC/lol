@@ -1,0 +1,32 @@
+{
+	"fields": [
+		{
+			"name" : "twitter_handle",
+			"type" : "String"
+		},
+		{
+            "name" : "created_at",
+            "type" : "Long"
+        },
+        {
+            "name" : "user_description",
+            "type" : "String"
+        },
+        {
+            "name" : "user_name",
+            "type" : "String"
+        },
+        {
+            "name" : "user_image_url",
+            "type" : "String"
+        },
+        {
+            "name" : "screen_name",
+            "type" : "String"
+        },
+        {
+            "name" : "text",
+            "type" : "String"
+        }
+	]
+}

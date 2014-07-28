@@ -19,6 +19,8 @@
 
     <string name="image_description_team_logo">team logo</string>
     <string name="image_description_expand_collapse_icon">expand and collapse icon</string>
+    <string name="image_description_tweet_avatar">tweet avatar</string>
+    <string name="image_description_twitter_icon">Twitter Icon</string>
 
     <string name="no_results">No Results</string>
 
