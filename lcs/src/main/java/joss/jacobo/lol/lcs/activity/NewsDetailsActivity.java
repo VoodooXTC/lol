@@ -25,6 +25,7 @@ import butterknife.InjectView;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.model.NewsModel;
 import joss.jacobo.lol.lcs.utils.Bootstrap;
+import oak.OAK;
 
 /**
  * Created by Joss on 7/31/2014
@@ -54,8 +55,10 @@ public class NewsDetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_news_details);
         ButterKnife.inject(this);
 
+        Bundle bundle = savedInstanceState != null ? savedInstanceState : getIntent().getExtras();
+
         Gson gson = new Gson();
-        newsModel = gson.fromJson(getIntent().getStringExtra(NEWS_MODEL), NewsModel.class);
+        newsModel = gson.fromJson(bundle.getString(NEWS_MODEL), NewsModel.class);
 
         setupActionBar();
         onSetActionBarTitle("News", null);
@@ -63,6 +66,19 @@ public class NewsDetailsActivity extends BaseActivity {
         showLoading();
         setupWebView();
         setContent(newsModel);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putAll(getIntent().getExtras());
+        webView.saveState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        webView.restoreState(savedInstanceState);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -90,7 +106,16 @@ public class NewsDetailsActivity extends BaseActivity {
 
         @Override
         public void onPageFinished(WebView webView, String url) {
-//            showContent();
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url != null && (url.startsWith("http://") || url.startsWith("https://"))) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                return true;
+            }
+
+            return super.shouldOverrideUrlLoading(view,url);
         }
 
     }
