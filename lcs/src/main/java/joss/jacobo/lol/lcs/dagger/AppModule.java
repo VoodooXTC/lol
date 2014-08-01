@@ -15,8 +15,10 @@ import joss.jacobo.lol.lcs.Datastore;
 import joss.jacobo.lol.lcs.MainApp;
 import joss.jacobo.lol.lcs.activity.BaseActivity;
 import joss.jacobo.lol.lcs.activity.MainActivity;
+import joss.jacobo.lol.lcs.activity.NewsDetailsActivity;
 import joss.jacobo.lol.lcs.fragment.BaseFragment;
 import joss.jacobo.lol.lcs.fragment.BaseListFragment;
+import joss.jacobo.lol.lcs.fragment.NewsFragment;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
 import joss.jacobo.lol.lcs.fragment.ScheduleFragment;
 import joss.jacobo.lol.lcs.fragment.StandingsFragment;
@@ -32,6 +34,7 @@ import joss.jacobo.lol.lcs.views.DrawerHeader;
                 MainApp.class,
                 BaseActivity.class,
                 MainActivity.class,
+                NewsDetailsActivity.class,
 
                 BaseFragment.class,
                 BaseListFragment.class,
@@ -42,6 +45,7 @@ import joss.jacobo.lol.lcs.views.DrawerHeader;
                 TeamAboutFragment.class,
                 TeamOverviewFragment.class,
                 TeamRosterFragment.class,
+                NewsFragment.class,
 
                 DrawerHeader.class
 

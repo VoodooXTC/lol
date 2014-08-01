@@ -17,6 +17,7 @@ import android.util.Log;
 
 import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
+import joss.jacobo.lol.lcs.provider.news.NewsColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
 import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
@@ -39,23 +40,26 @@ public class LcsProvider extends ContentProvider {
     private static final int URI_TYPE_MATCHES = 0;
     private static final int URI_TYPE_MATCHES_ID = 1;
 
-    private static final int URI_TYPE_PLAYERS = 2;
-    private static final int URI_TYPE_PLAYERS_ID = 3;
+    private static final int URI_TYPE_NEWS = 2;
+    private static final int URI_TYPE_NEWS_ID = 3;
 
-    private static final int URI_TYPE_STANDINGS = 4;
-    private static final int URI_TYPE_STANDINGS_ID = 5;
+    private static final int URI_TYPE_PLAYERS = 4;
+    private static final int URI_TYPE_PLAYERS_ID = 5;
 
-    private static final int URI_TYPE_TEAMS = 6;
-    private static final int URI_TYPE_TEAMS_ID = 7;
+    private static final int URI_TYPE_STANDINGS = 6;
+    private static final int URI_TYPE_STANDINGS_ID = 7;
 
-    private static final int URI_TYPE_TEAM_DETAILS = 8;
-    private static final int URI_TYPE_TEAM_DETAILS_ID = 9;
+    private static final int URI_TYPE_TEAMS = 8;
+    private static final int URI_TYPE_TEAMS_ID = 9;
 
-    private static final int URI_TYPE_TOURNAMENTS = 10;
-    private static final int URI_TYPE_TOURNAMENTS_ID = 11;
+    private static final int URI_TYPE_TEAM_DETAILS = 10;
+    private static final int URI_TYPE_TEAM_DETAILS_ID = 11;
 
-    private static final int URI_TYPE_TWEETS = 12;
-    private static final int URI_TYPE_TWEETS_ID = 13;
+    private static final int URI_TYPE_TOURNAMENTS = 12;
+    private static final int URI_TYPE_TOURNAMENTS_ID = 13;
+
+    private static final int URI_TYPE_TWEETS = 14;
+    private static final int URI_TYPE_TWEETS_ID = 15;
 
 
 
@@ -64,6 +68,8 @@ public class LcsProvider extends ContentProvider {
     static {
         URI_MATCHER.addURI(AUTHORITY, MatchesColumns.TABLE_NAME, URI_TYPE_MATCHES);
         URI_MATCHER.addURI(AUTHORITY, MatchesColumns.TABLE_NAME + "/#", URI_TYPE_MATCHES_ID);
+        URI_MATCHER.addURI(AUTHORITY, NewsColumns.TABLE_NAME, URI_TYPE_NEWS);
+        URI_MATCHER.addURI(AUTHORITY, NewsColumns.TABLE_NAME + "/#", URI_TYPE_NEWS_ID);
         URI_MATCHER.addURI(AUTHORITY, PlayersColumns.TABLE_NAME, URI_TYPE_PLAYERS);
         URI_MATCHER.addURI(AUTHORITY, PlayersColumns.TABLE_NAME + "/#", URI_TYPE_PLAYERS_ID);
         URI_MATCHER.addURI(AUTHORITY, StandingsColumns.TABLE_NAME, URI_TYPE_STANDINGS);
@@ -94,6 +100,11 @@ public class LcsProvider extends ContentProvider {
                 return TYPE_CURSOR_DIR + MatchesColumns.TABLE_NAME;
             case URI_TYPE_MATCHES_ID:
                 return TYPE_CURSOR_ITEM + MatchesColumns.TABLE_NAME;
+
+            case URI_TYPE_NEWS:
+                return TYPE_CURSOR_DIR + NewsColumns.TABLE_NAME;
+            case URI_TYPE_NEWS_ID:
+                return TYPE_CURSOR_ITEM + NewsColumns.TABLE_NAME;
 
             case URI_TYPE_PLAYERS:
                 return TYPE_CURSOR_DIR + PlayersColumns.TABLE_NAME;
@@ -245,6 +256,12 @@ public class LcsProvider extends ContentProvider {
                 res.orderBy = MatchesColumns.DEFAULT_ORDER;
                 break;
 
+            case URI_TYPE_NEWS:
+            case URI_TYPE_NEWS_ID:
+                res.table = NewsColumns.TABLE_NAME;
+                res.orderBy = NewsColumns.DEFAULT_ORDER;
+                break;
+
             case URI_TYPE_PLAYERS:
             case URI_TYPE_PLAYERS_ID:
                 res.table = PlayersColumns.TABLE_NAME;
@@ -287,6 +304,7 @@ public class LcsProvider extends ContentProvider {
 
         switch (matchedId) {
             case URI_TYPE_MATCHES_ID:
+            case URI_TYPE_NEWS_ID:
             case URI_TYPE_PLAYERS_ID:
             case URI_TYPE_STANDINGS_ID:
             case URI_TYPE_TEAMS_ID:

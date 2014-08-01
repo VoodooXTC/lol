@@ -5,16 +5,21 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.List;
 
 import joss.jacobo.lol.lcs.api.model.Config;
+import joss.jacobo.lol.lcs.api.model.News.News;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
 import joss.jacobo.lol.lcs.api.model.Standings.Standings;
+import joss.jacobo.lol.lcs.model.NewsModel;
 import joss.jacobo.lol.lcs.model.TweetsModel;
 import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
 import joss.jacobo.lol.lcs.provider.matches.MatchesContentValues;
+import joss.jacobo.lol.lcs.provider.news.NewsColumns;
+import joss.jacobo.lol.lcs.provider.news.NewsContentValues;
 import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersContentValues;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
@@ -37,18 +42,28 @@ import twitter4j.ResponseList;
 import twitter4j.Status;
 
 public class ApiService extends IntentService {
+
+    public static final String BROADCAST = "ApiService.broadcast";
     private static final String TAG = "ApiService";
 
     public static final String API_TYPE = "api_type";
     public static final String TWITTER_HANDLE = "twitter_handle";
     public static final String TEAM_ID = "team_id";
+    public static final String NUM_OF_ARTICLES = "num_of_articles";
+    public static final String OFFSET = "offset";
 
     public static final int TYPE_INITIAL_CONFIG = 0;
     public static final int TYPE_LATEST_STANDINGS = 1;
     public static final int TYPE_GET_TWEETS = 2;
     public static final int TYPE_GET_PLAYERS = 3;
+    public static final int TYPE_NEWS = 4;
+
+    public static final String STATUS = "status";
+    public static final int SUCCESS = 1;
+    public static final int ERROR = 0;
 
     RestService service;
+    LocalBroadcastManager broadcast;
 
     public ApiService() {
         super("Api Service");
@@ -61,6 +76,7 @@ public class ApiService extends IntentService {
             .setEndpoint("http://lcs.voodootvdb.com")
             .build();
         service = restAdapter.create(RestService.class);
+        broadcast = LocalBroadcastManager.getInstance(this);
     }
 
     @Override
@@ -122,6 +138,28 @@ public class ApiService extends IntentService {
                     }
                 });
                 break;
+
+            case TYPE_NEWS:
+                int numOfArticles = intent.getIntExtra(NUM_OF_ARTICLES, 5);
+                final int offset = intent.getIntExtra(OFFSET, 0);
+                service.getNews(numOfArticles, offset, new Callback<List<News>>() {
+                    @Override
+                    public void success(List<News> newses, Response response) {
+                        if(offset == 0){
+                            updateNews(getContentResolver(), newses);
+                        }else{
+                            insertNews(getContentResolver(), newses);
+                        }
+
+                        sendNewsBroadcast(SUCCESS);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        sendNewsBroadcast(ERROR);
+                    }
+                });
+                break;
         }
     }
 
@@ -151,6 +189,14 @@ public class ApiService extends IntentService {
         Intent intent = new Intent(context, ApiService.class);
         intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_PLAYERS);
         intent.putExtra(ApiService.TEAM_ID, teamId);
+        context.startService(intent);
+    }
+
+    public static void getNews(Context context, int numOfArticles, int offset){
+        Intent intent = new Intent(context, ApiService.class);
+        intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_NEWS);
+        intent.putExtra(ApiService.NUM_OF_ARTICLES, numOfArticles);
+        intent.putExtra(ApiService.OFFSET, offset);
         context.startService(intent);
     }
 
@@ -195,6 +241,27 @@ public class ApiService extends IntentService {
     private void updatePlayers(ContentResolver contentResolver, List<Player> players) {
         ContentValues[] playersValues = PlayersContentValues.getContentValues(Player.getList(players));
         contentResolver.bulkInsert(PlayersColumns.CONTENT_URI, playersValues);
+    }
+
+    private void insertNews(ContentResolver contentResolver, List<News> newses){
+        ContentValues[] newsCV = NewsContentValues.getContentValues(NewsModel.getList(newses));
+        contentResolver.bulkInsert(NewsColumns.CONTENT_URI, newsCV);
+    }
+
+    private void updateNews(ContentResolver contentResolver, List<News> newses){
+        contentResolver.delete(NewsColumns.CONTENT_URI, null, null);
+        ContentValues[] newsCV = NewsContentValues.getContentValues(NewsModel.getList(newses));
+        contentResolver.bulkInsert(NewsColumns.CONTENT_URI, newsCV);
+    }
+
+    /**
+     * Send Broadcasts
+     */
+    private void sendNewsBroadcast(int status){
+        Intent intent = new Intent(BROADCAST);
+        intent.putExtra(API_TYPE, TYPE_NEWS);
+        intent.putExtra(STATUS, status);
+        broadcast.sendBroadcast(intent);
     }
 
 }

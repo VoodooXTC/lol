@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<joss.jacobo.lol.lcs.views.DenyFocusRequestScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/news_details_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/news_details_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/gold"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:layout_alignBottom="@id/news_details_image"
+                android:layout_marginBottom="8dp"
+                tools:text="Power Rankings"
+                oak:oakFont="@string/font_gothic_bold"
+                />
+
+        </RelativeLayout>
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/news_details_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gold"
+            android:textSize="22sp"
+            android:paddingTop="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            tools:text="''Playtime's over'' - the return of Ahri"
+            oak:oakFont="@string/font_gothic_bold"
+            />
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/news_details_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            tools:text="Taylor 'Riot RoboTayCo' Cocke - 3 hopurs 24 min ago"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="16dp">
+
+            <WebView
+                android:id="@+id/news_details_webview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                />
+
+            <LinearLayout
+                android:id="@+id/news_details_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                >
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</joss.jacobo.lol.lcs.views.DenyFocusRequestScrollView>

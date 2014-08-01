@@ -12,6 +12,7 @@ import android.util.Log;
 
 import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
+import joss.jacobo.lol.lcs.provider.news.NewsColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
 import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
@@ -47,6 +48,20 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + MatchesColumns.MATCH_NO + " INTEGER, "
             + MatchesColumns.MATCH_POSITION + " INTEGER "
             + ", CONSTRAINT MATCH_ID UNIQUE (MATCH_ID) ON CONFLICT REPLACE"
+            + " );";
+
+    private static final String SQL_CREATE_TABLE_NEWS = "CREATE TABLE IF NOT EXISTS "
+            + NewsColumns.TABLE_NAME + " ( "
+            + NewsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + NewsColumns.NEWS_ID + " INTEGER, "
+            + NewsColumns.CATEGORY + " TEXT, "
+            + NewsColumns.TITLE + " TEXT, "
+            + NewsColumns.LINK + " TEXT, "
+            + NewsColumns.IMAGE + " TEXT, "
+            + NewsColumns.AUTHOR + " TEXT, "
+            + NewsColumns.DESCRIPTION + " TEXT, "
+            + NewsColumns.CONTENT + " TEXT, "
+            + NewsColumns.LASTUPDATED + " INTEGER "
             + " );";
 
     private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE IF NOT EXISTS "
@@ -171,6 +186,7 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         db.execSQL(SQL_CREATE_TABLE_MATCHES);
+        db.execSQL(SQL_CREATE_TABLE_NEWS);
         db.execSQL(SQL_CREATE_TABLE_PLAYERS);
         db.execSQL(SQL_CREATE_TABLE_STANDINGS);
         db.execSQL(SQL_CREATE_TABLE_TEAMS);

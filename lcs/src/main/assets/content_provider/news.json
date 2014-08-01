@@ -1,0 +1,40 @@
+{
+	"fields": [
+	    {
+            "name" : "news_id",
+            "type" : "Integer"
+        },
+		{
+			"name" : "category",
+			"type" : "String"
+		},
+		{
+            "name" : "title",
+            "type" : "String"
+        },
+        {
+            "name" : "link",
+            "type" : "String"
+        },
+        {
+            "name" : "image",
+            "type" : "String"
+        },
+        {
+            "name" : "author",
+            "type" : "String"
+        },
+        {
+            "name" : "description",
+            "type" : "String"
+        },
+        {
+            "name" : "content",
+            "type" : "String"
+        },
+        {
+            "name" : "lastupdated",
+            "type" : "Integer"
+        }
+	]
+}

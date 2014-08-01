@@ -11,7 +11,7 @@ import joss.jacobo.lol.lcs.items.OverviewItem;
 import joss.jacobo.lol.lcs.model.PlayersModel;
 
 /**
- * Created by jossayjacobo on 7/23/14.
+ * Created by jossayjacobo on 7/23/14
  */
 public class OverviewSectionTitle extends LinearLayout {
 

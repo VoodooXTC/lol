@@ -10,6 +10,9 @@
     <color name="purple_dark">#0c0f16</color>
     <color name="grey">#899aa6</color>
 
+    <color name="lcs_selector_state">#11FFFFFF</color>
     <color name="main_bg_color">#1D1D26</color>
     <color name="drawer_item_selector_state">#11FFFFFF</color>
+    <color name="card_background">#444647</color>
+
 </resources>

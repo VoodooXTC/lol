@@ -1,0 +1,43 @@
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 35px;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.image-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 35px;
+    height: 0;
+    overflow: hidden;
+}
+
+
+.image-container img {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@font-face {
+	font-family: 'TradeGothic';
+	src: url('../fonts/Trade-Gothic-Regular.ttf');
+}
+
+body {
+	background-color: #1D1D26;
+	color: white;
+	font-family: 'TradeGothic', Arial, sans-serif;
+}

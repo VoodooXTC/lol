@@ -26,6 +26,7 @@ import java.util.List;
 
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.api.ApiService;
+import joss.jacobo.lol.lcs.fragment.NewsFragment;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
 import joss.jacobo.lol.lcs.fragment.ScheduleFragment;
 import joss.jacobo.lol.lcs.fragment.StandingsFragment;
@@ -308,7 +309,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                         break;
 
                     case DrawerItem.TYPE_NEWS:
-
+                        selectFragment(R.id.fragment_news, position - 1);
                         break;
 
                     case DrawerItem.TYPE_SCHEDULE_RESULTS:
@@ -393,6 +394,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
             case R.id.fragment_liveticker:
                 break;
             case R.id.fragment_news:
+                frag = new NewsFragment();
                 break;
             case R.id.fragment_schedule_results:
                 frag = new ScheduleFragment();

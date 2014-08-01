@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/news_image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            />
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/news_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/gold"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:paddingTop="4dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:layout_alignBottom="@id/news_image"
+            android:layout_marginBottom="8dp"
+            tools:text="Power Rankings"
+            oak:oakFont="@string/font_gothic_bold"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        >
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/news_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gold"
+            android:textSize="22sp"
+            tools:text="''Playtime's over'' - the return of Ahri"
+            oak:oakFont="@string/font_gothic_bold"
+            />
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/news_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            tools:text="Taylor 'Riot RoboTayCo' Cocke - 3 hopurs 24 min ago"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/news_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textSize="16sp"
+            tools:text="Charmed, I'm sure. Ahri is back on the LCS  scene, and she's been running wild. So what makes her so successful?"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
