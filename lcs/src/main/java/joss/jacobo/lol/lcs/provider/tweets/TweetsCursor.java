@@ -27,6 +27,14 @@ public class TweetsCursor extends AbstractCursor {
     }
 
     /**
+     * Get the {@code tweet_id} value.
+     * Can be {@code null}.
+     */
+    public Long getTweetId() {
+        return getLongOrNull(TweetsColumns.TWEET_ID);
+    }
+
+    /**
      * Get the {@code created_at} value.
      * Can be {@code null}.
      */

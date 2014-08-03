@@ -8,6 +8,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
+    android:background="@drawable/list_item_selector"
     >
 
     <oak.widget.TextViewWithFont

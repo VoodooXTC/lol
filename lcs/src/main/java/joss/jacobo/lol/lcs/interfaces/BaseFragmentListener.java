@@ -7,4 +7,6 @@ public interface BaseFragmentListener {
 
     public void onSetActionBarTitle(String title, String subtitle);
 
+    public void teamSelected(int teamId);
+
 }

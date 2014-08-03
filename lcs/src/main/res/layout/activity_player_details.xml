@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/player_details_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/blank_silhouette"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/player_details_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/gold"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:layout_alignBottom="@id/player_details_image"
+                android:layout_marginBottom="8dp"
+                tools:text="Lauri Cyanide Happonen"
+                oak:oakFont="@string/font_gothic_bold"
+                />
+
+        </RelativeLayout>
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/player_details_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gold"
+            android:textSize="22sp"
+            android:paddingTop="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            tools:text="''Playtime's over'' - the return of Ahri"
+            oak:oakFont="@string/font_gothic_bold"
+            />
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/player_details_quote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            tools:text="Taylor 'Riot RoboTayCo' Cocke - 3 hopurs 24 min ago"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+    </LinearLayout>
+</ScrollView>

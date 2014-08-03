@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by Joss on 7/24/2014.
+ * Created by Joss on 7/24/2014
  */
 public class DateTimeFormatter {
 
@@ -46,7 +46,7 @@ public class DateTimeFormatter {
     public static String formatMillis(Long millis){
         Date date = new Date(millis);
 
-        SimpleDateFormat fmtOut = new SimpleDateFormat("hh:mmaa dd MMM dd");
+        SimpleDateFormat fmtOut = new SimpleDateFormat("hh:mmaa MMM dd");
         return fmtOut.format(date);
     }
 }

@@ -14,6 +14,7 @@ public interface TweetsColumns extends BaseColumns {
 
     String _ID = BaseColumns._ID;
     String TWITTER_HANDLE = "twitter_handle";
+    String TWEET_ID = "tweet_id";
     String CREATED_AT = "created_at";
     String USER_DESCRIPTION = "user_description";
     String USER_NAME = "user_name";
@@ -23,10 +24,11 @@ public interface TweetsColumns extends BaseColumns {
 
     String DEFAULT_ORDER = _ID;
 
-	// @formatter:off
+    // @formatter:off
     String[] FULL_PROJECTION = new String[] {
             _ID,
             TWITTER_HANDLE,
+            TWEET_ID,
             CREATED_AT,
             USER_DESCRIPTION,
             USER_NAME,

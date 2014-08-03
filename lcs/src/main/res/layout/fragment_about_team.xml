@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/team_about_image"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/team_about_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/gold"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:layout_alignBottom="@id/team_about_image"
+                android:layout_marginBottom="8dp"
+                tools:text="Counter Logic Gaming"
+                oak:oakFont="@string/font_gothic_bold"
+                />
+
+        </RelativeLayout>
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/team_about_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            tools:text="Cloud9's dominant 25-3 regular season run was stopped short in the Season 3 World Championship quarterfinals with loss to Fnatic. The Team returned as a heavy favorite in the 2014 NA LCS spring split, taking first place in a commanding 3-0 rout of TSM. Looking towards the 2014 All-Stars even in Paris, Cloud9 has never looked strong, and is in prime form to take on and defeat the top teams in the world."
+            oak:oakFont="@string/font_gothic_bold"
+            />
+
+    </LinearLayout>
+</ScrollView>

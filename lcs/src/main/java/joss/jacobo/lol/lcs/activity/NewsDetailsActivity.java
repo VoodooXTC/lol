@@ -25,6 +25,7 @@ import butterknife.InjectView;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.model.NewsModel;
 import joss.jacobo.lol.lcs.utils.Bootstrap;
+import joss.jacobo.lol.lcs.views.ActionBarCustomTitle;
 import oak.OAK;
 
 /**
@@ -56,29 +57,23 @@ public class NewsDetailsActivity extends BaseActivity {
         ButterKnife.inject(this);
 
         Bundle bundle = savedInstanceState != null ? savedInstanceState : getIntent().getExtras();
-
         Gson gson = new Gson();
         newsModel = gson.fromJson(bundle.getString(NEWS_MODEL), NewsModel.class);
+
+        showLoading();
+        setupWebView();
+        setWebViewContent();
+        setContent(newsModel);
 
         setupActionBar();
         onSetActionBarTitle("News", null);
 
-        showLoading();
-        setupWebView();
-        setContent(newsModel);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putAll(getIntent().getExtras());
-        webView.saveState(savedInstanceState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState){
-        super.onRestoreInstanceState(savedInstanceState);
-        webView.restoreState(savedInstanceState);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -87,14 +82,16 @@ public class NewsDetailsActivity extends BaseActivity {
         webView.getSettings().setJavaScriptEnabled(true);
     }
 
+    private void setWebViewContent() {
+        webView.setWebViewClient(new LcsWebViewClient());
+        webView.loadDataWithBaseURL(Bootstrap.BASE_URL, Bootstrap.wrap(newsModel.content), Bootstrap.MIME_TYPE, Bootstrap.ENCODING, null);
+    }
+
     public void setContent(NewsModel newsModel) {
         Picasso.with(this).load(newsModel.image).into(image);
         category.setText(newsModel.category.toUpperCase());
         title.setText(Html.fromHtml(newsModel.title));
         author.setText(newsModel.author);
-
-        webView.setWebViewClient(new LcsWebViewClient());
-        webView.loadDataWithBaseURL(Bootstrap.BASE_URL, Bootstrap.wrap(newsModel.content), Bootstrap.MIME_TYPE, Bootstrap.ENCODING, null);
     }
 
     class LcsWebViewClient extends WebViewClient{

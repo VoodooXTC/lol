@@ -51,12 +51,14 @@ public class ApiService extends IntentService {
     public static final String TEAM_ID = "team_id";
     public static final String NUM_OF_ARTICLES = "num_of_articles";
     public static final String OFFSET = "offset";
+    public static final String HASH_TAG_LCS = "#LCS";
 
     public static final int TYPE_INITIAL_CONFIG = 0;
     public static final int TYPE_LATEST_STANDINGS = 1;
     public static final int TYPE_GET_TWEETS = 2;
     public static final int TYPE_GET_PLAYERS = 3;
     public static final int TYPE_NEWS = 4;
+    public static final int TYPE_GET_TWEETS_LCS = 5;
 
     public static final String STATUS = "status";
     public static final int SUCCESS = 1;
@@ -125,11 +127,27 @@ public class ApiService extends IntentService {
                 });
                 break;
 
+            case TYPE_GET_TWEETS_LCS:
+                Twitter.getLCSTweets(new Twitter.TwitterHashTagCallback() {
+                    @Override
+                    public void onSuccess(List<Status> statuses) {
+                        insertTweets(getContentResolver(), statuses);
+                        sendHashTagTweetsBroadcast(SUCCESS);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        sendHashTagTweetsBroadcast(ERROR);
+                    }
+                });
+                break;
+
             case TYPE_GET_PLAYERS:
                 service.getPlayers(intent.getIntExtra(TEAM_ID, -1), new Callback<List<Player>>() {
                     @Override
                     public void success(List<Player> players, Response response) {
                         updatePlayers(getContentResolver(), players);
+
                     }
 
                     @Override
@@ -185,6 +203,12 @@ public class ApiService extends IntentService {
         context.startService(intent);
     }
 
+    public static void getLCSTweets(Context context){
+        Intent intent = new Intent(context, ApiService.class);
+        intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_TWEETS_LCS);
+        context.startService(intent);
+    }
+
     public static void getPlayers(Context context, int teamId){
         Intent intent = new Intent(context, ApiService.class);
         intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_PLAYERS);
@@ -220,6 +244,10 @@ public class ApiService extends IntentService {
         contentResolver.delete(MatchesColumns.CONTENT_URI, null, null);
         ContentValues[] matchesCV = MatchesContentValues.getContentValues(initalConfig.getMatches());
         contentResolver.bulkInsert(MatchesColumns.CONTENT_URI, matchesCV);
+
+        contentResolver.delete(PlayersColumns.CONTENT_URI, null, null);
+        ContentValues[] playersCV = PlayersContentValues.getContentValues(initalConfig.getPlayers());
+        contentResolver.bulkInsert(PlayersColumns.CONTENT_URI, playersCV);
     }
 
     public static void updateLatestStandings(ContentResolver contentResolver, Standings standings) {
@@ -236,6 +264,17 @@ public class ApiService extends IntentService {
         contentResolver.delete(TweetsColumns.CONTENT_URI, where.sel(), where.args());
         ContentValues[] tweetsValues = TweetsContentValues.getContentValues(TweetsModel.getList(statuses));
         contentResolver.bulkInsert(TweetsColumns.CONTENT_URI, tweetsValues);
+    }
+
+    private void insertTweets(ContentResolver contentResolver, List<Status> statuses) {
+        ContentValues[] tweetsValues = TweetsContentValues.getContentValues(TweetsModel.getList(statuses));
+        contentResolver.bulkInsert(TweetsColumns.CONTENT_URI, tweetsValues);
+    }
+
+    public static void deleteHashTagTweets(ContentResolver contentResolver){
+        TweetsSelection where = new TweetsSelection();
+        where.textLike("%" + ApiService.HASH_TAG_LCS + "%");
+        contentResolver.delete(TweetsColumns.CONTENT_URI, where.sel(), where.args());
     }
 
     private void updatePlayers(ContentResolver contentResolver, List<Player> players) {
@@ -260,6 +299,13 @@ public class ApiService extends IntentService {
     private void sendNewsBroadcast(int status){
         Intent intent = new Intent(BROADCAST);
         intent.putExtra(API_TYPE, TYPE_NEWS);
+        intent.putExtra(STATUS, status);
+        broadcast.sendBroadcast(intent);
+    }
+
+    private void sendHashTagTweetsBroadcast(int status) {
+        Intent intent = new Intent(BROADCAST);
+        intent.putExtra(API_TYPE, TYPE_GET_TWEETS_LCS);
         intent.putExtra(STATUS, status);
         broadcast.sendBroadcast(intent);
     }

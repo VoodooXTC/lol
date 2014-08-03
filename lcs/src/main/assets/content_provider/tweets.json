@@ -5,6 +5,10 @@
 			"type" : "String"
 		},
 		{
+		    "name" : "tweet_id",
+		    "type" : "Long"
+		},
+		{
             "name" : "created_at",
             "type" : "Long"
         },
@@ -28,5 +32,12 @@
             "name" : "text",
             "type" : "String"
         }
-	]
+	],
+
+    "constraints" : [
+        {
+            "name" : "tweet_id",
+            "definition" : "unique (tweet_id) on conflict replace"
+        }
+    ]
 }

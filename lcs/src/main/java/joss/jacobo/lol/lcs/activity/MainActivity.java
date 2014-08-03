@@ -3,6 +3,7 @@ package joss.jacobo.lol.lcs.activity;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -91,6 +92,16 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         ApiService.getInitialConfig(this);
 
         getLoaderManager().initLoader(TOURNAMENT_CALLBACK, null, new TournamentCallBack());
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(currentFrag != R.id.fragment_overview) {
+            selectFragment(R.id.fragment_overview, 4);
+            return;
+        }
+
+        super.onBackPressed();
     }
 
     @Override
@@ -186,7 +197,6 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         if(teams != null && teams.size() > 0){
             items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "Teams"));
             items.addAll(teams);
-
         }
 
         return items;
@@ -209,6 +219,21 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                 adapter.setHint(-1);
             }
 
+        }
+    }
+
+    /**
+     * Team Selected from a fragment
+     * @param teamId - Team Id
+     */
+    @Override
+    public void teamSelected(int teamId) {
+        for(int i = 0; i < adapter.items.size(); i++){
+            DrawerItem drawerItem = adapter.items.get(i);
+            if(drawerItem.type == DrawerItem.TYPE_TEAM && drawerItem.teamId == teamId){
+                selectFragment(R.id.fragment_team, i);
+                break;
+            }
         }
     }
 
@@ -297,7 +322,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
 
                 switch (clicked.type){
                     case DrawerItem.TYPE_LIVESTREAM:
-
+                        selectFragment(R.id.fragment_livestream, position - 1);
                         break;
 
                     case DrawerItem.TYPE_LIVETICKER:
@@ -340,8 +365,10 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         if (nextFrag != currentFrag || nextFrag == R.id.fragment_team) {
             switch (nextFrag) {
                 case R.id.fragment_livestream:
-                    currentFrag = R.id.fragment_livestream;
-                    break;
+                    Intent i = new Intent(this, LiveStreamingActivity.class);
+                    startActivity(i);
+                    closeDrawer();
+                    return;
                 case R.id.fragment_liveticker:
                     currentFrag = R.id.fragment_liveticker;
                     break;
@@ -378,6 +405,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
 
                     return;
             }
+            currentTeam = 0;
             adapter.setHint(position);
             replaceFragment(null);
         } else {
@@ -413,7 +441,6 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         ft.commit();
         closeDrawer();
     }
-
 
     public void closeDrawer() {
         if (mDrawerLayout.isShown()) {

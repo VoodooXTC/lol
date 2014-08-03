@@ -36,7 +36,7 @@ public class TeamsFragment extends BaseFragment {
     @InjectView(R.id.teams_page_strip)
     PagerTitleStrip pagerTitleStrip;
 
-    String[] titles = {"About", "Roster", "Overview", "Statistics", "Replays"};
+    String[] titles = {"About", "Roster", "Social", "Statistics", "Replays"};
     int teamId;
     TeamsModel team;
 
@@ -101,7 +101,7 @@ public class TeamsFragment extends BaseFragment {
         TeamRosterFragment roster = new TeamRosterFragment();
         roster.setArguments(arguments);
 
-        TeamOverviewFragment overview = new TeamOverviewFragment();
+        TeamSocialFragment overview = new TeamSocialFragment();
         overview.setArguments(arguments);
 
         fragments.add(about);

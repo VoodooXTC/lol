@@ -13,7 +13,7 @@ import joss.jacobo.lol.lcs.interfaces.BaseFragmentListener;
 import joss.jacobo.lol.lcs.views.ActionBarCustomTitle;
 
 /**
- * Created by jossayjacobo on 7/20/14.
+ * Created by jossayjacobo on 7/20/14
  */
 public class BaseActivity extends ActionBarActivity implements BaseFragmentListener{
 
@@ -67,5 +67,10 @@ public class BaseActivity extends ActionBarActivity implements BaseFragmentListe
         }else{
             customTitle.showSubtitle();
         }
+    }
+
+    @Override
+    public void teamSelected(int teamId) {
+
     }
 }

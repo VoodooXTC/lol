@@ -21,7 +21,7 @@ public class TweetsContentValues extends AbstractContentValues {
 
     /**
      * Update row(s) using the values stored by this object and the given selection.
-     * 
+     *
      * @param contentResolver The content resolver to use.
      * @param where The selection to use (can be {@code null}).
      */
@@ -36,6 +36,17 @@ public class TweetsContentValues extends AbstractContentValues {
 
     public TweetsContentValues putTwitterHandleNull() {
         mContentValues.putNull(TweetsColumns.TWITTER_HANDLE);
+        return this;
+    }
+
+
+    public TweetsContentValues putTweetId(Long value) {
+        mContentValues.put(TweetsColumns.TWEET_ID, value);
+        return this;
+    }
+
+    public TweetsContentValues putTweetIdNull() {
+        mContentValues.putNull(TweetsColumns.TWEET_ID);
         return this;
     }
 
@@ -117,6 +128,7 @@ public class TweetsContentValues extends AbstractContentValues {
     public static ContentValues getSingleContentValue(TweetsModel item){
         TweetsContentValues values = new TweetsContentValues();
         values.putTwitterHandle(item.twitterHandle);
+        values.putTweetId(item.tweetId);
         values.putCreatedAt(item.createdAt);
         values.putUserDescription(item.userDescription);
         values.putUserName(item.userName);

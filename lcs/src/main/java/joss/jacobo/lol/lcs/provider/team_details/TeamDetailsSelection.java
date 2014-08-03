@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 
+import joss.jacobo.lol.lcs.model.TeamDetailsModel;
 import joss.jacobo.lol.lcs.provider.base.AbstractSelection;
 
 /**
@@ -145,6 +146,16 @@ public class TeamDetailsSelection extends AbstractSelection<TeamDetailsSelection
     public TeamDetailsSelection twitterHandleNot(String... value) {
         addNotEquals(TeamDetailsColumns.TWITTER_HANDLE, value);
         return this;
+    }
+
+    public static TeamDetailsModel getTeamDetails(ContentResolver contentResolver, Integer teamId) {
+        TeamDetailsSelection where = new TeamDetailsSelection();
+        where.teamId(teamId);
+        TeamDetailsCursor cursor = where.query(contentResolver);
+        if(cursor.moveToFirst()){
+            return new TeamDetailsModel(cursor);
+        }
+        return null;
     }
 
 }

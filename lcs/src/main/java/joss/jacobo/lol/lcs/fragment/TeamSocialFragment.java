@@ -5,30 +5,26 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import com.google.gson.Gson;
 
 import java.util.List;
 
+import joss.jacobo.lol.lcs.adapters.TweetsAdapter;
 import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.model.TeamDetailsModel;
 import joss.jacobo.lol.lcs.model.TeamsModel;
 import joss.jacobo.lol.lcs.model.TweetsModel;
-import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsCursor;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsColumns;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsCursor;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsSelection;
-import joss.jacobo.lol.lcs.views.TweetItem;
 
 /**
  * Created by Joss on 7/27/2014
  */
-public class TeamOverviewFragment extends BaseListFragment {
+public class TeamSocialFragment extends BaseListFragment {
 
     private static final int TWEETS_CALLBACK = 0;
 
@@ -42,7 +38,7 @@ public class TeamOverviewFragment extends BaseListFragment {
         super.onCreate(savedInstanceState);
         Gson gson = new Gson();
         team = gson.fromJson(getArguments().getString(TeamsFragment.TEAM), TeamsModel.class);
-        teamDetail = getTeamDetails(team.teamId);
+        teamDetail = TeamDetailsSelection.getTeamDetails(getActivity().getContentResolver(), team.teamId);
     }
 
     @Override
@@ -50,53 +46,11 @@ public class TeamOverviewFragment extends BaseListFragment {
         super.onViewCreated(view, savedState);
         setupListView();
         showLoading();
-        adapter = new TweetsAdapter(null);
+        adapter = new TweetsAdapter(getActivity(), null);
         setAdapter(adapter);
 
         getLoaderManager().initLoader(TWEETS_CALLBACK, null, new TweetsCallBack());
         ApiService.getTweets(getActivity(), teamDetail.twitterHandle);
-    }
-
-    public class TweetsAdapter extends BaseAdapter {
-
-        public List<TweetsModel> items;
-
-        public TweetsAdapter(List<TweetsModel>items){
-            this.items = items;
-        }
-
-        public void setItems(List<TweetsModel> newItems) {
-            this.items = newItems;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return items == null ? 0 : items.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return items.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            TweetsModel tweet = items.get(position);
-
-            TweetItem tweetItem = convertView == null
-                    ? new TweetItem(getActivity())
-                    : (TweetItem) convertView;
-            tweetItem.setContent(tweet);
-
-            return tweetItem;
-        }
     }
 
     private class TweetsCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -123,15 +77,5 @@ public class TeamOverviewFragment extends BaseListFragment {
         public void onLoaderReset(Loader<Cursor> loader) {
 
         }
-    }
-
-    private TeamDetailsModel getTeamDetails(Integer teamId) {
-        TeamDetailsSelection where = new TeamDetailsSelection();
-        where.teamId(teamId);
-        TeamDetailsCursor cursor = where.query(getActivity().getContentResolver());
-        if(cursor.moveToFirst()){
-            return new TeamDetailsModel(cursor);
-        }
-        return null;
     }
 }

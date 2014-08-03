@@ -9,12 +9,14 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import joss.jacobo.lol.lcs.api.ApiService;
+import joss.jacobo.lol.lcs.api.model.TeamDetail;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.OverviewItem;
 import joss.jacobo.lol.lcs.items.StandingsItem;
@@ -25,6 +27,8 @@ import joss.jacobo.lol.lcs.provider.matches.MatchesSelection;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsCursor;
 import joss.jacobo.lol.lcs.provider.standings.StandingsSelection;
+import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsCursor;
+import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsSelection;
 import joss.jacobo.lol.lcs.views.OverviewMatchDetailsItem;
 import joss.jacobo.lol.lcs.views.OverviewSectionTitle;
@@ -183,6 +187,25 @@ public class OverviewFragment extends BaseListFragment {
             }
 
             return convertView;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        OverviewItem item = adapter.items.get(position);
+        switch (item.type){
+            case OverviewItem.TYPE_STANDINGS:
+                StandingsItem standingsItem = (StandingsItem) item;
+
+                TeamDetailsSelection where = new TeamDetailsSelection();
+                where.abrev(standingsItem.teamAbrev);
+                TeamDetailsCursor cursor = where.query(getActivity().getContentResolver());
+
+                if(cursor.moveToFirst()){
+                    listener.teamSelected(cursor.getTeamId());
+                }
+
+                break;
         }
     }
 

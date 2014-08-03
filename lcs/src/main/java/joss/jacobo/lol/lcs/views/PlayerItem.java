@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.api.model.Players.Player;
 import joss.jacobo.lol.lcs.model.PlayersModel;
 
 /**
@@ -48,9 +49,14 @@ public class PlayerItem extends LinearLayout {
     }
 
     public void setContent(PlayersModel player){
-        Picasso.with(context).load(player.image).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(teamLogo);
-        name.setText(player.name);
+        Picasso.with(context).load(player.teamLogoUrl).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(teamLogo);
         position.setText(player.playerPosition);
         divider.setVisibility(player.showDivider ? View.VISIBLE : View.INVISIBLE);
+
+        String displayName = player.irlFirstName + " \"" + player.name + "\" " + player.irlLastName;
+        if(player.irlFirstName == null || player.irlLastName == null)
+            displayName = displayName.replace("\"", "").trim();
+
+        name.setText(displayName);
     }
 }

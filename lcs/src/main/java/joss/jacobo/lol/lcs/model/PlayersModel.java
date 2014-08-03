@@ -17,6 +17,7 @@ public class PlayersModel{
     public String titleFirstWord;
     public String titleSecondWord;
     public boolean showDivider = true;
+    public String teamLogoUrl;
 
     public Integer playerId;
     public String name;

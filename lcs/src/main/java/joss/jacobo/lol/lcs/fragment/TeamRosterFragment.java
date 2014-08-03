@@ -1,5 +1,6 @@
 package joss.jacobo.lol.lcs.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -7,6 +8,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.google.gson.Gson;
@@ -14,13 +16,18 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import joss.jacobo.lol.lcs.activity.PlayerDetailsActivity;
 import joss.jacobo.lol.lcs.api.ApiService;
+import joss.jacobo.lol.lcs.api.model.Players.Player;
+import joss.jacobo.lol.lcs.api.model.TeamDetail;
 import joss.jacobo.lol.lcs.items.OverviewItem;
 import joss.jacobo.lol.lcs.model.PlayersModel;
+import joss.jacobo.lol.lcs.model.TeamDetailsModel;
 import joss.jacobo.lol.lcs.model.TeamsModel;
 import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersCursor;
 import joss.jacobo.lol.lcs.provider.players.PlayersSelection;
+import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
 import joss.jacobo.lol.lcs.views.OverviewSectionTitle;
 import joss.jacobo.lol.lcs.views.PlayerItem;
 
@@ -31,15 +38,19 @@ public class TeamRosterFragment extends BaseListFragment {
 
     private static final int PLAYER_CALLBACK = 123;
 
+    Gson gson;
+
     List<PlayersModel> players;
     TeamsModel team;
+    TeamDetailsModel teamDetail;
     PlayersAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Gson gson = new Gson();
+        gson = new Gson();
         team = gson.fromJson(getArguments().getString(TeamsFragment.TEAM), TeamsModel.class);
+        teamDetail = TeamDetailsSelection.getTeamDetails(getActivity().getContentResolver(), team.teamId);
     }
 
     @Override
@@ -51,7 +62,17 @@ public class TeamRosterFragment extends BaseListFragment {
         setAdapter(adapter);
 
         getLoaderManager().initLoader(PLAYER_CALLBACK, null, new PlayersCallBack());
-        ApiService.getPlayers(getActivity(), team.teamId);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        PlayersModel player = adapter.items.get(position);
+        if(player.type == PlayersModel.TYPE_PLAYER){
+            Intent i = new Intent(getActivity(), PlayerDetailsActivity.class);
+            i.putExtra(PlayerDetailsActivity.PLAYER, gson.toJson(player));
+            i.putExtra(PlayerDetailsActivity.TEAM_DETAILS, gson.toJson(teamDetail));
+            startActivity(i);
+        }
     }
 
     public class PlayersAdapter extends BaseAdapter {
@@ -132,6 +153,10 @@ public class TeamRosterFragment extends BaseListFragment {
             if(data != null){
                 PlayersCursor cursor = new PlayersCursor(data);
                 players = cursor.getList();
+
+                for(PlayersModel player : players)
+                    player.teamLogoUrl = teamDetail.logo;
+
                 adapter.setItems(getItems());
                 showContent();
             }

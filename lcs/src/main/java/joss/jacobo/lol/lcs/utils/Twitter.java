@@ -1,5 +1,8 @@
 package joss.jacobo.lol.lcs.utils;
 
+import java.util.List;
+
+import twitter4j.Query;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -7,7 +10,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
- * Created by Joss on 7/26/2014.
+ * Created by Joss on 7/26/2014
  */
 public class Twitter {
 
@@ -46,8 +49,43 @@ public class Twitter {
         callback.onError("An Error Occurred");
     }
 
+    public static void getLCSTweets(TwitterHashTagCallback callback){
+
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.setDebugEnabled(true)
+                .setOAuthConsumerKey(CONSUMER_KEY)
+                .setOAuthConsumerSecret(CONSUMER_SECRET)
+                .setOAuthAccessToken(ACCESS_TOKEN)
+                .setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+
+        TwitterFactory twitterFactory = new TwitterFactory(configurationBuilder.build());
+        twitter4j.Twitter twitter = twitterFactory.getInstance();
+
+        try {
+            List<Status> statuses = twitter.search().search(new Query("#LCS")).getTweets();
+
+            if(statuses != null && statuses.size() > 0) {
+                callback.onSuccess(statuses);
+                return;
+            }else{
+                callback.onError("No Tweets Found");
+                return;
+            }
+
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+
+        callback.onError("An Error Occurred");
+    }
+
     public interface TwitterCallback{
         void onSuccess(ResponseList<Status> statuses);
+        void onError(String errorMessage);
+    }
+
+    public interface TwitterHashTagCallback{
+        void onSuccess(List<Status> statuses);
         void onError(String errorMessage);
     }
 }

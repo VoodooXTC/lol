@@ -116,7 +116,7 @@ public class NewsFragment extends BaseListFragment {
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             NewsCursor blogPosts = new NewsCursor(data);
             List<NewsModel> news = blogPosts.getList();
-            if(news != null){
+            if(news != null && news.size() > 0){
                 adapter.setNewNewses(news);
                 showContent();
             }
@@ -183,6 +183,7 @@ public class NewsFragment extends BaseListFragment {
                             fetching = false;
                             break;
                         case ApiService.ERROR:
+                            showContent();
                             removeLoadingItem();
                             fetching = true;
                             break;

@@ -6,7 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:background="@drawable/list_item_selector"
+    >
 
     <ImageView
         android:id="@+id/item_player_team_logo"
@@ -15,6 +18,7 @@
         android:contentDescription="@string/image_description_team_logo"
         android:layout_centerInParent="true"
         android:layout_alignParentLeft="true"
+        android:layout_margin="8dp"
         tools:src="@drawable/ic_launcher"
         />
 
@@ -34,7 +38,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:paddingRight="4dp"
-            android:textSize="20sp"
+            android:textSize="@dimen/team_player_title"
             oak:oakFont="@string/font_roboto_medium_condensed"
             tools:text="Doublelift"
             tools:background="@color/main_bg_color"
@@ -44,9 +48,9 @@
             android:id="@+id/item_player_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/grey"
             android:paddingRight="4dp"
-            android:textSize="16sp"
+            android:textSize="@dimen/team_player_role"
             oak:oakFont="@string/font_roboto_medium_condensed"
             tools:text="ADC"
             tools:background="@color/main_bg_color"
@@ -59,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/white"
-        android:layout_below="@id/item_player_content_container"
+        android:layout_alignParentBottom="true"
         />
 
 </RelativeLayout>

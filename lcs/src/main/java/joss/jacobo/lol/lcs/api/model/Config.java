@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 import joss.jacobo.lol.lcs.model.MatchesModel;
+import joss.jacobo.lol.lcs.model.PlayersModel;
 import joss.jacobo.lol.lcs.model.TeamDetailsModel;
 import joss.jacobo.lol.lcs.model.TeamsModel;
 import joss.jacobo.lol.lcs.model.TournamentsModel;
@@ -57,5 +58,13 @@ public class Config {
             matchesModels.add(new MatchesModel(match));
         }
         return matchesModels;
+    }
+
+    public List<PlayersModel> getPlayers() {
+        List<PlayersModel> playersModels = new ArrayList<PlayersModel>();
+        for(Team team : teams){
+            playersModels.addAll(team.getPlayersList());
+        }
+        return playersModels;
     }
 }

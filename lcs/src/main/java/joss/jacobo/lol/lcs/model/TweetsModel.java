@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class TweetsModel{
     public String twitterHandle;
+    public Long tweetId;
     public Long createdAt;
     public String userDescription;
     public String userName;
@@ -25,6 +26,7 @@ public class TweetsModel{
 
     public TweetsModel(TweetsCursor cursor){
         this.twitterHandle = cursor.getTwitterHandle();
+        this.tweetId = cursor.getTweetId();
         this.createdAt = cursor.getCreatedAt();
         this.userDescription = cursor.getUserDescription();
         this.userName = cursor.getUserName();
@@ -35,6 +37,7 @@ public class TweetsModel{
 
     public TweetsModel(Status status) {
         this.twitterHandle = status.getUser().getScreenName();
+        this.tweetId = status.getId();
         this.createdAt = status.getCreatedAt().getTime();
         this.userDescription = status.getUser().getDescription();
         this.userName = status.getUser().getName();
@@ -44,6 +47,14 @@ public class TweetsModel{
     }
 
     public static List<TweetsModel> getList(ResponseList<Status> statuses) {
+        List<TweetsModel> items = new ArrayList<TweetsModel>();
+        for(Status status : statuses){
+            items.add(new TweetsModel(status));
+        }
+        return items;
+    }
+
+    public static List<TweetsModel> getList(List<Status> statuses) {
         List<TweetsModel> items = new ArrayList<TweetsModel>();
         for(Status status : statuses){
             items.add(new TweetsModel(status));

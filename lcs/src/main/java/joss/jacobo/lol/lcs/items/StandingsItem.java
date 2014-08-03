@@ -3,7 +3,7 @@ package joss.jacobo.lol.lcs.items;
 import joss.jacobo.lol.lcs.provider.standings.StandingsCursor;
 
 /**
- * Created by Joss on 7/22/2014.
+ * Created by Joss on 7/22/2014
  */
 public class StandingsItem extends OverviewItem {
 

@@ -136,12 +136,14 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + TweetsColumns.TABLE_NAME + " ( "
             + TweetsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + TweetsColumns.TWITTER_HANDLE + " TEXT, "
+            + TweetsColumns.TWEET_ID + " INTEGER, "
             + TweetsColumns.CREATED_AT + " INTEGER, "
             + TweetsColumns.USER_DESCRIPTION + " TEXT, "
             + TweetsColumns.USER_NAME + " TEXT, "
             + TweetsColumns.USER_IMAGE_URL + " TEXT, "
             + TweetsColumns.SCREEN_NAME + " TEXT, "
             + TweetsColumns.TEXT + " TEXT "
+            + ", CONSTRAINT TWEET_ID UNIQUE (TWEET_ID) ON CONFLICT REPLACE"
             + " );";
 
     // @formatter:on

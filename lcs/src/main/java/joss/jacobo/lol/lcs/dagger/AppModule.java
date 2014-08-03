@@ -14,8 +14,10 @@ import dagger.Provides;
 import joss.jacobo.lol.lcs.Datastore;
 import joss.jacobo.lol.lcs.MainApp;
 import joss.jacobo.lol.lcs.activity.BaseActivity;
+import joss.jacobo.lol.lcs.activity.LiveStreamingActivity;
 import joss.jacobo.lol.lcs.activity.MainActivity;
 import joss.jacobo.lol.lcs.activity.NewsDetailsActivity;
+import joss.jacobo.lol.lcs.activity.PlayerDetailsActivity;
 import joss.jacobo.lol.lcs.fragment.BaseFragment;
 import joss.jacobo.lol.lcs.fragment.BaseListFragment;
 import joss.jacobo.lol.lcs.fragment.NewsFragment;
@@ -23,7 +25,7 @@ import joss.jacobo.lol.lcs.fragment.OverviewFragment;
 import joss.jacobo.lol.lcs.fragment.ScheduleFragment;
 import joss.jacobo.lol.lcs.fragment.StandingsFragment;
 import joss.jacobo.lol.lcs.fragment.TeamAboutFragment;
-import joss.jacobo.lol.lcs.fragment.TeamOverviewFragment;
+import joss.jacobo.lol.lcs.fragment.TeamSocialFragment;
 import joss.jacobo.lol.lcs.fragment.TeamRosterFragment;
 import joss.jacobo.lol.lcs.fragment.TeamsFragment;
 import joss.jacobo.lol.lcs.views.DrawerHeader;
@@ -35,6 +37,7 @@ import joss.jacobo.lol.lcs.views.DrawerHeader;
                 BaseActivity.class,
                 MainActivity.class,
                 NewsDetailsActivity.class,
+                PlayerDetailsActivity.class,
 
                 BaseFragment.class,
                 BaseListFragment.class,
@@ -43,9 +46,11 @@ import joss.jacobo.lol.lcs.views.DrawerHeader;
                 StandingsFragment.class,
                 TeamsFragment.class,
                 TeamAboutFragment.class,
-                TeamOverviewFragment.class,
+                TeamSocialFragment.class,
                 TeamRosterFragment.class,
+                TeamAboutFragment.class,
                 NewsFragment.class,
+                LiveStreamingActivity.class,
 
                 DrawerHeader.class
 
