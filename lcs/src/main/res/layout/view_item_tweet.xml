@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toRightOf="@id/tweet_item_avatar"
-            android:layout_toLeftOf="@+id/tweet_item_twitter_icon"
+            android:layout_toLeftOf="@+id/tweet_time_container"
             android:layout_alignParentTop="true"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
@@ -59,14 +59,34 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/tweet_item_twitter_icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/image_description_twitter_icon"
-            android:src="@drawable/twitter_icon"
+        <LinearLayout
+            android:id="@+id/tweet_time_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            />
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/tweet_item_twitter_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/image_description_twitter_icon"
+                android:src="@drawable/twitter_icon"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/tweet_item_created_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:textSize="14sp"
+                tools:text="54s ago"
+                oak:oakFont="@string/font_roboto_thin"
+                />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -79,17 +99,6 @@
         android:padding="8dp"
         tools:text="C9 Dota 2 falls out of the tournament after an admirable run at #TI4. Thanks to all the fans, we couldn't have done it without your support!"
         oak:oakFont="@string/font_roboto_regular"
-        />
-
-    <oak.widget.TextViewWithFont
-        android:id="@+id/tweet_item_created_at"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/grey"
-        android:textSize="14sp"
-        android:padding="8dp"
-        tools:text="5:24 PM 27 Jul 14"
-        oak:oakFont="@string/font_roboto_thin"
         />
 
     <View
