@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -80,6 +81,7 @@ public class NewsDetailsActivity extends BaseActivity {
     private void setupWebView() {
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
     }
 
     private void setWebViewContent() {
