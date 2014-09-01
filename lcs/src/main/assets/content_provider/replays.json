@@ -1,0 +1,91 @@
+{
+	"fields": [
+	    {
+            "name" : "kind",
+            "type" : "String"
+        },
+		{
+			"name" : "etag",
+			"type" : "String"
+		},
+		{
+            "name" : "youtube_id",
+            "type" : "String"
+        },
+        {
+            "name" : "published_at",
+            "type" : "String"
+        },
+        {
+            "name" : "channel_id",
+            "type" : "String"
+        },
+        {
+            "name" : "title",
+            "type" : "String"
+        },
+        {
+            "name" : "description",
+            "type" : "String"
+        },
+        {
+            "name" : "thumbnails",
+            "type" : "String"
+        },
+        {
+            "name" : "channel_title",
+            "type" : "String"
+        },
+        {
+            "name" : "type",
+            "type" : "String"
+        },
+        {
+            "name" : "duration",
+            "type" : "String"
+        },
+        {
+            "name" : "dimension",
+            "type" : "String"
+        },
+        {
+            "name" : "definition",
+            "type" : "String"
+        },
+        {
+            "name" : "caption",
+            "type" : "String"
+        },
+        {
+            "name" : "licensedContent",
+            "type" : "Boolean"
+        },
+        {
+            "name" : "viewCount",
+            "type" : "Integer"
+        },
+        {
+            "name" : "likeCount",
+            "type" : "Integer"
+        },
+        {
+            "name" : "dislikeCount",
+            "type" : "Integer"
+        },
+        {
+            "name" : "favoriteCount",
+            "type" : "Integer"
+        },
+        {
+            "name" : "commentCount",
+            "type" : "Integer"
+        }
+	],
+
+     "constraints" : [
+         {
+             "name" : "unique_youtube_id",
+             "definition" : "unique (youtube_id) on conflict replace"
+         }
+     ]
+}

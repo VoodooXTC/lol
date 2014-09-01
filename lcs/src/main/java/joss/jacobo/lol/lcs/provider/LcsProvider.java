@@ -19,6 +19,7 @@ import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
 import joss.jacobo.lol.lcs.provider.news.NewsColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
+import joss.jacobo.lol.lcs.provider.replays.ReplaysColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
 import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsColumns;
@@ -46,20 +47,23 @@ public class LcsProvider extends ContentProvider {
     private static final int URI_TYPE_PLAYERS = 4;
     private static final int URI_TYPE_PLAYERS_ID = 5;
 
-    private static final int URI_TYPE_STANDINGS = 6;
-    private static final int URI_TYPE_STANDINGS_ID = 7;
+    private static final int URI_TYPE_REPLAYS = 6;
+    private static final int URI_TYPE_REPLAYS_ID = 7;
 
-    private static final int URI_TYPE_TEAMS = 8;
-    private static final int URI_TYPE_TEAMS_ID = 9;
+    private static final int URI_TYPE_STANDINGS = 8;
+    private static final int URI_TYPE_STANDINGS_ID = 9;
 
-    private static final int URI_TYPE_TEAM_DETAILS = 10;
-    private static final int URI_TYPE_TEAM_DETAILS_ID = 11;
+    private static final int URI_TYPE_TEAMS = 10;
+    private static final int URI_TYPE_TEAMS_ID = 11;
 
-    private static final int URI_TYPE_TOURNAMENTS = 12;
-    private static final int URI_TYPE_TOURNAMENTS_ID = 13;
+    private static final int URI_TYPE_TEAM_DETAILS = 12;
+    private static final int URI_TYPE_TEAM_DETAILS_ID = 13;
 
-    private static final int URI_TYPE_TWEETS = 14;
-    private static final int URI_TYPE_TWEETS_ID = 15;
+    private static final int URI_TYPE_TOURNAMENTS = 14;
+    private static final int URI_TYPE_TOURNAMENTS_ID = 15;
+
+    private static final int URI_TYPE_TWEETS = 16;
+    private static final int URI_TYPE_TWEETS_ID = 17;
 
 
 
@@ -72,6 +76,8 @@ public class LcsProvider extends ContentProvider {
         URI_MATCHER.addURI(AUTHORITY, NewsColumns.TABLE_NAME + "/#", URI_TYPE_NEWS_ID);
         URI_MATCHER.addURI(AUTHORITY, PlayersColumns.TABLE_NAME, URI_TYPE_PLAYERS);
         URI_MATCHER.addURI(AUTHORITY, PlayersColumns.TABLE_NAME + "/#", URI_TYPE_PLAYERS_ID);
+        URI_MATCHER.addURI(AUTHORITY, ReplaysColumns.TABLE_NAME, URI_TYPE_REPLAYS);
+        URI_MATCHER.addURI(AUTHORITY, ReplaysColumns.TABLE_NAME + "/#", URI_TYPE_REPLAYS_ID);
         URI_MATCHER.addURI(AUTHORITY, StandingsColumns.TABLE_NAME, URI_TYPE_STANDINGS);
         URI_MATCHER.addURI(AUTHORITY, StandingsColumns.TABLE_NAME + "/#", URI_TYPE_STANDINGS_ID);
         URI_MATCHER.addURI(AUTHORITY, TeamsColumns.TABLE_NAME, URI_TYPE_TEAMS);
@@ -110,6 +116,11 @@ public class LcsProvider extends ContentProvider {
                 return TYPE_CURSOR_DIR + PlayersColumns.TABLE_NAME;
             case URI_TYPE_PLAYERS_ID:
                 return TYPE_CURSOR_ITEM + PlayersColumns.TABLE_NAME;
+
+            case URI_TYPE_REPLAYS:
+                return TYPE_CURSOR_DIR + ReplaysColumns.TABLE_NAME;
+            case URI_TYPE_REPLAYS_ID:
+                return TYPE_CURSOR_ITEM + ReplaysColumns.TABLE_NAME;
 
             case URI_TYPE_STANDINGS:
                 return TYPE_CURSOR_DIR + StandingsColumns.TABLE_NAME;
@@ -268,6 +279,12 @@ public class LcsProvider extends ContentProvider {
                 res.orderBy = PlayersColumns.DEFAULT_ORDER;
                 break;
 
+            case URI_TYPE_REPLAYS:
+            case URI_TYPE_REPLAYS_ID:
+                res.table = ReplaysColumns.TABLE_NAME;
+                res.orderBy = ReplaysColumns.DEFAULT_ORDER;
+                break;
+
             case URI_TYPE_STANDINGS:
             case URI_TYPE_STANDINGS_ID:
                 res.table = StandingsColumns.TABLE_NAME;
@@ -306,6 +323,7 @@ public class LcsProvider extends ContentProvider {
             case URI_TYPE_MATCHES_ID:
             case URI_TYPE_NEWS_ID:
             case URI_TYPE_PLAYERS_ID:
+            case URI_TYPE_REPLAYS_ID:
             case URI_TYPE_STANDINGS_ID:
             case URI_TYPE_TEAMS_ID:
             case URI_TYPE_TEAM_DETAILS_ID:

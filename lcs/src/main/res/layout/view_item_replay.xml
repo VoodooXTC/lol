@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    tools:background="@color/black">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
+
+        <RelativeLayout
+            android:layout_width="150dp"
+            android:layout_height="100dp">
+
+            <ImageView
+                android:id="@+id/replay_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/replay_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:background="#80000000"
+                android:textSize="16sp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                tools:text="01:09:09"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/replay_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:paddingBottom="4dp"
+                android:textSize="16sp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                tools:text="Tool - Vicarious (Lyrics and Meaning)"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/replay_channel_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                tools:text="Theory of a Deadman"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/replay_published_and_views"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                tools:text="4 years ago · 1,700,800 views"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/replay_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>

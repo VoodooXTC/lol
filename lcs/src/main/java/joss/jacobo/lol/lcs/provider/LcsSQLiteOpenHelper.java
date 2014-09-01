@@ -14,6 +14,7 @@ import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
 import joss.jacobo.lol.lcs.provider.news.NewsColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
+import joss.jacobo.lol.lcs.provider.replays.ReplaysColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
 import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsColumns;
@@ -82,6 +83,32 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + PlayersColumns.TWITTER_USERNAME + " TEXT, "
             + PlayersColumns.STREAMING_LINK + " TEXT "
             + ", CONSTRAINT PLAYER_ID UNIQUE (PLAYER_ID) ON CONFLICT REPLACE"
+            + " );";
+
+    private static final String SQL_CREATE_TABLE_REPLAYS = "CREATE TABLE IF NOT EXISTS "
+            + ReplaysColumns.TABLE_NAME + " ( "
+            + ReplaysColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ReplaysColumns.KIND + " TEXT, "
+            + ReplaysColumns.ETAG + " TEXT, "
+            + ReplaysColumns.YOUTUBE_ID + " TEXT, "
+            + ReplaysColumns.PUBLISHED_AT + " TEXT, "
+            + ReplaysColumns.CHANNEL_ID + " TEXT, "
+            + ReplaysColumns.TITLE + " TEXT, "
+            + ReplaysColumns.DESCRIPTION + " TEXT, "
+            + ReplaysColumns.THUMBNAILS + " TEXT, "
+            + ReplaysColumns.CHANNEL_TITLE + " TEXT, "
+            + ReplaysColumns.TYPE + " TEXT, "
+            + ReplaysColumns.DURATION + " TEXT, "
+            + ReplaysColumns.DIMENSION + " TEXT, "
+            + ReplaysColumns.DEFINITION + " TEXT, "
+            + ReplaysColumns.CAPTION + " TEXT, "
+            + ReplaysColumns.LICENSEDCONTENT + " INTEGER, "
+            + ReplaysColumns.VIEWCOUNT + " INTEGER, "
+            + ReplaysColumns.LIKECOUNT + " INTEGER, "
+            + ReplaysColumns.DISLIKECOUNT + " INTEGER, "
+            + ReplaysColumns.FAVORITECOUNT + " INTEGER, "
+            + ReplaysColumns.COMMENTCOUNT + " INTEGER "
+            + ", CONSTRAINT UNIQUE_YOUTUBE_ID UNIQUE (YOUTUBE_ID) ON CONFLICT REPLACE"
             + " );";
 
     private static final String SQL_CREATE_TABLE_STANDINGS = "CREATE TABLE IF NOT EXISTS "
@@ -191,6 +218,7 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_MATCHES);
         db.execSQL(SQL_CREATE_TABLE_NEWS);
         db.execSQL(SQL_CREATE_TABLE_PLAYERS);
+        db.execSQL(SQL_CREATE_TABLE_REPLAYS);
         db.execSQL(SQL_CREATE_TABLE_STANDINGS);
         db.execSQL(SQL_CREATE_TABLE_TEAMS);
         db.execSQL(SQL_CREATE_TABLE_TEAM_DETAILS);

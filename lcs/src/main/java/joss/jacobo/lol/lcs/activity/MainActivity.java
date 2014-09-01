@@ -29,6 +29,7 @@ import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.fragment.NewsFragment;
 import joss.jacobo.lol.lcs.fragment.OverviewFragment;
+import joss.jacobo.lol.lcs.fragment.ReplaysFragment;
 import joss.jacobo.lol.lcs.fragment.ScheduleFragment;
 import joss.jacobo.lol.lcs.fragment.StandingsFragment;
 import joss.jacobo.lol.lcs.fragment.TeamsFragment;
@@ -183,9 +184,10 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
     private List<DrawerItem> getDrawerItems() {
         List<DrawerItem> items = new ArrayList<DrawerItem>();
 
-        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "LIVE"));
+        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "MEDIA"));
         items.add(new DrawerItem(DrawerItem.TYPE_LIVESTREAM, 0, "Livesteam"));
         items.add(new DrawerItem(DrawerItem.TYPE_LIVETICKER, 0, "Liveticker"));
+        items.add(new DrawerItem(DrawerItem.TYPE_REPLAYS, 0, "Replays"));
 
         items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "GENERAL"));
         items.add(new DrawerItem(DrawerItem.TYPE_OVERVIEW, 0, "Overview"));
@@ -329,6 +331,10 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
 
                         break;
 
+                    case DrawerItem.TYPE_REPLAYS:
+                        selectFragment(R.id.fragment_replays, position - 1);
+                        break;
+
                     case DrawerItem.TYPE_OVERVIEW:
                         selectFragment(R.id.fragment_overview, position - 1);
                         break;
@@ -371,6 +377,9 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                     return;
                 case R.id.fragment_liveticker:
                     currentFrag = R.id.fragment_liveticker;
+                    break;
+                case R.id.fragment_replays:
+                    currentFrag = R.id.fragment_replays;
                     break;
                 case R.id.fragment_overview:
                     currentFrag = R.id.fragment_overview;
@@ -420,6 +429,9 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
             case R.id.fragment_livestream:
                 break;
             case R.id.fragment_liveticker:
+                break;
+            case R.id.fragment_replays:
+                frag = new ReplaysFragment();
                 break;
             case R.id.fragment_news:
                 frag = new NewsFragment();

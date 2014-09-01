@@ -14,6 +14,7 @@ import joss.jacobo.lol.lcs.api.model.Config;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
 import joss.jacobo.lol.lcs.api.model.News.News;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
+import joss.jacobo.lol.lcs.api.model.Replays.Replays;
 import joss.jacobo.lol.lcs.api.model.Standings.Standings;
 import joss.jacobo.lol.lcs.model.NewsModel;
 import joss.jacobo.lol.lcs.model.TweetsModel;
@@ -23,6 +24,8 @@ import joss.jacobo.lol.lcs.provider.news.NewsColumns;
 import joss.jacobo.lol.lcs.provider.news.NewsContentValues;
 import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersContentValues;
+import joss.jacobo.lol.lcs.provider.replays.ReplaysColumns;
+import joss.jacobo.lol.lcs.provider.replays.ReplaysContentValues;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsContentValues;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsColumns;
@@ -55,6 +58,8 @@ public class ApiService extends IntentService {
     public static final String OFFSET = "offset";
     public static final String HASH_TAG_LCS = "#LCS";
     public static final String LIVESTREAM_VIDEOS = "livestream_videos";
+    public static final String REPLAYS = "replays";
+    public static final String NEXT_PAGE_TOKEN = "next_page_token";
 
     public static final int TYPE_INITIAL_CONFIG = 0;
     public static final int TYPE_LATEST_STANDINGS = 1;
@@ -63,6 +68,7 @@ public class ApiService extends IntentService {
     public static final int TYPE_NEWS = 4;
     public static final int TYPE_GET_TWEETS_LCS = 5;
     public static final int TYPE_GET_LIVESTREAM_VIDEOS = 6;
+    public static final int TYPE_GET_REPLAYS = 7;
 
     public static final String STATUS = "status";
     public static final int SUCCESS = 1;
@@ -197,6 +203,27 @@ public class ApiService extends IntentService {
                     }
                 });
                 break;
+
+            case TYPE_GET_REPLAYS:
+                final String nextPageToken = intent.getStringExtra(NEXT_PAGE_TOKEN);
+                service.getReplays(nextPageToken == null ? "" : nextPageToken, new Callback<Replays>() {
+                    @Override
+                    public void success(Replays replays, Response response) {
+                        if(nextPageToken == null){
+                            updateReplays(getContentResolver(), replays);
+                        }else{
+                            insertReplays(getContentResolver(), replays);
+                        }
+
+                        sendReplaysBroadcaset(SUCCESS, replays);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        sendReplaysBroadcaset(ERROR, null);
+                    }
+                });
+                break;
         }
     }
 
@@ -246,6 +273,13 @@ public class ApiService extends IntentService {
     public static void getLiveStreamVideos(Context context){
         Intent intent = new Intent(context, ApiService.class);
         intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_LIVESTREAM_VIDEOS);
+        context.startService(intent);
+    }
+
+    public static void getReplays(Context context, String nextPageToken){
+        Intent intent = new Intent(context, ApiService.class);
+        intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_REPLAYS);
+        intent.putExtra(ApiService.NEXT_PAGE_TOKEN, nextPageToken);
         context.startService(intent);
     }
 
@@ -318,16 +352,20 @@ public class ApiService extends IntentService {
         contentResolver.bulkInsert(NewsColumns.CONTENT_URI, newsCV);
     }
 
+    private void insertReplays(ContentResolver contentResolver, Replays replays){
+        ContentValues[] replaysCV = ReplaysContentValues.getContentValues(replays.getList());
+        contentResolver.bulkInsert(ReplaysColumns.CONTENT_URI, replaysCV);
+    }
+
+    private void updateReplays(ContentResolver contentResolver, Replays replays){
+        contentResolver.delete(ReplaysColumns.CONTENT_URI, null, null);
+        ContentValues[] replaysCV = ReplaysContentValues.getContentValues(replays.getList());
+        contentResolver.bulkInsert(ReplaysColumns.CONTENT_URI, replaysCV);
+    }
+
     /**
      * Send Broadcasts
      */
-    private void sendNewsBroadcast(int status){
-        Intent intent = new Intent(BROADCAST);
-        intent.putExtra(API_TYPE, TYPE_NEWS);
-        intent.putExtra(STATUS, status);
-        broadcast.sendBroadcast(intent);
-    }
-
     private void sendHashTagTweetsBroadcast(int status) {
         Intent intent = new Intent(BROADCAST);
         intent.putExtra(API_TYPE, TYPE_GET_TWEETS_LCS);
@@ -342,6 +380,25 @@ public class ApiService extends IntentService {
 
         if(status == SUCCESS){
             intent.putExtra(LIVESTREAM_VIDEOS, GGson.toJson(videos));
+        }
+
+        broadcast.sendBroadcast(intent);
+    }
+
+    private void sendNewsBroadcast(int status){
+        Intent intent = new Intent(BROADCAST);
+        intent.putExtra(API_TYPE, TYPE_NEWS);
+        intent.putExtra(STATUS, status);
+        broadcast.sendBroadcast(intent);
+    }
+
+    private void sendReplaysBroadcaset(int status, Replays replays) {
+        Intent intent = new Intent(BROADCAST);
+        intent.putExtra(API_TYPE, TYPE_GET_REPLAYS);
+        intent.putExtra(STATUS, status);
+
+        if(status == SUCCESS && replays != null){
+            intent.putExtra(REPLAYS, GGson.toJson(replays));
         }
 
         broadcast.sendBroadcast(intent);
