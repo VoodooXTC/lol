@@ -309,33 +309,63 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
     }
 
 
-    public MatchesSelection result(Integer... value) {
-        addEquals(MatchesColumns.RESULT, value);
+    public MatchesSelection result1(Integer... value) {
+        addEquals(MatchesColumns.RESULT1, value);
         return this;
     }
     
-    public MatchesSelection resultNot(Integer... value) {
-        addNotEquals(MatchesColumns.RESULT, value);
+    public MatchesSelection result1Not(Integer... value) {
+        addNotEquals(MatchesColumns.RESULT1, value);
         return this;
     }
 
-    public MatchesSelection resultGt(int value) {
-        addGreaterThan(MatchesColumns.RESULT, value);
+    public MatchesSelection result1Gt(int value) {
+        addGreaterThan(MatchesColumns.RESULT1, value);
         return this;
     }
 
-    public MatchesSelection resultGtEq(int value) {
-        addGreaterThanOrEquals(MatchesColumns.RESULT, value);
+    public MatchesSelection result1GtEq(int value) {
+        addGreaterThanOrEquals(MatchesColumns.RESULT1, value);
         return this;
     }
 
-    public MatchesSelection resultLt(int value) {
-        addLessThan(MatchesColumns.RESULT, value);
+    public MatchesSelection result1Lt(int value) {
+        addLessThan(MatchesColumns.RESULT1, value);
         return this;
     }
 
-    public MatchesSelection resultLtEq(int value) {
-        addLessThanOrEquals(MatchesColumns.RESULT, value);
+    public MatchesSelection result1LtEq(int value) {
+        addLessThanOrEquals(MatchesColumns.RESULT1, value);
+        return this;
+    }
+
+    public MatchesSelection result2(Integer... value) {
+        addEquals(MatchesColumns.RESULT2, value);
+        return this;
+    }
+    
+    public MatchesSelection result2Not(Integer... value) {
+        addNotEquals(MatchesColumns.RESULT2, value);
+        return this;
+    }
+
+    public MatchesSelection result2Gt(int value) {
+        addGreaterThan(MatchesColumns.RESULT2, value);
+        return this;
+    }
+
+    public MatchesSelection result2GtEq(int value) {
+        addGreaterThanOrEquals(MatchesColumns.RESULT2, value);
+        return this;
+    }
+
+    public MatchesSelection result2Lt(int value) {
+        addLessThan(MatchesColumns.RESULT2, value);
+        return this;
+    }
+
+    public MatchesSelection result2LtEq(int value) {
+        addLessThanOrEquals(MatchesColumns.RESULT2, value);
         return this;
     }
 

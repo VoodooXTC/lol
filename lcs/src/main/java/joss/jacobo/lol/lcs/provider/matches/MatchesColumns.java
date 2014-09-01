@@ -26,7 +26,8 @@ public interface MatchesColumns extends BaseColumns {
     String TEAM1 = "team1";
     String TEAM2 = "team2";
     String TIME = "time";
-    String RESULT = "result";
+    String RESULT1 = "result1";
+    String RESULT2 = "result2";
     String PLAYED = "played";
     String MATCH_NO = "match_no";
     String MATCH_POSITION = "match_position";
@@ -49,7 +50,8 @@ public interface MatchesColumns extends BaseColumns {
             TEAM1,
             TEAM2,
             TIME,
-            RESULT,
+            RESULT1,
+            RESULT2,
             PLAYED,
             MATCH_NO,
             MATCH_POSITION

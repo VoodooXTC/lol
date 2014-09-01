@@ -172,13 +172,24 @@ public class MatchesContentValues extends AbstractContentValues {
     }
 
 
-    public MatchesContentValues putResult(Integer value) {
-        mContentValues.put(MatchesColumns.RESULT, value);
+    public MatchesContentValues putResult1(Integer value) {
+        mContentValues.put(MatchesColumns.RESULT1, value);
         return this;
     }
 
-    public MatchesContentValues putResultNull() {
-        mContentValues.putNull(MatchesColumns.RESULT);
+    public MatchesContentValues putResult1Null() {
+        mContentValues.putNull(MatchesColumns.RESULT1);
+        return this;
+    }
+
+
+    public MatchesContentValues putResult2(Integer value) {
+        mContentValues.put(MatchesColumns.RESULT2, value);
+        return this;
+    }
+
+    public MatchesContentValues putResult2Null() {
+        mContentValues.putNull(MatchesColumns.RESULT2);
         return this;
     }
 
@@ -239,7 +250,8 @@ public class MatchesContentValues extends AbstractContentValues {
         values.putTeam1(item.team1);
         values.putTeam2(item.team2);
         values.putTime(item.time);
-        values.putResult(item.result);
+        values.putResult1(item.result1);
+        values.putResult2(item.result2);
         values.putPlayed(item.played);
         values.putMatchNo(item.matchNo);
         values.putMatchPosition(item.matchPosition);

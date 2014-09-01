@@ -130,11 +130,19 @@ public class MatchesCursor extends AbstractCursor {
     }
 
     /**
-     * Get the {@code result} value.
+     * Get the {@code result1} value.
      * Can be {@code null}.
      */
-    public Integer getResult() {
-        return getIntegerOrNull(MatchesColumns.RESULT);
+    public Integer getResult1() {
+        return getIntegerOrNull(MatchesColumns.RESULT1);
+    }
+
+    /**
+     * Get the {@code result2} value.
+     * Can be {@code null}.
+     */
+    public Integer getResult2() {
+        return getIntegerOrNull(MatchesColumns.RESULT2);
     }
 
     /**

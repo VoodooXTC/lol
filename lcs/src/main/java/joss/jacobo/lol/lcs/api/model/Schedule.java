@@ -34,7 +34,9 @@ public class Schedule {
     
     public String time;
     
-    public Integer result;
+    public Integer result1;
+
+    public Integer result2;
     
     public Integer played;
 

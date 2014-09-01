@@ -5,7 +5,7 @@ import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
 import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 
 /**
- * Created by Joss on 7/22/2014.
+ * Created by Joss on 7/22/2014
  */
 public class MatchDetailsItem extends OverviewItem {
 
@@ -31,22 +31,22 @@ public class MatchDetailsItem extends OverviewItem {
     public MatchDetailsItem(MatchesCursor cursor, int type){
         this.type = type;
         this.blueTeam = cursor.getTeam1();
-        this.blueScore = cursor.getResult() == 0 ? "1" : "0";
+        this.blueScore = String.valueOf(cursor.getResult1());
         this.purpleTeam = cursor.getTeam2();
-        this.purpleScore = cursor.getResult() == 1 ? "1" : "0";
+        this.purpleScore = String.valueOf(cursor.getResult2());
         this.date = DateTimeFormatter.formatDatetime(cursor.getDatetime());
         this.time = cursor.getTime();
-        this.winner = cursor.getResult();
+        this.winner = cursor.getResult1() > cursor.getResult2() ? 0 : 1;
     }
 
     public MatchDetailsItem(MatchesModel match, int type) {
         this.type = type;
         this.blueTeam = match.team1;
-        this.blueScore = match.result == 0 ? "1" : "0";
+        this.blueScore = String.valueOf(match.result2);
         this.purpleTeam = match.team2;
-        this.purpleScore = match.result == 1 ? "1" : "0";
+        this.purpleScore = String .valueOf(match.result1);
         this.date = DateTimeFormatter.formatDate(match.date);
         this.time = match.time;
-        this.winner = match.result;
+        this.winner = match.result1 > match.result2 ? 0 : 1;
     }
 }

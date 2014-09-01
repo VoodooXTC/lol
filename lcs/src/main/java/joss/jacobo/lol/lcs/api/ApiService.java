@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.List;
 
 import joss.jacobo.lol.lcs.api.model.Config;
+import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
 import joss.jacobo.lol.lcs.api.model.News.News;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
 import joss.jacobo.lol.lcs.api.model.Standings.Standings;
@@ -33,6 +34,7 @@ import joss.jacobo.lol.lcs.provider.tournaments.TournamentsContentValues;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsColumns;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsContentValues;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsSelection;
+import joss.jacobo.lol.lcs.utils.GGson;
 import joss.jacobo.lol.lcs.utils.Twitter;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -52,6 +54,7 @@ public class ApiService extends IntentService {
     public static final String NUM_OF_ARTICLES = "num_of_articles";
     public static final String OFFSET = "offset";
     public static final String HASH_TAG_LCS = "#LCS";
+    public static final String LIVESTREAM_VIDEOS = "livestream_videos";
 
     public static final int TYPE_INITIAL_CONFIG = 0;
     public static final int TYPE_LATEST_STANDINGS = 1;
@@ -59,6 +62,7 @@ public class ApiService extends IntentService {
     public static final int TYPE_GET_PLAYERS = 3;
     public static final int TYPE_NEWS = 4;
     public static final int TYPE_GET_TWEETS_LCS = 5;
+    public static final int TYPE_GET_LIVESTREAM_VIDEOS = 6;
 
     public static final String STATUS = "status";
     public static final int SUCCESS = 1;
@@ -76,6 +80,7 @@ public class ApiService extends IntentService {
         super.onCreate();
         RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint("http://lcs.voodootvdb.com")
+                .setLogLevel(RestAdapter.LogLevel.FULL)
             .build();
         service = restAdapter.create(RestService.class);
         broadcast = LocalBroadcastManager.getInstance(this);
@@ -178,6 +183,20 @@ public class ApiService extends IntentService {
                     }
                 });
                 break;
+
+            case TYPE_GET_LIVESTREAM_VIDEOS:
+                service.getLiveStreamVideos(new Callback<List<Video>>() {
+                    @Override
+                    public void success(List<Video> videos, Response response) {
+                        sendLiveStreamBroadcast(videos, SUCCESS);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        sendLiveStreamBroadcast(null, ERROR);
+                    }
+                });
+                break;
         }
     }
 
@@ -221,6 +240,12 @@ public class ApiService extends IntentService {
         intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_NEWS);
         intent.putExtra(ApiService.NUM_OF_ARTICLES, numOfArticles);
         intent.putExtra(ApiService.OFFSET, offset);
+        context.startService(intent);
+    }
+
+    public static void getLiveStreamVideos(Context context){
+        Intent intent = new Intent(context, ApiService.class);
+        intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_LIVESTREAM_VIDEOS);
         context.startService(intent);
     }
 
@@ -307,6 +332,18 @@ public class ApiService extends IntentService {
         Intent intent = new Intent(BROADCAST);
         intent.putExtra(API_TYPE, TYPE_GET_TWEETS_LCS);
         intent.putExtra(STATUS, status);
+        broadcast.sendBroadcast(intent);
+    }
+
+    private void sendLiveStreamBroadcast(List<Video> videos, int status) {
+        Intent intent = new Intent(BROADCAST);
+        intent.putExtra(API_TYPE, TYPE_GET_LIVESTREAM_VIDEOS);
+        intent.putExtra(STATUS, status);
+
+        if(status == SUCCESS){
+            intent.putExtra(LIVESTREAM_VIDEOS, GGson.toJson(videos));
+        }
+
         broadcast.sendBroadcast(intent);
     }
 

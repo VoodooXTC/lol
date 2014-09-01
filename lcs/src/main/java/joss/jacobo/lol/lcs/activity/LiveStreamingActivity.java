@@ -14,10 +14,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +40,19 @@ import butterknife.InjectView;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.adapters.TweetsAdapter;
 import joss.jacobo.lol.lcs.api.ApiService;
+import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
 import joss.jacobo.lol.lcs.model.TweetsModel;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsColumns;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsCursor;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsSelection;
 import joss.jacobo.lol.lcs.utils.CustomTypefaceSpan;
+import joss.jacobo.lol.lcs.utils.GGson;
+import joss.jacobo.lol.lcs.views.ActionBarDropDownItem;
 
 /**
  * Created by Joss on 8/2/2014
  */
-public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, android.app.ActionBar.OnNavigationListener {
 
     private static final String API_KEY = "AIzaSyBXyu6ZqTxhkWybwxPtwmWrEbadtxF1m4A";
     private static final String VIDEO_ID = "eREuD2_43Zo";
@@ -86,6 +93,8 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         }
     };
 
+    DropDownAdapter dropDownAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +112,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
         getLoaderManager().initLoader(TWEETS_CALLBACK, null, new TweetsCallBack());
         ApiService.getLCSTweets(this);
+        ApiService.getLiveStreamVideos(this);
         fetching = true;
     }
 
@@ -152,7 +162,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
         /** Start buffering **/
         if (!wasRestored) {
-            youTubePlayer.cueVideo(VIDEO_ID);
+            //youTubePlayer.cueVideo(VIDEO_ID);
         }
     }
 
@@ -253,6 +263,13 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        Video video = dropDownAdapter.videos.get(itemPosition);
+        youTubePlayer.cueVideo(video.id);
+        return true;
+    }
+
     private class TweetsCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
 
         @Override
@@ -306,7 +323,65 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
                     }
                     break;
+
+                case ApiService.TYPE_GET_LIVESTREAM_VIDEOS:
+                    switch (status){
+                        case ApiService.SUCCESS:
+                            List<Video> videos = GGson.fromJson(intent.getStringExtra(ApiService.LIVESTREAM_VIDEOS), new TypeToken<List<Video>>(){}.getType());
+                            if(videos != null && videos.size() > 0){
+                                dropDownAdapter.setVideos(videos);
+                                youTubePlayer.cueVideo(videos.get(0).id);
+                            }else{
+                                // TODO ERROR
+                            }
+                            break;
+
+                        case ApiService.ERROR:
+
+                            break;
+                    }
+                    break;
             }
+        }
+    }
+
+    public class DropDownAdapter extends BaseAdapter{
+
+        public List<Video> videos;
+
+        public DropDownAdapter(List<Video> videos){
+            this.videos = videos;
+        }
+
+        @Override
+        public int getCount() {
+            return videos != null ? videos.size() : 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return videos.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public void setVideos(List<Video> videos){
+            this.videos = videos;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ActionBarDropDownItem item = convertView == null ?
+                    new ActionBarDropDownItem(LiveStreamingActivity.this) :
+                    (ActionBarDropDownItem) convertView;
+            item.setContent(videos.get(position));
+
+            return item;
         }
     }
 
@@ -326,6 +401,10 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         getActionBar().setDisplayShowCustomEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_LIST);
+
+        dropDownAdapter = new DropDownAdapter(new ArrayList<Video>());
+        getActionBar().setListNavigationCallbacks(dropDownAdapter, this);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/" + getString(R.string.font_gothic_regular));
         CustomTypefaceSpan light = new CustomTypefaceSpan("",font);

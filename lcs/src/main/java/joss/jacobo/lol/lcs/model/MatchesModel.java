@@ -21,7 +21,8 @@ public class MatchesModel{
     public String team1;
     public String team2;
     public String time;
-    public Integer result;
+    public Integer result1;
+    public Integer result2;
     public Integer played;
     public Integer matchNo;
     public Integer matchPosition;
@@ -42,7 +43,8 @@ public class MatchesModel{
         this.team1 = cursor.getTeam1();
         this.team2 = cursor.getTeam2();
         this.time = cursor.getTime();
-        this.result = cursor.getResult();
+        this.result1 = cursor.getResult1();
+        this.result2 = cursor.getResult2();
         this.played = cursor.getPlayed();
         this.matchNo = cursor.getMatchNo();
         this.matchPosition = cursor.getMatchPosition();
@@ -62,7 +64,8 @@ public class MatchesModel{
         this.team1 = match.team1;
         this.team2 = match.team2;
         this.time = match.time;
-        this.result = match.result;
+        this.result1 = match.result1;
+        this.result2 = match.result2;
         this.played = match.played;
         this.matchNo = match.matchNo;
         this.matchPosition = match.position;
