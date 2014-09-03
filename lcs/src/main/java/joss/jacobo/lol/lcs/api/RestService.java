@@ -6,6 +6,7 @@ import joss.jacobo.lol.lcs.api.model.Config;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
 import joss.jacobo.lol.lcs.api.model.News.News;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
+import joss.jacobo.lol.lcs.api.model.Replays.Replay;
 import joss.jacobo.lol.lcs.api.model.Replays.Replays;
 import joss.jacobo.lol.lcs.api.model.Standings.Standings;
 import retrofit.Callback;
@@ -30,6 +31,6 @@ public interface RestService{
     @GET("/live/getLiveStreams/")
     void getLiveStreamVideos(Callback<List<Video>> callback);
 
-    @GET("/youtube/getReplays/{nextPageToken}")
-    void getReplays(@Path("nextPageToken") String nextPageToken, Callback<Replays> callback);
+    @GET("/replays/getReplays/{numOfReplays}/{offset}/")
+    void getReplays(@Path("numOfReplays") int numOfReplays, @Path("offset") int offset, Callback<List<Replay>> callback);
 }

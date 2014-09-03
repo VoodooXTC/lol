@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ import joss.jacobo.lol.lcs.views.ReplayItem;
 public class ReplaysFragment extends BaseListFragment {
 
     private static final int REPLAYS_CALLBACK = 0;
+    private static final int NUM_OF_ITEMS = 5;
 
     private LocalBroadcastManager broadcastManager;
     private ApiReceiver apiReceiver;
@@ -41,8 +44,6 @@ public class ReplaysFragment extends BaseListFragment {
     ReplayAdapter adapter;
     int count = 0;
     boolean fetching = false;
-
-    Replays replays;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,16 +79,9 @@ public class ReplaysFragment extends BaseListFragment {
 
         if(count == 0 || adapter.getCount() == 0){
 
-            ApiService.getReplays(getActivity(), getNextPageToken(replays));
+            ApiService.getReplays(getActivity(), NUM_OF_ITEMS, count);
             fetching = true;
         }
-    }
-
-    private String getNextPageToken(Replays replays) {
-        if(replays != null && replays.nextPageToken != null){
-            return replays.nextPageToken;
-        }
-        return null;
     }
 
     @Override
@@ -107,7 +101,8 @@ public class ReplaysFragment extends BaseListFragment {
     public void onLoadMore() {
         if(adapter != null && !fetching && adapter.getCount() > 0){
             fetching = true;
-            ApiService.getReplays(getActivity(), getNextPageToken(replays));
+            count = adapter.getCount();
+            ApiService.getReplays(getActivity(), NUM_OF_ITEMS, count);
         }
     }
 
@@ -121,15 +116,10 @@ public class ReplaysFragment extends BaseListFragment {
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             ReplaysCursor replaysCursor = new ReplaysCursor(data);
-            Replays replays1 = replaysCursor.getList();
-            if(replays == null){
-                replays = replays1;
-            }else if(replays1 != null && replays1.items.size() > 0){
-                replays.items = replays1.items;
-            }
-            adapter.setReplays(replays.items);
+            List<Replay> replays = replaysCursor.getList();
+            adapter.setReplays(replays);
 
-            if(replays.items.size() > 0){
+            if(replays.size() > 0){
                 showContent();
             }
         }
@@ -156,7 +146,7 @@ public class ReplaysFragment extends BaseListFragment {
 
         @Override
         public int getCount() {
-            return replays.size();
+            return replays == null ? 0 : replays.size();
         }
 
         @Override
@@ -194,12 +184,6 @@ public class ReplaysFragment extends BaseListFragment {
                     switch (status){
                         case ApiService.SUCCESS:
                             fetching = false;
-
-                            Replays resultReplays = GGson.fromJson(intent.getStringExtra(ApiService.REPLAYS), Replays.class);
-                            replays.kind = resultReplays.kind;
-                            replays.etag = resultReplays.etag;
-                            replays.prevPageToken = resultReplays.prevPageToken;
-                            replays.nextPageToken = resultReplays.nextPageToken;
 
                             break;
                         case ApiService.ERROR:

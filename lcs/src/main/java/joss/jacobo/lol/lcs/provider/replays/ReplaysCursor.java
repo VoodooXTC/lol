@@ -2,6 +2,7 @@ package joss.jacobo.lol.lcs.provider.replays;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.database.Cursor;
 
@@ -191,14 +192,14 @@ public class ReplaysCursor extends AbstractCursor {
         return getIntegerOrNull(ReplaysColumns.COMMENTCOUNT);
     }
 
-    public Replays getList() {
-        Replays replays = new Replays();
+    public List<Replay> getList() {
+        List<Replay> items = new ArrayList<Replay>();
         if(moveToFirst()){
             while (!isAfterLast()){
-                replays.items.add(new Replay(this));
+                items.add(new Replay(this));
                 moveToNext();
             }
         }
-        return replays;
+        return items;
     }
 }

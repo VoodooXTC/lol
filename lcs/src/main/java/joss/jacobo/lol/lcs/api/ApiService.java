@@ -14,7 +14,7 @@ import joss.jacobo.lol.lcs.api.model.Config;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
 import joss.jacobo.lol.lcs.api.model.News.News;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
-import joss.jacobo.lol.lcs.api.model.Replays.Replays;
+import joss.jacobo.lol.lcs.api.model.Replays.Replay;
 import joss.jacobo.lol.lcs.api.model.Standings.Standings;
 import joss.jacobo.lol.lcs.model.NewsModel;
 import joss.jacobo.lol.lcs.model.TweetsModel;
@@ -59,7 +59,7 @@ public class ApiService extends IntentService {
     public static final String HASH_TAG_LCS = "#LCS";
     public static final String LIVESTREAM_VIDEOS = "livestream_videos";
     public static final String REPLAYS = "replays";
-    public static final String NEXT_PAGE_TOKEN = "next_page_token";
+    public static final String NUM_OF_REPLAYS = "num_of_replays";
 
     public static final int TYPE_INITIAL_CONFIG = 0;
     public static final int TYPE_LATEST_STANDINGS = 1;
@@ -205,22 +205,23 @@ public class ApiService extends IntentService {
                 break;
 
             case TYPE_GET_REPLAYS:
-                final String nextPageToken = intent.getStringExtra(NEXT_PAGE_TOKEN);
-                service.getReplays(nextPageToken == null ? "" : nextPageToken, new Callback<Replays>() {
+                int numOfReplays = intent.getIntExtra(NUM_OF_REPLAYS, 5);
+                final int replaysOffset = intent.getIntExtra(OFFSET, 0);
+                service.getReplays(numOfReplays, replaysOffset, new Callback<List<Replay>>() {
                     @Override
-                    public void success(Replays replays, Response response) {
-                        if(nextPageToken == null){
+                    public void success(List<Replay> replays, Response response) {
+                        if(replaysOffset == 0){
                             updateReplays(getContentResolver(), replays);
                         }else{
                             insertReplays(getContentResolver(), replays);
                         }
 
-                        sendReplaysBroadcaset(SUCCESS, replays);
+                        sendReplaysBroadcast(SUCCESS, replays);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        sendReplaysBroadcaset(ERROR, null);
+                        sendReplaysBroadcast(ERROR, null);
                     }
                 });
                 break;
@@ -276,10 +277,11 @@ public class ApiService extends IntentService {
         context.startService(intent);
     }
 
-    public static void getReplays(Context context, String nextPageToken){
+    public static void getReplays(Context context, int numOfReplays, int offset){
         Intent intent = new Intent(context, ApiService.class);
         intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_REPLAYS);
-        intent.putExtra(ApiService.NEXT_PAGE_TOKEN, nextPageToken);
+        intent.putExtra(ApiService.NUM_OF_REPLAYS, numOfReplays);
+        intent.putExtra(ApiService.OFFSET, offset);
         context.startService(intent);
     }
 
@@ -352,14 +354,14 @@ public class ApiService extends IntentService {
         contentResolver.bulkInsert(NewsColumns.CONTENT_URI, newsCV);
     }
 
-    private void insertReplays(ContentResolver contentResolver, Replays replays){
-        ContentValues[] replaysCV = ReplaysContentValues.getContentValues(replays.getList());
+    private void insertReplays(ContentResolver contentResolver, List<Replay> replays){
+        ContentValues[] replaysCV = ReplaysContentValues.getContentValues(Replay.getList(replays));
         contentResolver.bulkInsert(ReplaysColumns.CONTENT_URI, replaysCV);
     }
 
-    private void updateReplays(ContentResolver contentResolver, Replays replays){
+    private void updateReplays(ContentResolver contentResolver, List<Replay> replays){
         contentResolver.delete(ReplaysColumns.CONTENT_URI, null, null);
-        ContentValues[] replaysCV = ReplaysContentValues.getContentValues(replays.getList());
+        ContentValues[] replaysCV = ReplaysContentValues.getContentValues(Replay.getList(replays));
         contentResolver.bulkInsert(ReplaysColumns.CONTENT_URI, replaysCV);
     }
 
@@ -392,7 +394,7 @@ public class ApiService extends IntentService {
         broadcast.sendBroadcast(intent);
     }
 
-    private void sendReplaysBroadcaset(int status, Replays replays) {
+    private void sendReplaysBroadcast(int status, List<Replay> replays) {
         Intent intent = new Intent(BROADCAST);
         intent.putExtra(API_TYPE, TYPE_GET_REPLAYS);
         intent.putExtra(STATUS, status);

@@ -3,11 +3,13 @@ package joss.jacobo.lol.lcs.api.model.Replays;
 
 import com.google.common.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Image;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Statistics;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Thumbnails;
+import joss.jacobo.lol.lcs.model.ReplaysModel;
 import joss.jacobo.lol.lcs.provider.replays.ReplaysCursor;
 import joss.jacobo.lol.lcs.utils.GGson;
 
@@ -47,5 +49,13 @@ public class Replay {
         this.statistics.dislikeCount = replaysCursor.getDislikecount();
         this.statistics.favoriteCount = replaysCursor.getFavoritecount();
         this.statistics.commentCount = replaysCursor.getCommentcount();
+    }
+
+    public static List<ReplaysModel> getList(List<Replay> replays) {
+        List<ReplaysModel> items = new ArrayList<ReplaysModel>();
+        for(Replay replay : replays){
+            items.add(new ReplaysModel(replay));
+        }
+        return items;
     }
 }
