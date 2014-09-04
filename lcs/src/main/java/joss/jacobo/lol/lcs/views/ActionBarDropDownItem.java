@@ -3,6 +3,7 @@ package joss.jacobo.lol.lcs.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,6 +39,6 @@ public class ActionBarDropDownItem extends LinearLayout {
 
     public void setContent(Video video){
         this.title.setText(video.snippet.title);
-        this.subtitle.setText(video.snippet.startsAt);
+        this.subtitle.setVisibility(View.GONE);
     }
 }

@@ -331,8 +331,12 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
                             if(videos != null && videos.size() > 0){
                                 dropDownAdapter.setVideos(videos);
                                 youTubePlayer.cueVideo(videos.get(0).id);
+
+                                if(getActionBar() != null)
+                                    getActionBar().setDisplayShowCustomEnabled(false);
                             }else{
                                 // TODO ERROR
+                                setupActionBar("No Live Streams Available");
                             }
                             break;
 
