@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.squareup.picasso.Picasso;
+
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
@@ -29,6 +31,8 @@ public class MainApp extends Application implements IObjectGraph {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate");
+
+        Picasso.with(this).setDebugging(true);
 
         /**
          * Ensure the keys generated for the CryptoSharedPreferences are strong and sufficiently

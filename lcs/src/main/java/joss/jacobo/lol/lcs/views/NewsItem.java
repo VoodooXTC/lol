@@ -55,4 +55,18 @@ public class NewsItem extends LinearLayout {
         author.setText(newsModel.author);
         description.setText(newsModel.description);
     }
+
+    public int[] getImageIntrinsicMeasurements(){
+        int[] position = new int[2];
+        image.getLocationOnScreen(position);
+        return position;
+    }
+
+    public int getImageWidth(){
+        return image.getWidth();
+    }
+
+    public int getImageHeight(){
+        return image.getHeight();
+    }
 }

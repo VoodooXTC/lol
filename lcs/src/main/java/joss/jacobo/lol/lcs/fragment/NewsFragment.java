@@ -90,10 +90,16 @@ public class NewsFragment extends BaseListFragment {
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        NewsItem newsItem = (NewsItem) view;
         Gson gson = new Gson();
         Intent i = new Intent(getActivity(), NewsDetailsActivity.class);
         i.putExtra(NewsDetailsActivity.NEWS_MODEL, gson.toJson(adapter.newses.get(position)));
+        i.putExtra(NewsDetailsActivity.NEWS_IMAGE_POSITION, newsItem.getImageIntrinsicMeasurements());
+        i.putExtra(NewsDetailsActivity.NEWS_IMAGE_WIDTH, newsItem.getImageWidth());
+        i.putExtra(NewsDetailsActivity.NEWS_IMAGE_HEIGHT, newsItem.getImageHeight());
+
         startActivity(i);
+        getActivity().overridePendingTransition(0,0);
     }
 
     @Override
