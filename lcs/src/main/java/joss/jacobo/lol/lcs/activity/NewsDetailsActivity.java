@@ -109,7 +109,6 @@ public class NewsDetailsActivity extends BaseActivity {
          *  image, therefor placing the image a little farther to the left than expected.
          *  Adding the initial image position to the final destination to compensate this shift.
          */
-//        animationImage.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         animationImage.animate()
                 .x(imagePosition[0])
                 .y(0)
@@ -197,15 +196,8 @@ public class NewsDetailsActivity extends BaseActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void setupWebView() {
-//        webView = new WebView(this);
-//        webView.setId(R.id.webview);
-//        webView.setScrollContainer(false);
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        webView.setLayoutParams(params);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-//        webViewContainer.addView(webView);
     }
 
     private void setWebViewContent() {
@@ -233,24 +225,22 @@ public class NewsDetailsActivity extends BaseActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url != null && (url.startsWith("http://") || url.startsWith("https://"))) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                return true;
-            }
-
-            return super.shouldOverrideUrlLoading(view,url);
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            return true;
         }
 
     }
 
     private void showContent() {
-        loadingView.setVisibility(View.GONE);
-        webView.setVisibility(View.VISIBLE);
-        webView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+        loadingView.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                loadingView.setVisibility(View.GONE);
+            }
+        }).start();
     }
 
     private void showLoading() {
-        webView.setVisibility(View.INVISIBLE);
         loadingView.setVisibility(View.VISIBLE);
     }
 

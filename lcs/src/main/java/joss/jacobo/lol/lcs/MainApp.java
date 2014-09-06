@@ -32,7 +32,7 @@ public class MainApp extends Application implements IObjectGraph {
         super.onCreate();
         Log.i(TAG, "onCreate");
 
-        Picasso.with(this).setDebugging(true);
+//        Picasso.with(this).setDebugging(true);
 
         /**
          * Ensure the keys generated for the CryptoSharedPreferences are strong and sufficiently
