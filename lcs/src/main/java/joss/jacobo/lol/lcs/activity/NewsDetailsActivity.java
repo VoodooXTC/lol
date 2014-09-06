@@ -1,5 +1,6 @@
 package joss.jacobo.lol.lcs.activity;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -68,8 +69,6 @@ public class NewsDetailsActivity extends BaseActivity {
     int imageWidth;
     int imageHeight;
 
-    boolean animating = false;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,70 +104,71 @@ public class NewsDetailsActivity extends BaseActivity {
     }
 
     private void animateImageIn(int[] imagePosition, int imageWidth, int imageHeight) {
-        animating = true;
-
-        TranslateAnimation translate = new TranslateAnimation(
-                Animation.ABSOLUTE, 0,
-                Animation.ABSOLUTE, image.getLeft() - imagePosition[0],
-                Animation.ABSOLUTE, 0,
-                Animation.ABSOLUTE, image.getTop() - imagePosition[1] + getStatusBarHeight() + getActionBarHeight()
-                );
-        ScaleAnimation scale = new ScaleAnimation(1f, ((float)image.getMeasuredWidth()/(float)imageWidth), 1f, ((float)image.getMeasuredHeight())/(float)imageHeight);
-
-        AnimationSet animationSet = new AnimationSet(true);
-        animationSet.setDuration(1000);
-        animationSet.addAnimation(translate);
-        animationSet.addAnimation(scale);
-        animationSet.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                animationImage.setVisibility(View.GONE);
-
-                Animation.AnimationListener listener = new Animation.AnimationListener() {
+        /**
+         *  .x() take the initial x value as reference and never changes it while it expands the
+         *  image, therefor placing the image a little farther to the left than expected.
+         *  Adding the initial image position to the final destination to compensate this shift.
+         */
+//        animationImage.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        animationImage.animate()
+                .x(imagePosition[0])
+                .y(0)
+                .scaleX(((float)image.getMeasuredWidth()/(float)imageWidth))
+                .scaleY(((float)image.getMeasuredHeight())/(float)imageHeight)
+                .setDuration(600)
+                .setListener(new Animator.AnimatorListener() {
                     @Override
-                    public void onAnimationStart(Animation animation) {
+                    public void onAnimationStart(Animator animation) {
 
                     }
 
                     @Override
-                    public void onAnimationEnd(Animation animation) {
-                        setupWebView();
-                        setWebViewContent();
+                    public void onAnimationEnd(Animator animation) {
+                        animationImage.setVisibility(View.GONE);
+
+                        Animation.AnimationListener listener = new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                setupWebView();
+                                setWebViewContent();
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        };
+                        Animation fadeIn = AnimationUtils.loadAnimation(NewsDetailsActivity.this, R.anim.fade_in);
+                        fadeIn.setAnimationListener(listener);
+
+                        image.setVisibility(View.VISIBLE);
+                        category.setVisibility(View.VISIBLE);
+                        webViewContainer.setVisibility(View.VISIBLE);
+                        title.setVisibility(View.VISIBLE);
+                        author.setVisibility(View.VISIBLE);
+
+                        category.startAnimation(fadeIn);
+                        webViewContainer.startAnimation(AnimationUtils.loadAnimation(NewsDetailsActivity.this, R.anim.fade_in));
+                        title.startAnimation(AnimationUtils.loadAnimation(NewsDetailsActivity.this, R.anim.fade_in));
+                        author.startAnimation(AnimationUtils.loadAnimation(NewsDetailsActivity.this, R.anim.fade_in));
                     }
 
                     @Override
-                    public void onAnimationRepeat(Animation animation) {
+                    public void onAnimationCancel(Animator animation) {
 
                     }
-                };
-                Animation fadeIn = AnimationUtils.loadAnimation(NewsDetailsActivity.this, R.anim.fade_in);
-                fadeIn.setAnimationListener(listener);
 
-                image.setVisibility(View.VISIBLE);
-                category.setVisibility(View.VISIBLE);
-                webViewContainer.setVisibility(View.VISIBLE);
-                title.setVisibility(View.VISIBLE);
-                author.setVisibility(View.VISIBLE);
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
 
-                category.startAnimation(fadeIn);
-                webViewContainer.startAnimation(AnimationUtils.loadAnimation(NewsDetailsActivity.this, R.anim.fade_in));
-                title.startAnimation(AnimationUtils.loadAnimation(NewsDetailsActivity.this, R.anim.fade_in));
-                author.startAnimation(AnimationUtils.loadAnimation(NewsDetailsActivity.this, R.anim.fade_in));
-
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        animationImage.startAnimation(animationSet);
+                    }
+                })
+                .start();
     }
 
     private int getActionBarHeight() {
@@ -197,8 +197,15 @@ public class NewsDetailsActivity extends BaseActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void setupWebView() {
+//        webView = new WebView(this);
+//        webView.setId(R.id.webview);
+//        webView.setScrollContainer(false);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        webView.setLayoutParams(params);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+//        webViewContainer.addView(webView);
     }
 
     private void setWebViewContent() {
