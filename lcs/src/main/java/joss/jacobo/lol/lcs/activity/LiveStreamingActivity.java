@@ -10,6 +10,7 @@ import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import android.text.SpannableStringBuilder;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -52,7 +54,7 @@ import joss.jacobo.lol.lcs.views.ActionBarDropDownItem;
 /**
  * Created by Joss on 8/2/2014
  */
-public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, android.app.ActionBar.OnNavigationListener {
+public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, android.app.ActionBar.OnNavigationListener, AdapterView.OnItemClickListener {
 
     private static final String API_KEY = "AIzaSyBXyu6ZqTxhkWybwxPtwmWrEbadtxF1m4A";
     private static final String VIDEO_ID = "eREuD2_43Zo";
@@ -143,6 +145,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         listView.setEmptyView(emptyView);
         adapter = new TweetsAdapter(this, new ArrayList<TweetsModel>());
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
     }
 
     @Override
@@ -268,6 +271,13 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         Video video = dropDownAdapter.videos.get(itemPosition);
         youTubePlayer.cueVideo(video.id);
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TweetsModel tweet = adapter.items.get(position);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + tweet.twitterHandle + "/status/" + tweet.tweetId));
+        startActivity(intent);
     }
 
     private class TweetsCallBack implements LoaderManager.LoaderCallbacks<Cursor>{

@@ -63,6 +63,7 @@ public class TweetItem extends LinearLayout {
         twitterHandle.setText("@" + tweet.screenName);
         tweetText.setText(tweet.text);
         linkyfy(tweetText);
+        tweetText.setMovementMethod(null);
         createdAt.setText(DateTimeFormatter.formatMillisToAgo(tweet.createdAt, DateTimeFormatter.TWITTER));
     }
 
