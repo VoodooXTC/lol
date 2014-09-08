@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.api.model.Replays.Replay;
 import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
+import joss.jacobo.lol.lcs.utils.PTimeFormatter;
 
 /**
  * Created by Joss on 9/1/2014
@@ -27,6 +28,8 @@ public class ReplayItem extends LinearLayout {
     TextView channelTitle;
     TextView publishedAtAndViews;
     View divider;
+
+    PTimeFormatter pTimeFormatter;
 
     public ReplayItem(Context context) {
         this(context, null);
@@ -50,12 +53,14 @@ public class ReplayItem extends LinearLayout {
         channelTitle = (TextView) findViewById(R.id.replay_channel_title);
         publishedAtAndViews = (TextView) findViewById(R.id.replay_published_and_views);
         divider = findViewById(R.id.replay_divider);
+
+        pTimeFormatter = new PTimeFormatter();
     }
 
     public void setContent(Replay replay){
         String url = replay.snippet.thumbnails.getImage() != null ? replay.snippet.thumbnails.getImage().url : "";
         Picasso.with(context).load(url).into(image);
-        duration.setText(DateTimeFormatter.formatPTime(replay.contentDetails.duration));
+        duration.setText(pTimeFormatter.formatPTimeRegex(replay.contentDetails.duration));
         title.setText(replay.snippet.title);
         channelTitle.setText(replay.snippet.channelTitle);
         publishedAtAndViews.setText(

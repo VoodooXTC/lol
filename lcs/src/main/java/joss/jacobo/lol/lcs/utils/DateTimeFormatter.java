@@ -83,25 +83,25 @@ public class DateTimeFormatter {
 
     public static String formatMillisToAgo(Long millis, int type){
 
-        String second, minute, hour, day, week, month, year;
+        String SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR;
         switch (type){
             case YOUTUBE:
-                second = " second";
-                minute = " minute";
-                hour = " hour";
-                day = " day";
-                week = " week";
-                month = " month";
-                year = " year";
+                SECOND = " second";
+                MINUTE = " minute";
+                HOUR = " hour";
+                DAY = " day";
+                WEEK = " week";
+                MONTH = " month";
+                YEAR = " year";
                 break;
             default:
-                second = "s";
-                minute = "m";
-                hour = "h";
-                day = "d";
-                week = "w";
-                month = "m";
-                year = "y";
+                SECOND = "s";
+                MINUTE = "m";
+                HOUR = "h";
+                DAY = "d";
+                WEEK = "w";
+                MONTH = "m";
+                YEAR = "y";
                 break;
         }
 
@@ -111,66 +111,45 @@ public class DateTimeFormatter {
         if(tweetTime < ONE_SECOND){
             return "<1s ago";
         }else if(tweetTime < ONE_MINUTE){
-            return ((int) (tweetTime / ONE_SECOND)) + second + " ago";
+
+            int seconds = (int) (tweetTime / ONE_SECOND);
+            boolean plural = seconds > 1;
+            return seconds + SECOND + (type == YOUTUBE && plural ?  "s" : "") + " ago";
+
         }else if(tweetTime < ONE_HOUR){
-            return ((int) (tweetTime / ONE_MINUTE)) + minute + " ago";
+
+            int minutes = (int) (tweetTime / ONE_MINUTE);
+            boolean plural = minutes > 1;
+            return minutes + MINUTE + (type == YOUTUBE && plural ?  "s" : "") + " ago";
+
         }else if(tweetTime < ONE_DAY){
-            return ((int) (tweetTime / ONE_HOUR)) + hour + " ago";
+
+            int hours = (int) (tweetTime / ONE_HOUR);
+            boolean plural = hours > 1;
+            return hours + HOUR + (type == YOUTUBE && plural ?  "s" : "") + " ago";
+
         }else if(tweetTime < ONE_WEEK){
-            return ((int) (tweetTime / ONE_DAY)) + day + " ago";
+
+            int days = (int) (tweetTime / ONE_DAY);
+            boolean plural = days > 1;
+            return  days + DAY + (type == YOUTUBE && plural ?  "s" : "") + " ago";
+
         }else if(tweetTime < ONE_MONTH){
-            return ((int) (tweetTime / ONE_WEEK)) + week + " ago";
+
+            int weeks = (int) (tweetTime / ONE_WEEK);
+            boolean plural = weeks > 1;
+            return  weeks + WEEK + (type == YOUTUBE && plural ?  "s" : "") + " ago";
+
         }else if(tweetTime < ONE_YEAR) {
-            return ((int) (tweetTime / ONE_MONTH)) + month + " ago";
-        }
-        return ((int) (tweetTime / ONE_YEAR) + year + " ago");
-    }
 
-    public static String formatPTime(String ptime){
-
-        String output = "";
-        if(ptime != null){
-            String time = ptime.replace("PT", "");
-            String hour[] = time.split("H");
-            String minute[];
-            String second[];
-
-            if(hour.length > 1){
-
-                if(hour[0].length() < 2){
-                    output += "0";
-                }
-
-                output += hour[0] + ":";
-                minute = hour[1].split("M");
-
-            }else{
-                minute = hour[0].split("M");
-            }
-
-            if(minute.length > 1){
-
-                if(minute[0].length() < 2){
-                    output += "0";
-                }
-
-                output += minute[0] + ":";
-                second = minute[1].split("S");
-            }else{
-                second = minute[0].split("S");
-            }
-
-            if(second.length >= 1) {
-
-                if(second[0].length() < 2){
-                    output += "0";
-                }
-
-                output += second[0];
-            }
+            int months = (int) (tweetTime / ONE_MONTH);
+            boolean plural = months > 1;
+            return months + MONTH + (type == YOUTUBE && plural ?  "s" : "") + " ago";
         }
 
-        return output.length() > 1 ? output : ptime;
+        int years = (int) (tweetTime / ONE_YEAR);
+        boolean plural = years > 1;
+        return years + YEAR + (type == YOUTUBE && plural ?  "s" : "") + " ago";
     }
 
     public static String formatCountCommas(int count){
