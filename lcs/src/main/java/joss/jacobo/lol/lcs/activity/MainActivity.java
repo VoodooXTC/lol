@@ -328,7 +328,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                         break;
 
                     case DrawerItem.TYPE_LIVETICKER:
-
+                        selectFragment(R.id.fragment_liveticker, position - 1);
                         break;
 
                     case DrawerItem.TYPE_REPLAYS:
@@ -376,8 +376,10 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                     closeDrawer();
                     return;
                 case R.id.fragment_liveticker:
-                    currentFrag = R.id.fragment_liveticker;
-                    break;
+                    Intent livetickerIntent = new Intent(this, LivetickerActivity.class);
+                    startActivity(livetickerIntent);
+                    closeDrawer();
+                    return;
                 case R.id.fragment_replays:
                     currentFrag = R.id.fragment_replays;
                     break;

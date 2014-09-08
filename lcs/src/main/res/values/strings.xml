@@ -27,5 +27,18 @@
     <string name="item_overview_L">L</string>
     <string name="item_overview_W">W</string>
     <string name="item_match_details_vs">vs</string>
+    <string name="liveticker_dragon">DRAGON</string>
+    <string name="liveticker_baron">BARON</string>
+    <string name="liveticker_team_fight">TEAMFIGHT</string>
+    <string name="liveticker_kill">KILL</string>
+    <string name="liveticker_tower">TOWER</string>
+    <string name="liveticker_inhibitor">INHIBITOR</string>
+    <string name="liveticker_buff">BUFF</string>
+    <string name="liveticker_nexus">NEXUS</string>
+    <string name="liveticker_first_blood">FIRST_BLOOD</string>
+    <string name="liveticker_scores">SCORES</string>
+    <string name="liveticker_matchup">MATCHUP</string>
+    <string name="liveticker_colon">:</string>
+    <string name="liveticker_pick_bans">PICKS &amp; BANS</string>
 
 </resources>

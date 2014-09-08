@@ -9,14 +9,14 @@
     android:orientation="vertical"
     android:paddingRight="8dp"
     android:paddingLeft="8dp"
-    android:descendantFocusability="blocksDescendants"
+    android:background="@drawable/list_item_selector"
     >
 
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
+        android:layout_marginTop="16dp"
         >
 
         <ImageView
@@ -91,13 +91,16 @@
 
     </RelativeLayout>
 
-    <oak.widget.TextViewWithFont
+    <joss.jacobo.lol.lcs.views.LinkifiedTextView
         android:id="@+id/tweet_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:padding="8dp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="8dp"
         tools:text="C9 Dota 2 falls out of the tournament after an admirable run at #TI4. Thanks to all the fans, we couldn't have done it without your support!"
         oak:oakFont="@string/font_roboto_regular"
         />
@@ -105,7 +108,7 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="0.25dp"
         android:background="@color/white"
         android:paddingBottom="8dp"/>
 

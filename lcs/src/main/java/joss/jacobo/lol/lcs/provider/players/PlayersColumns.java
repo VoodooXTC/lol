@@ -29,6 +29,14 @@ public interface PlayersColumns extends BaseColumns {
 
     String DEFAULT_ORDER = _ID;
 
+    String POSITION_TOP = "TOP";
+    String POSITION_JUNGLE = "JUNGLE";
+    String POSITION_MID = "MID";
+    String POSITION_ADC = "ADC";
+    String POSITION_SUPPORT = "SUPPORT";
+    String POSITION_SUB = "SUB";
+    String POSITION_COACH = "COACH";
+
 	// @formatter:off
     String[] FULL_PROJECTION = new String[] {
             _ID,

@@ -1,11 +1,14 @@
 package joss.jacobo.lol.lcs.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.google.gson.Gson;
 
@@ -51,6 +54,13 @@ public class TeamSocialFragment extends BaseListFragment {
 
         getLoaderManager().initLoader(TWEETS_CALLBACK, null, new TweetsCallBack());
         ApiService.getTweets(getActivity(), teamDetail.twitterHandle);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TweetsModel tweet = adapter.items.get(position);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + tweet.twitterHandle + "/status/" + tweet.tweetId));
+        startActivity(intent);
     }
 
     private class TweetsCallBack implements LoaderManager.LoaderCallbacks<Cursor>{

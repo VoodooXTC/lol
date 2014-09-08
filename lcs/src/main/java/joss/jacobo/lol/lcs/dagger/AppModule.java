@@ -15,6 +15,7 @@ import joss.jacobo.lol.lcs.Datastore;
 import joss.jacobo.lol.lcs.MainApp;
 import joss.jacobo.lol.lcs.activity.BaseActivity;
 import joss.jacobo.lol.lcs.activity.LiveStreamingActivity;
+import joss.jacobo.lol.lcs.activity.LivetickerActivity;
 import joss.jacobo.lol.lcs.activity.MainActivity;
 import joss.jacobo.lol.lcs.activity.NewsDetailsActivity;
 import joss.jacobo.lol.lcs.activity.PlayerDetailsActivity;
@@ -40,6 +41,7 @@ import joss.jacobo.lol.lcs.views.DrawerHeader;
                 NewsDetailsActivity.class,
                 PlayerDetailsActivity.class,
                 LiveStreamingActivity.class,
+                LivetickerActivity.class,
 
                 BaseFragment.class,
                 BaseListFragment.class,

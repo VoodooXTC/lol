@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <oak.widget.TextViewWithFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gold"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:text="@string/liveticker_scores"
+        oak:oakFont="@string/font_gothic_bold"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/lt_baron_dragon_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                >
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_baron_kills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:padding="8dp"
+                    tools:text="0"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baron_icon"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_baron_kills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:padding="8dp"
+                    tools:text="0"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                >
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_dragon_kills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:padding="8dp"
+                    tools:text="0"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/dragon_icon"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_dragon_kills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:padding="8dp"
+                    tools:text="1"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/lt_baron_dragon_container"
+            android:padding="8dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/lt_blue_top_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_top_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="3-3-9"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/lt_blue_jungle_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_jungle_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="5-6-10"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/lt_blue_mid_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_mid_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="4-1-9"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/lt_blue_adc_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_adc_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="8-3-7"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/lt_blue_support_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_support_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="1-1-15"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/lt_baron_dragon_container"
+            android:padding="8dp"
+            android:gravity="right"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_top_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="1-5-5"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <ImageView
+                    android:id="@+id/lt_purple_top_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_jungle_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="11-51-41"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <ImageView
+                    android:id="@+id/lt_purple_jungle_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_mid_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="5-4-4"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+                <ImageView
+                    android:id="@+id/lt_purple_mid_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_adc_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="3-4-3"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <ImageView
+                    android:id="@+id/lt_purple_adc_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_support_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="8dp"
+                    tools:text="1-1-15"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <ImageView
+                    android:id="@+id/lt_purple_support_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/champion_square_empty"
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

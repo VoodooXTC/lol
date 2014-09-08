@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <oak.widget.TextViewWithFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gold"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:text="@string/liveticker_pick_bans"
+        oak:oakFont="@string/font_gothic_bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_top_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Nidalee"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_top_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="sOAZ"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_blue_top_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_jungle_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Vi"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_jungle_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Cyanide"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_blue_jungle_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_mid_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Kassadin"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_mid_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="xPeke"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_blue_mid_player_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_adc_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Jinx"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_adc_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Rekkles"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_blue_adc_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_support_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Morgana"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_support_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Yell0wStaR"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_blue_support_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/lt_blue_bans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:padding="8dp"
+                tools:text="Fizz, Evelyn, Braum"
+                android:gravity="center"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_top_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Shyvanna"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_top_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Seraph"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_purple_top_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_jungle_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Elise"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_jungle_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Dexter"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_purple_jungle_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_mid_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Yasuo"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_mid_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Link"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_purple_mid_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_adc_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Lucian"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_adc_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Doublelift"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_purple_adc_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_support_champ_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Alistar"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_support_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    tools:text="Aphromoo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/lt_purple_support_champ_name"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </RelativeLayout>
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/lt_purple_bans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:padding="8dp"
+                tools:text="Lee Sin, Ziggs, Teemo, Lee Sin, Ziggs, Teemo"
+                android:gravity="center"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

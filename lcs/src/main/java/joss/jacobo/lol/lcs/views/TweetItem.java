@@ -63,7 +63,6 @@ public class TweetItem extends LinearLayout {
         twitterHandle.setText("@" + tweet.screenName);
         tweetText.setText(tweet.text);
         linkyfy(tweetText);
-        tweetText.setMovementMethod(null);
         createdAt.setText(DateTimeFormatter.formatMillisToAgo(tweet.createdAt, DateTimeFormatter.TWITTER));
     }
 
@@ -85,5 +84,7 @@ public class TweetItem extends LinearLayout {
 
         Pattern urlPattern = Patterns.WEB_URL;
         Linkify.addLinks(textView, urlPattern, null, null, filter);
+
+        textView.setMovementMethod(null);
     }
 }

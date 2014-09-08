@@ -12,6 +12,7 @@ import java.util.List;
 
 import joss.jacobo.lol.lcs.api.model.Config;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
+import joss.jacobo.lol.lcs.api.model.Liveticker.Liveticker;
 import joss.jacobo.lol.lcs.api.model.News.News;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
 import joss.jacobo.lol.lcs.api.model.Replays.Replay;
@@ -60,6 +61,8 @@ public class ApiService extends IntentService {
     public static final String LIVESTREAM_VIDEOS = "livestream_videos";
     public static final String REPLAYS = "replays";
     public static final String NUM_OF_REPLAYS = "num_of_replays";
+    public static final String EVENT_ID = "event_id";
+    public static final String LIVETICKER_EVENTS = "liveticker_events";
 
     public static final int TYPE_INITIAL_CONFIG = 0;
     public static final int TYPE_LATEST_STANDINGS = 1;
@@ -69,6 +72,7 @@ public class ApiService extends IntentService {
     public static final int TYPE_GET_TWEETS_LCS = 5;
     public static final int TYPE_GET_LIVESTREAM_VIDEOS = 6;
     public static final int TYPE_GET_REPLAYS = 7;
+    public static final int TYPE_GET_LIVETICKER_EVENTS = 8;
 
     public static final String STATUS = "status";
     public static final int SUCCESS = 1;
@@ -225,6 +229,20 @@ public class ApiService extends IntentService {
                     }
                 });
                 break;
+
+            case TYPE_GET_LIVETICKER_EVENTS:
+                service.getLivetickerEvents(intent.getStringExtra(EVENT_ID), new Callback<Liveticker>() {
+                    @Override
+                    public void success(Liveticker liveticker, Response response) {
+                        sendLivetickerEventsBroadcast(liveticker, SUCCESS);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        sendLivetickerEventsBroadcast(null, ERROR);
+                    }
+                });
+                break;
         }
     }
 
@@ -282,6 +300,13 @@ public class ApiService extends IntentService {
         intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_REPLAYS);
         intent.putExtra(ApiService.NUM_OF_REPLAYS, numOfReplays);
         intent.putExtra(ApiService.OFFSET, offset);
+        context.startService(intent);
+    }
+
+    public static void getLivetickerEvents(Context context, String eventId){
+        Intent intent = new Intent(context, ApiService.class);
+        intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_LIVETICKER_EVENTS);
+        intent.putExtra(ApiService.EVENT_ID, eventId);
         context.startService(intent);
     }
 
@@ -401,6 +426,18 @@ public class ApiService extends IntentService {
 
         if(status == SUCCESS && replays != null){
             intent.putExtra(REPLAYS, GGson.toJson(replays));
+        }
+
+        broadcast.sendBroadcast(intent);
+    }
+
+    private void sendLivetickerEventsBroadcast(Liveticker liveticker, int status){
+        Intent intent = new Intent(BROADCAST);
+        intent.putExtra(API_TYPE, TYPE_GET_LIVETICKER_EVENTS);
+        intent.putExtra(STATUS, status);
+
+        if(status == SUCCESS){
+            intent.putExtra(LIVETICKER_EVENTS, GGson.toJson(liveticker));
         }
 
         broadcast.sendBroadcast(intent);

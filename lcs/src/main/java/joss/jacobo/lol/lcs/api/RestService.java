@@ -4,6 +4,7 @@ import java.util.List;
 
 import joss.jacobo.lol.lcs.api.model.Config;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
+import joss.jacobo.lol.lcs.api.model.Liveticker.Liveticker;
 import joss.jacobo.lol.lcs.api.model.News.News;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
 import joss.jacobo.lol.lcs.api.model.Replays.Replay;
@@ -33,4 +34,7 @@ public interface RestService{
 
     @GET("/replays/getReplays/{numOfReplays}/{offset}/")
     void getReplays(@Path("numOfReplays") int numOfReplays, @Path("offset") int offset, Callback<List<Replay>> callback);
+
+    @GET("/live/getEvents/{eventId}")
+    void getLivetickerEvents(@Path("eventId") String eventId, Callback<Liveticker> callback);
 }

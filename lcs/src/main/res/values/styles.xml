@@ -10,4 +10,8 @@
         <item name="android:background">@drawable/a</item>
     </style>
 
+    <style name="AppTheme.LiveTicker" parent="AppTheme">
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
 </resources>

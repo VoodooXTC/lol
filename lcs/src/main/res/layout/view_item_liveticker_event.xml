@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <oak.widget.TextViewWithFont
+        android:id="@+id/liveticker_event_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        tools:text="40:53"
+        oak:oakFont="@string/font_gothic_regular"
+        />
+
+    <LinearLayout
+        android:id="@+id/liveticker_event_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/liveticker_event_time">
+
+        <ImageView
+            android:id="@+id/liveticker_event_icon"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            tools:src="@drawable/turret_icon"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="8dp">
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/liveticker_event_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gold"
+                android:textSize="20sp"
+                tools:text="Alliance is onto the Nexus Turrets!"
+                oak:oakFont="@string/font_gothic_bold"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/liveticker_event_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="Alliance is the faster pushing team due to the pure power of Tabbz's Jinx, Roccat are all recalling to secure their base, but Allieance is already on the Nexus turrets!"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/liveticker_event_hint"
+        android:layout_width="2dp"
+        android:layout_height="20dp"
+        android:background="@color/gold"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/liveticker_event_title_container"/>
+
+</RelativeLayout>

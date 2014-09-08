@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+    <LinearLayout
+        android:id="@+id/lt_blue_turret_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center|right"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@+id/lt_blue_gold_container"
+        >
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/lt_blue_turrets_killed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="8dp"
+            tools:text="5"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/turret_icon"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lt_blue_gold_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center|right"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@+id/lt_vs_container"
+        >
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/lt_blue_gold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="8dp"
+            tools:text="40.5k"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/gold_score_icon"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lt_vs_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/lt_blue_kills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="8dp"
+            tools:text="11"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/teamfight_icon"
+            />
+
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/lt_purple_kills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="8dp"
+            tools:text="4"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lt_purple_gold_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@+id/lt_vs_container"
+        >
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/gold_score_icon"
+            />
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/lt_purple_gold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="8dp"
+            tools:text="32.5k"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lt_purple_turret_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center|right"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@+id/lt_purple_gold_container"
+        >
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/turret_icon"
+            />
+
+        <oak.widget.TextViewWithFont
+            android:id="@+id/lt_purple_turrets_killed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="8dp"
+            tools:text="5"
+            oak:oakFont="@string/font_gothic_regular"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

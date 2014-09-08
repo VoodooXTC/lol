@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:oak="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <oak.widget.TextViewWithFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gold"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:text="@string/liveticker_matchup"
+        oak:oakFont="@string/font_gothic_bold"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/lt_match_score_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_blue_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:text="1"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:padding="8dp"
+                    android:text="@string/liveticker_colon"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+                <oak.widget.TextViewWithFont
+                    android:id="@+id/lt_purple_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:text="0"
+                    oak:oakFont="@string/font_gothic_regular"
+                    />
+
+            </LinearLayout>
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/lt_best_of"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:text="Best of 5"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/lt_match_score_container"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/lt_blue_team_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_launcher"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/lt_blue_team_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:padding="8dp"
+                android:gravity="center"
+                tools:text="Fnatic"
+                android:maxLines="2"
+                android:ellipsize="end"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/lt_match_score_container"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/lt_purple_team_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_launcher"
+                />
+
+            <oak.widget.TextViewWithFont
+                android:id="@+id/lt_purple_team_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                tools:text="Counter Logic Gaming"
+                android:gravity="center"
+                android:padding="8dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                oak:oakFont="@string/font_gothic_regular"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
