@@ -15,8 +15,7 @@
     <include
         layout="@layout/fragment_base_list"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        />
+        android:layout_width="match_parent"/>
 
     <include
         layout="@layout/view_liveticker_bottom_drawer"

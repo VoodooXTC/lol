@@ -10,7 +10,7 @@ import android.widget.TextView;
 import joss.jacobo.lol.lcs.R;
 
 /**
- * Created by Joss on 7/24/2014.
+ * Created by Joss on 7/24/2014
  */
 public class ActionBarCustomTitle extends LinearLayout {
 

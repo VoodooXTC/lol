@@ -40,5 +40,6 @@
     <string name="liveticker_matchup">MATCHUP</string>
     <string name="liveticker_colon">:</string>
     <string name="liveticker_pick_bans">PICKS &amp; BANS</string>
+    <string name="vs">vs</string>
 
 </resources>

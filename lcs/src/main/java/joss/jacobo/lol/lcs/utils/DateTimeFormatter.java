@@ -58,6 +58,19 @@ public class DateTimeFormatter {
         return dateString;
     }
 
+    public static Date getDate(String dateString){
+        try {
+
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return fmt.parse(dateString);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static String formatDateTimeStringToAgo(String datetime, int type){
 
         try {

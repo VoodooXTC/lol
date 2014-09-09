@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -182,17 +183,35 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         switch (orientation){
             case Configuration.ORIENTATION_LANDSCAPE:
                 youTubePlayer.setFullscreen(true);
+                hideSystemUI();
                 break;
 
             case Configuration.ORIENTATION_PORTRAIT:
                 youTubePlayer.setFullscreen(false);
+                showSystemUI();
                 break;
 
             case Configuration.ORIENTATION_UNDEFINED:
                 youTubePlayer.setFullscreen(false);
+                showSystemUI();
                 break;
         }
 
+    }
+
+    private void hideSystemUI() {
+        int LAYOUT_FLAGS = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        if(Build.VERSION.SDK_INT >= 19)
+            LAYOUT_FLAGS |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+
+        getWindow().getDecorView().setSystemUiVisibility(LAYOUT_FLAGS);
+    }
+
+    private void showSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(0);
     }
 
     private YouTubePlayer.PlaybackEventListener playbackEventListener = new YouTubePlayer.PlaybackEventListener() {
@@ -404,6 +423,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         if(fullscreen){
             youTubePlayer.setFullscreen(false);
             fullscreen = false;
+            showSystemUI();
             return;
         }
 

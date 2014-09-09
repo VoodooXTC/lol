@@ -1,9 +1,11 @@
 package joss.jacobo.lol.lcs.activity;
 
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
+import android.view.WindowManager;
 
 import javax.inject.Inject;
 

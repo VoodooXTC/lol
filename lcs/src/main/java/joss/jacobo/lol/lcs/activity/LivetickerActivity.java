@@ -4,12 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.util.TypedValue;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +24,10 @@ import android.widget.TextView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,8 +38,9 @@ import joss.jacobo.lol.lcs.api.model.Liveticker.Liveticker;
 import joss.jacobo.lol.lcs.model.MatchesModel;
 import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
 import joss.jacobo.lol.lcs.provider.matches.MatchesSelection;
-import joss.jacobo.lol.lcs.utils.CustomTypefaceSpan;
+import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 import joss.jacobo.lol.lcs.utils.GGson;
+import joss.jacobo.lol.lcs.views.ActionBarCustomCenteredTitle;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerHeader;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerMatchup;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerPickBans;
@@ -49,6 +53,14 @@ import joss.jacobo.lol.lcs.views.LivetickerEventItem;
 public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLayout.PanelSlideListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = "LivetickerActivity";
+
+    private static final int TIMER = 0;
+    private static final int TOGGLE = 1;
+    private static final int FETCH_DATA = 2;
+
+    private static final int ONE_SECOND = 1000;
+    private static final int TOGGLE_DELAY = ONE_SECOND * 10;
+    private static final int FETCH_DATA_DELAY = ONE_SECOND * 30;
 
     @InjectView(R.id.liveticker_sliding_up_panel)
     SlidingUpPanelLayout slidingUpPanelLayout;
@@ -71,12 +83,36 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
     LivetickerBottomDrawerMatchup btMatchUp;
     LivetickerBottomDrawerPickBans btPickBans;
 
-    boolean fetching = false;
     private LocalBroadcastManager broadcastManager;
     private ApiReceiver apiReceiver;
 
     LivetickerAdapter adapter;
     Liveticker liveticker;
+    boolean timerStarted = false;
+
+    ActionBarCustomCenteredTitle customTitle;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message message){
+            switch (message.what){
+                case TIMER:
+                    setTime(liveticker);
+                    sendTimerMessage();
+                    break;
+
+                case TOGGLE:
+                    customTitle.toggle();
+                    sendToggleTitleMessage();
+                    break;
+
+                case FETCH_DATA:
+                    ApiService.getLivetickerEvents(LivetickerActivity.this, datastore.getSelectedTournament());
+                    sendFetchDataMessage(FETCH_DATA_DELAY);
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,8 +132,6 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
 
 //        getLoaderManager().initLoader(TWEETS_CALLBACK, null, new TweetsCallBack());
 //        ApiService.getLCSTweets(this);
-        ApiService.getLivetickerEvents(this, "");
-        fetching = true;
 
         bottomDrawer.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -134,16 +168,23 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
         super.onResume();
         broadcastManager.registerReceiver(apiReceiver, new IntentFilter(ApiService.BROADCAST));
 
-//        Message message = new Message();
-//        message.what = GET_HASHTAG_TWEETS;
-//        tweetHandler.sendMessageDelayed(message, DELAY);
-
+        // Start all Messages
+        startTitleToggle();
+        startFetchingData();
+        if(liveticker != null){
+            startTimer();
+        }
     }
 
     @Override
     public void onPause(){
         super.onPause();
         broadcastManager.unregisterReceiver(apiReceiver);
+
+        // Stop timers and Remove all pending messages
+        stopTimer();
+        handler.removeMessages(TOGGLE);
+        handler.removeMessages(FETCH_DATA);
     }
 
     @Override
@@ -167,9 +208,9 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
 
     @Override
     public void onPanelSlide(View view, float v) {
-        if(v > 0.8f && getSupportActionBar().isShowing()){
+        if(v > 0.70f && getSupportActionBar().isShowing()){
             getSupportActionBar().hide();
-        }else if(v < 0.8f && !getSupportActionBar().isShowing()){
+        }else if(v < 0.70f && !getSupportActionBar().isShowing()){
             getSupportActionBar().show();
         }
     }
@@ -193,6 +234,7 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
     }
 
     private void setupListView() {
+        emptyView.setText("No Live Events at the moment");
         listView.setEmptyView(emptyView);
         adapter = new LivetickerAdapter(this, new ArrayList<Event>());
         listView.setAdapter(adapter);
@@ -226,12 +268,12 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
                             liveticker = GGson.fromJson(intent.getStringExtra(ApiService.LIVETICKER_EVENTS), Liveticker.class);
                             adapter.setItems(liveticker.events);
                             setContent(liveticker);
-                            fetching = false;
                             showContent();
                             break;
                         case ApiService.ERROR:
+                            emptyView.setText(intent.getStringExtra(ApiService.MESSAGE));
                             adapter.setItems(new ArrayList<Event>());
-                            fetching = false;
+                            showContent();
                             break;
                     }
                     break;
@@ -253,8 +295,10 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
         MatchesModel match = matchesCursor.moveToFirst() ? new MatchesModel(matchesCursor) : null;
 
         if(match != null){
-            onSetActionBarTitle("Liveticker", match.team1 + " vs. " + match.team2);
+            customTitle.setMatch(match.team1, match.team2);
         }
+        if(!timerStarted)
+            startTimer();
     }
 
     @Override
@@ -310,16 +354,19 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
 
     public void setupActionBar(String title) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowCustomEnabled(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/" + getString(R.string.font_gothic_regular));
-        CustomTypefaceSpan light = new CustomTypefaceSpan("",font);
-        light.setColor(getResources().getColor(R.color.white));
-        SpannableStringBuilder sb = new SpannableStringBuilder(title);
-        sb.setSpan(light,0,title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        getSupportActionBar().setTitle(sb);
+        customTitle = new ActionBarCustomCenteredTitle(this);
+        customTitle.setContent(title, null, null);
+        getSupportActionBar().setCustomView(customTitle);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings, menu);
+        return true;
     }
 
     private void showLoading(){
@@ -328,6 +375,60 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
 
     private void showContent(){
         loadingView.setVisibility(View.GONE);
+    }
+
+    private void startTitleToggle(){
+        handler.removeMessages(TOGGLE);
+        sendToggleTitleMessage();
+    }
+
+    private void sendToggleTitleMessage(){
+        Message message = new Message();
+        message.what = TOGGLE;
+        handler.sendMessageDelayed(message, TOGGLE_DELAY);
+    }
+
+    private void startTimer(){
+        timerStarted = true;
+        handler.removeMessages(TIMER);
+        sendTimerMessage();
+    }
+
+    private void stopTimer() {
+        timerStarted = false;
+        handler.removeMessages(TIMER);
+    }
+
+    private void sendTimerMessage(){
+        Message message = new Message();
+        message.what = TIMER;
+        handler.sendMessageDelayed(message, ONE_SECOND);
+    }
+
+    private void setTime(Liveticker liveticker) {
+        if(liveticker != null){
+            Date startingTime = DateTimeFormatter.getDate(liveticker.matchDetails.matchStartedDatetime);
+            if(startingTime != null){
+                Date now = Calendar.getInstance().getTime();
+                Date timeElapsed = new Date(now.getTime() - startingTime.getTime());
+
+                long millis = timeElapsed.getTime();
+                customTitle.setTitle(String.format("%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(millis),
+                        TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))));
+            }
+        }
+    }
+
+    private void startFetchingData(){
+        handler.removeMessages(FETCH_DATA);
+        sendFetchDataMessage(0);
+    }
+
+    private void sendFetchDataMessage(int delay) {
+        Message message = new Message();
+        message.what = FETCH_DATA;
+        handler.sendMessageDelayed(message, delay);
     }
 
 }

@@ -36,5 +36,5 @@ public interface RestService{
     void getReplays(@Path("numOfReplays") int numOfReplays, @Path("offset") int offset, Callback<List<Replay>> callback);
 
     @GET("/live/getEvents/{eventId}")
-    void getLivetickerEvents(@Path("eventId") String eventId, Callback<Liveticker> callback);
+    void getLivetickerEvents(@Path("eventId") int eventId, Callback<Liveticker> callback);
 }

@@ -12,7 +12,8 @@ import java.util.List;
 
 import joss.jacobo.lol.lcs.api.model.Config;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
-import joss.jacobo.lol.lcs.api.model.Liveticker.Liveticker;
+import joss.jacobo.lol.lcs.api.model.Liveticker.*;
+import joss.jacobo.lol.lcs.api.model.Liveticker.Error;
 import joss.jacobo.lol.lcs.api.model.News.News;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
 import joss.jacobo.lol.lcs.api.model.Replays.Replay;
@@ -53,6 +54,7 @@ public class ApiService extends IntentService {
     private static final String TAG = "ApiService";
 
     public static final String API_TYPE = "api_type";
+    public static final String MESSAGE = "message";
     public static final String TWITTER_HANDLE = "twitter_handle";
     public static final String TEAM_ID = "team_id";
     public static final String NUM_OF_ARTICLES = "num_of_articles";
@@ -231,15 +233,16 @@ public class ApiService extends IntentService {
                 break;
 
             case TYPE_GET_LIVETICKER_EVENTS:
-                service.getLivetickerEvents(intent.getStringExtra(EVENT_ID), new Callback<Liveticker>() {
+                service.getLivetickerEvents(intent.getIntExtra(EVENT_ID, 0), new Callback<Liveticker>() {
                     @Override
                     public void success(Liveticker liveticker, Response response) {
-                        sendLivetickerEventsBroadcast(liveticker, SUCCESS);
+                        sendLivetickerEventsBroadcast(liveticker, SUCCESS, null);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        sendLivetickerEventsBroadcast(null, ERROR);
+                        Error livetickerError = (Error) error.getBodyAs(Error.class);
+                        sendLivetickerEventsBroadcast(null, ERROR, livetickerError.message);
                     }
                 });
                 break;
@@ -303,7 +306,7 @@ public class ApiService extends IntentService {
         context.startService(intent);
     }
 
-    public static void getLivetickerEvents(Context context, String eventId){
+    public static void getLivetickerEvents(Context context, int eventId){
         Intent intent = new Intent(context, ApiService.class);
         intent.putExtra(ApiService.API_TYPE, ApiService.TYPE_GET_LIVETICKER_EVENTS);
         intent.putExtra(ApiService.EVENT_ID, eventId);
@@ -431,13 +434,15 @@ public class ApiService extends IntentService {
         broadcast.sendBroadcast(intent);
     }
 
-    private void sendLivetickerEventsBroadcast(Liveticker liveticker, int status){
+    private void sendLivetickerEventsBroadcast(Liveticker liveticker, int status, String message){
         Intent intent = new Intent(BROADCAST);
         intent.putExtra(API_TYPE, TYPE_GET_LIVETICKER_EVENTS);
         intent.putExtra(STATUS, status);
 
         if(status == SUCCESS){
             intent.putExtra(LIVETICKER_EVENTS, GGson.toJson(liveticker));
+        }else{
+            intent.putExtra(MESSAGE, message);
         }
 
         broadcast.sendBroadcast(intent);
