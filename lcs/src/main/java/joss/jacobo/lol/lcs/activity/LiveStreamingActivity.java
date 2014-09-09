@@ -1,5 +1,6 @@
 package joss.jacobo.lol.lcs.activity;
 
+import android.app.ActionBar;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,9 +17,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ import joss.jacobo.lol.lcs.views.ActionBarDropDownItem;
 /**
  * Created by Joss on 8/2/2014
  */
-public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, android.app.ActionBar.OnNavigationListener, AdapterView.OnItemClickListener {
+public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, ActionBar.OnNavigationListener, AdapterView.OnItemClickListener, YouTubePlayer.OnFullscreenListener, YouTubePlayer.PlaybackEventListener, YouTubePlayer.PlayerStateChangeListener {
 
     private static final String API_KEY = "AIzaSyBXyu6ZqTxhkWybwxPtwmWrEbadtxF1m4A";
     private static final String VIDEO_ID = "eREuD2_43Zo";
@@ -97,6 +98,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     };
 
     DropDownAdapter dropDownAdapter;
+    String currentVideo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -155,24 +157,19 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         this.youTubePlayer = youTubePlayer;
 
         youTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
-        youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
-        youTubePlayer.setPlaybackEventListener(playbackEventListener);
-        youTubePlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
-            @Override
-            public void onFullscreen(boolean b) {
-                fullscreen = b;
-            }
-        });
+        youTubePlayer.setPlayerStateChangeListener(this);
+        youTubePlayer.setPlaybackEventListener(this);
+        youTubePlayer.setOnFullscreenListener(this);
 
         /** Start buffering **/
         if (!wasRestored) {
-            //youTubePlayer.cueVideo(VIDEO_ID);
+            cueVideo(null);
         }
     }
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        Toast.makeText(this, "Failured to Initialize!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.livestream_error_starting_stream), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -199,81 +196,71 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
     }
 
-    private void hideSystemUI() {
-        int LAYOUT_FLAGS = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        if(Build.VERSION.SDK_INT >= 19)
-            LAYOUT_FLAGS |= View.SYSTEM_UI_FLAG_IMMERSIVE;
-
-        getWindow().getDecorView().setSystemUiVisibility(LAYOUT_FLAGS);
+    @Override
+    public void onFullscreen(boolean b) {
+        fullscreen = b;
+        if(fullscreen) {
+            hideSystemUI();
+        }else{
+            showSystemUI();
+        }
     }
 
-    private void showSystemUI() {
-        getWindow().getDecorView().setSystemUiVisibility(0);
+    @Override
+    public void onAdStarted() {
+
     }
 
-    private YouTubePlayer.PlaybackEventListener playbackEventListener = new YouTubePlayer.PlaybackEventListener() {
+    @Override
+    public void onError(YouTubePlayer.ErrorReason errorReason) {
+        Toast.makeText(this,
+                errorReason.toString(),
+                Toast.LENGTH_LONG).show();
+    }
 
-        @Override
-        public void onBuffering(boolean arg0) {
+    @Override
+    public void onLoaded(String arg0) {
 
-        }
+    }
 
-        @Override
-        public void onPaused() {
+    @Override
+    public void onLoading() {
+    }
 
-        }
+    @Override
+    public void onVideoEnded() {
 
-        @Override
-        public void onPlaying() {
+    }
 
-        }
+    @Override
+    public void onVideoStarted() {
 
-        @Override
-        public void onSeekTo(int arg0) {
+    }
 
-        }
+    @Override
+    public void onBuffering(boolean arg0) {
 
-        @Override
-        public void onStopped() {
+    }
 
-        }
+    @Override
+    public void onPaused() {
 
-    };
+    }
 
-    private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener = new YouTubePlayer.PlayerStateChangeListener() {
+    @Override
+    public void onPlaying() {
 
-        @Override
-        public void onAdStarted() {
+    }
 
-        }
+    @Override
+    public void onSeekTo(int arg0) {
 
-        @Override
-        public void onError(YouTubePlayer.ErrorReason arg0) {
+    }
 
-        }
+    @Override
+    public void onStopped() {
 
-        @Override
-        public void onLoaded(String arg0) {
-
-        }
-
-        @Override
-        public void onLoading() {
-        }
-
-        @Override
-        public void onVideoEnded() {
-
-        }
-
-        @Override
-        public void onVideoStarted() {
-
-        }
-    };
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -288,7 +275,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Video video = dropDownAdapter.videos.get(itemPosition);
-        youTubePlayer.cueVideo(video.id);
+        cueVideo(video.id);
         return true;
     }
 
@@ -359,7 +346,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
                             List<Video> videos = GGson.fromJson(intent.getStringExtra(ApiService.LIVESTREAM_VIDEOS), new TypeToken<List<Video>>(){}.getType());
                             if(videos != null && videos.size() > 0){
                                 dropDownAdapter.setVideos(videos);
-                                youTubePlayer.cueVideo(videos.get(0).id);
+                                cueVideo(videos.get(0).id);
 
                                 if(getActionBar() != null)
                                     getActionBar().setDisplayShowCustomEnabled(false);
@@ -454,5 +441,29 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
     private void showContent(){
         loadingView.setVisibility(View.GONE);
+    }
+
+    private void cueVideo(String videoId){
+        if(videoId != null){
+            currentVideo = videoId;
+        }
+        if(youTubePlayer != null && videoId != null){
+            youTubePlayer.cueVideo(currentVideo);
+        }
+    }
+
+    private void hideSystemUI() {
+        int LAYOUT_FLAGS = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        if(Build.VERSION.SDK_INT >= 19)
+            LAYOUT_FLAGS |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+
+        getWindow().getDecorView().setSystemUiVisibility(LAYOUT_FLAGS);
+    }
+
+    private void showSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(0);
     }
 }

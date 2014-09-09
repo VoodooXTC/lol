@@ -42,4 +42,6 @@
     <string name="liveticker_pick_bans">PICKS &amp; BANS</string>
     <string name="vs">vs</string>
 
+    <string name="livestream_error_starting_stream">An error occurred trying to start your video, I don\'t know what to tell you…It was there, I saw it too. ¯\\(°_o)/¯</string>
+
 </resources>
