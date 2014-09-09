@@ -36,8 +36,11 @@ import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.api.model.Liveticker.Event;
 import joss.jacobo.lol.lcs.api.model.Liveticker.Liveticker;
 import joss.jacobo.lol.lcs.model.MatchesModel;
+import joss.jacobo.lol.lcs.model.TeamDetailsModel;
 import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
 import joss.jacobo.lol.lcs.provider.matches.MatchesSelection;
+import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsCursor;
+import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
 import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 import joss.jacobo.lol.lcs.utils.GGson;
 import joss.jacobo.lol.lcs.views.ActionBarCustomCenteredTitle;
@@ -295,10 +298,18 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
         MatchesModel match = matchesCursor.moveToFirst() ? new MatchesModel(matchesCursor) : null;
 
         if(match != null){
-            customTitle.setMatch(match.team1, match.team2);
+            customTitle.setMatch(getTeamAbrv(match.team1, match.team1Id),
+                    getTeamAbrv(match.team2, match.team2Id));
         }
         if(!timerStarted)
             startTimer();
+    }
+
+    private String getTeamAbrv(String teamName, int teamId){
+        TeamDetailsSelection where = new TeamDetailsSelection();
+        where.teamId(teamId);
+        TeamDetailsCursor cursor = where.query(getContentResolver());
+        return cursor.moveToFirst() ? cursor.getAbrev() : teamName;
     }
 
     @Override
