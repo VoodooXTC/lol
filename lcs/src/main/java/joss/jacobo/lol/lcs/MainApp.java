@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.bugsnag.android.Bugsnag;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -32,6 +33,7 @@ public class MainApp extends Application implements IObjectGraph {
         super.onCreate();
         Log.i(TAG, "onCreate");
 
+        Bugsnag.register(this, "3f3a012ad7eb6703e8b327f33ae37abd");
 //        Picasso.with(this).setDebugging(true);
 
         /**
