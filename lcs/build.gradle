@@ -10,33 +10,28 @@ android {
         applicationId "joss.jacobo.lol.lcs"
         minSdkVersion 16
         targetSdkVersion 19
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
     }
 
-    if(project.hasProperty("eleonor.properties")
-            && new File(project.property("eleonor.properties")).exists()) {
 
-        Properties props = new Properties()
-        props.load(new FileInputStream(file(project.property("eleonor.properties"))))
-
-        signingConfigs {
-            release {
-                storeFile file("eleonor.keystore")
-                storePassword props['keystore.password']
-                keyAlias props['keyAlias']
-                keyPassword props['keyPassword']
-            }
-        }
-
-        buildTypes {
-            release {
-                runProguard false
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                signingConfig signingConfigs.release
-            }
+    signingConfigs {
+        release {
+            storeFile file("eleanor.keystore")
+            storePassword "***"
+            keyAlias "***"
+            keyPassword "***"
         }
     }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
     lintOptions{
         abortOnError false
     }
@@ -60,6 +55,7 @@ dependencies {
     compile 'com.google.apis:google-api-services-youtube:v3-rev113-1.19.0'
     compile 'com.sothree.slidinguppanel:library:+'
     compile 'com.github.amlcurran.showcaseview:library:5.0.0'
+    compile 'com.bugsnag:bugsnag-android:2.2.0'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
