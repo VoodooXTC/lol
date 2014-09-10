@@ -8,6 +8,7 @@
 
     <style name="lol_ActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
         <item name="android:background">@drawable/a</item>
+        <item name="android:color">@color/white</item>
     </style>
 
     <style name="AppTheme.LiveTicker" parent="AppTheme">
