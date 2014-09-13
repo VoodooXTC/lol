@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
@@ -169,6 +170,24 @@ public class MatchesCursor extends AbstractCursor {
         return getIntegerOrNull(MatchesColumns.MATCH_POSITION);
     }
 
+    /**
+     * Get the {@code best_of} value.
+     * Can be {@code null}.
+     */
+    public String getBestOf() {
+        Integer index = getCachedColumnIndexOrThrow(MatchesColumns.BEST_OF);
+        return getString(index);
+    }
+
+    /**
+     * Get the {@code tournament_group} value.
+     * Can be {@code null}.
+     */
+    public String getTournamentGroup() {
+        Integer index = getCachedColumnIndexOrThrow(MatchesColumns.TOURNAMENT_GROUP);
+        return getString(index);
+    }
+
     public List<MatchesModel> getListAsMatchesModel() {
         List<MatchesModel> items = new ArrayList<MatchesModel>();
         if(moveToFirst()){
@@ -180,11 +199,11 @@ public class MatchesCursor extends AbstractCursor {
         return items;
     }
 
-    public List<MatchDetailsItem> geListAsMatchDetailsItems(int overviewItemType) {
+    public List<MatchDetailsItem> geListAsMatchDetailsItems(Context context, int overviewItemType) {
         List<MatchDetailsItem> items = new ArrayList<MatchDetailsItem>();
         if(moveToFirst()){
             while(!isAfterLast()){
-                items.add(new MatchDetailsItem(this, overviewItemType));
+                items.add(new MatchDetailsItem(context, this, overviewItemType));
                 moveToNext();
             }
         }

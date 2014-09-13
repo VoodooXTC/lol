@@ -19,6 +19,7 @@ import joss.jacobo.lol.lcs.provider.matches.MatchesColumns;
 import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
 import joss.jacobo.lol.lcs.provider.matches.MatchesSelection;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsSelection;
+import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 import joss.jacobo.lol.lcs.views.OverviewMatchDetailsItem;
 import joss.jacobo.lol.lcs.views.ScheduleMatchSectionTitleItem;
 
@@ -170,17 +171,19 @@ public class ScheduleFragment extends BaseListFragment {
 
         String date = "";
         for(MatchesModel match : list){
+
             // Add section title if datetime is new
-            if(!match.date.equals(date)){
-                items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE_SCHEDULE_MATCHES, match.date));
-                date = match.date;
+            String matchDate = DateTimeFormatter.formatDatetimeToDate(match.datetime);
+            if(!matchDate.equals(date)){
+                items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE_SCHEDULE_MATCHES, matchDate));
+                date = matchDate;
 
                 // Hide the bottom divider of the previous item
                 if(items.size() > 1){
                     items.get(items.size() - 2).showDivider = false;
                 }
             }
-            items.add(new MatchDetailsItem(match, match.played == 1 ? OverviewItem.TYPE_MATCH_RESULTS : OverviewItem.TYPE_MATCH_UPCOMING));
+            items.add(new MatchDetailsItem(getActivity(), match, match.played == 1 ? OverviewItem.TYPE_MATCH_RESULTS : OverviewItem.TYPE_MATCH_UPCOMING));
 
             if(match.played == 1){
                 scrollToItem = items.size() - 1;

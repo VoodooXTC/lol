@@ -48,7 +48,9 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + MatchesColumns.RESULT2 + " INTEGER, "
             + MatchesColumns.PLAYED + " INTEGER, "
             + MatchesColumns.MATCH_NO + " INTEGER, "
-            + MatchesColumns.MATCH_POSITION + " INTEGER "
+            + MatchesColumns.MATCH_POSITION + " INTEGER, "
+            + MatchesColumns.BEST_OF + " TEXT, "
+            + MatchesColumns.TOURNAMENT_GROUP + " TEXT "
             + ", CONSTRAINT MATCH_ID UNIQUE (MATCH_ID) ON CONFLICT REPLACE"
             + " );";
 

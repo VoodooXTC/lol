@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import joss.jacobo.lol.lcs.items.StandingsItem;

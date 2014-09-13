@@ -31,10 +31,10 @@ public class StandingsItem extends OverviewItem {
         this.league = standingsCursor.getTournamentAbrev();
         this.week = standingsCursor.getStandingWeek();
         this.position = standingsCursor.getStandingPosition();
-        this.teamName = standingsCursor.getTeamName();
         this.wins = standingsCursor.getWins();
         this.losses = standingsCursor.getLosses();
         this.delta = standingsCursor.getDelta();
         this.teamAbrev = standingsCursor.getTeamAbrev();
+        this.teamName = standingsCursor.getTeamName();
     }
 }

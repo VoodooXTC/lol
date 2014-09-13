@@ -26,6 +26,8 @@ public class MatchesModel{
     public Integer played;
     public Integer matchNo;
     public Integer matchPosition;
+    public String bestOf;
+    public String tournamentGroup;
 
     public MatchesModel(){}
 
@@ -48,6 +50,8 @@ public class MatchesModel{
         this.played = cursor.getPlayed();
         this.matchNo = cursor.getMatchNo();
         this.matchPosition = cursor.getMatchPosition();
+        this.bestOf = cursor.getBestOf();
+        this.tournamentGroup = cursor.getTournamentGroup();
     }
 
     public MatchesModel(Schedule match) {
@@ -69,5 +73,7 @@ public class MatchesModel{
         this.played = match.played;
         this.matchNo = match.matchNo;
         this.matchPosition = match.position;
+        this.bestOf = match.bestOf;
+        this.tournamentGroup = match.group;
     }
 }

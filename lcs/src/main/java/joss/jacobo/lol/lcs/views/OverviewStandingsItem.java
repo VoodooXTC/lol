@@ -12,7 +12,7 @@ import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.StandingsItem;
 
 /**
- * Created by jossayjacobo on 7/23/14.
+ * Created by jossayjacobo on 7/23/14
  */
 public class OverviewStandingsItem extends RelativeLayout {
 

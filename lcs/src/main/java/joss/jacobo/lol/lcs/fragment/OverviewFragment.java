@@ -272,7 +272,7 @@ public class OverviewFragment extends BaseListFragment {
                 "DATETIME(" + MatchesColumns.DATETIME + ") DESC LIMIT 3");
 
         MatchesCursor matchesCursor = new MatchesCursor(cursor);
-        return matchesCursor.geListAsMatchDetailsItems(OverviewItem.TYPE_MATCH_RESULTS);
+        return matchesCursor.geListAsMatchDetailsItems(getActivity(), OverviewItem.TYPE_MATCH_RESULTS);
     }
 
     private List<MatchDetailsItem> getUpcomingMatches(int selectedTournament){
@@ -285,7 +285,7 @@ public class OverviewFragment extends BaseListFragment {
                 "DATETIME(" + MatchesColumns.DATETIME + ") ASC LIMIT 3");
 
         MatchesCursor matchesCursor = new MatchesCursor(cursor);
-        return matchesCursor.geListAsMatchDetailsItems(OverviewItem.TYPE_MATCH_UPCOMING);
+        return matchesCursor.geListAsMatchDetailsItems(getActivity(), OverviewItem.TYPE_MATCH_UPCOMING);
     }
 
     private Cursor rawQuery(String rawQuery, String[] args){

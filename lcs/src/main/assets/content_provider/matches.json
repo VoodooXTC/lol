@@ -71,6 +71,14 @@
         {
             "name" : "match_position",
             "type" : "Integer"
+        },
+        {
+            "name" : "best_of",
+            "type" : "String"
+        },
+        {
+            "name" : "tournament_group",
+            "type" : "String"
         }
 	],
 

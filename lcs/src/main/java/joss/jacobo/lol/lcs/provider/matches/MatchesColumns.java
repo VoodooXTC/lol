@@ -31,6 +31,8 @@ public interface MatchesColumns extends BaseColumns {
     String PLAYED = "played";
     String MATCH_NO = "match_no";
     String MATCH_POSITION = "match_position";
+    String BEST_OF = "best_of";
+    String TOURNAMENT_GROUP = "tournament_group";
 
     String DEFAULT_ORDER = _ID;
 
@@ -54,7 +56,9 @@ public interface MatchesColumns extends BaseColumns {
             RESULT2,
             PLAYED,
             MATCH_NO,
-            MATCH_POSITION
+            MATCH_POSITION,
+            BEST_OF,
+            TOURNAMENT_GROUP
     };
     // @formatter:on
 }

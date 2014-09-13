@@ -16,10 +16,10 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
     public Uri uri() {
         return MatchesColumns.CONTENT_URI;
     }
-    
+
     /**
      * Query the given content resolver using this selection.
-     * 
+     *
      * @param contentResolver The content resolver to query.
      * @param projection A list of which columns to return. Passing null will return all columns, which is inefficient.
      * @param sortOrder How to order the rows, formatted as an SQL ORDER BY clause (excluding the ORDER BY itself). Passing null will use the default sort
@@ -45,8 +45,8 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
     public MatchesCursor query(ContentResolver contentResolver) {
         return query(contentResolver, null, null);
     }
-    
-    
+
+
     public MatchesSelection id(long... value) {
         addEquals(MatchesColumns._ID, toObjectArray(value));
         return this;
@@ -56,7 +56,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.MATCH_ID, value);
         return this;
     }
-    
+
     public MatchesSelection matchIdNot(Integer... value) {
         addNotEquals(MatchesColumns.MATCH_ID, value);
         return this;
@@ -86,7 +86,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.TOURNAMENT_ID, value);
         return this;
     }
-    
+
     public MatchesSelection tournamentIdNot(Integer... value) {
         addNotEquals(MatchesColumns.TOURNAMENT_ID, value);
         return this;
@@ -116,7 +116,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.TOURNAMENT_ABREV, value);
         return this;
     }
-    
+
     public MatchesSelection tournamentAbrevNot(String... value) {
         addNotEquals(MatchesColumns.TOURNAMENT_ABREV, value);
         return this;
@@ -127,7 +127,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.SPLIT, value);
         return this;
     }
-    
+
     public MatchesSelection splitNot(String... value) {
         addNotEquals(MatchesColumns.SPLIT, value);
         return this;
@@ -138,7 +138,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.DATETIME, value);
         return this;
     }
-    
+
     public MatchesSelection datetimeNot(String... value) {
         addNotEquals(MatchesColumns.DATETIME, value);
         return this;
@@ -149,7 +149,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.WEEK, value);
         return this;
     }
-    
+
     public MatchesSelection weekNot(Integer... value) {
         addNotEquals(MatchesColumns.WEEK, value);
         return this;
@@ -179,7 +179,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.DAY, value);
         return this;
     }
-    
+
     public MatchesSelection dayNot(Integer... value) {
         addNotEquals(MatchesColumns.DAY, value);
         return this;
@@ -209,7 +209,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.DATE, value);
         return this;
     }
-    
+
     public MatchesSelection dateNot(String... value) {
         addNotEquals(MatchesColumns.DATE, value);
         return this;
@@ -220,7 +220,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.TEAM1_ID, value);
         return this;
     }
-    
+
     public MatchesSelection team1IdNot(Integer... value) {
         addNotEquals(MatchesColumns.TEAM1_ID, value);
         return this;
@@ -250,7 +250,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.TEAM2_ID, value);
         return this;
     }
-    
+
     public MatchesSelection team2IdNot(Integer... value) {
         addNotEquals(MatchesColumns.TEAM2_ID, value);
         return this;
@@ -280,7 +280,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.TEAM1, value);
         return this;
     }
-    
+
     public MatchesSelection team1Not(String... value) {
         addNotEquals(MatchesColumns.TEAM1, value);
         return this;
@@ -291,7 +291,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.TEAM2, value);
         return this;
     }
-    
+
     public MatchesSelection team2Not(String... value) {
         addNotEquals(MatchesColumns.TEAM2, value);
         return this;
@@ -302,7 +302,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.TIME, value);
         return this;
     }
-    
+
     public MatchesSelection timeNot(String... value) {
         addNotEquals(MatchesColumns.TIME, value);
         return this;
@@ -313,7 +313,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.RESULT1, value);
         return this;
     }
-    
+
     public MatchesSelection result1Not(Integer... value) {
         addNotEquals(MatchesColumns.RESULT1, value);
         return this;
@@ -343,7 +343,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.RESULT2, value);
         return this;
     }
-    
+
     public MatchesSelection result2Not(Integer... value) {
         addNotEquals(MatchesColumns.RESULT2, value);
         return this;
@@ -373,7 +373,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.PLAYED, value);
         return this;
     }
-    
+
     public MatchesSelection playedNot(Integer... value) {
         addNotEquals(MatchesColumns.PLAYED, value);
         return this;
@@ -403,7 +403,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.MATCH_NO, value);
         return this;
     }
-    
+
     public MatchesSelection matchNoNot(Integer... value) {
         addNotEquals(MatchesColumns.MATCH_NO, value);
         return this;
@@ -433,7 +433,7 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addEquals(MatchesColumns.MATCH_POSITION, value);
         return this;
     }
-    
+
     public MatchesSelection matchPositionNot(Integer... value) {
         addNotEquals(MatchesColumns.MATCH_POSITION, value);
         return this;
@@ -458,4 +458,26 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
         addLessThanOrEquals(MatchesColumns.MATCH_POSITION, value);
         return this;
     }
+
+    public MatchesSelection bestOf(String... value) {
+        addEquals(MatchesColumns.BEST_OF, value);
+        return this;
+    }
+
+    public MatchesSelection bestOfNot(String... value) {
+        addNotEquals(MatchesColumns.BEST_OF, value);
+        return this;
+    }
+
+
+    public MatchesSelection tournamentGroup(String... value) {
+        addEquals(MatchesColumns.TOURNAMENT_GROUP, value);
+        return this;
+    }
+
+    public MatchesSelection tournamentGroupNot(String... value) {
+        addNotEquals(MatchesColumns.TOURNAMENT_GROUP, value);
+        return this;
+    }
+
 }

@@ -21,7 +21,7 @@ public class MatchesContentValues extends AbstractContentValues {
 
     /**
      * Update row(s) using the values stored by this object and the given selection.
-     * 
+     *
      * @param contentResolver The content resolver to use.
      * @param where The selection to use (can be {@code null}).
      */
@@ -227,6 +227,28 @@ public class MatchesContentValues extends AbstractContentValues {
     }
 
 
+    public MatchesContentValues putBestOf(String value) {
+        mContentValues.put(MatchesColumns.BEST_OF, value);
+        return this;
+    }
+
+    public MatchesContentValues putBestOfNull() {
+        mContentValues.putNull(MatchesColumns.BEST_OF);
+        return this;
+    }
+
+
+    public MatchesContentValues putTournamentGroup(String value) {
+        mContentValues.put(MatchesColumns.TOURNAMENT_GROUP, value);
+        return this;
+    }
+
+    public MatchesContentValues putTournamentGroupNull() {
+        mContentValues.putNull(MatchesColumns.TOURNAMENT_GROUP);
+        return this;
+    }
+
+
     public static ContentValues[] getContentValues(List<MatchesModel> items){
         List<ContentValues> values = new ArrayList<ContentValues>();
         for(MatchesModel item : items){
@@ -255,6 +277,8 @@ public class MatchesContentValues extends AbstractContentValues {
         values.putPlayed(item.played);
         values.putMatchNo(item.matchNo);
         values.putMatchPosition(item.matchPosition);
+        values.putBestOf(item.bestOf);
+        values.putTournamentGroup(item.tournamentGroup);
         return values.values();
     }
 }

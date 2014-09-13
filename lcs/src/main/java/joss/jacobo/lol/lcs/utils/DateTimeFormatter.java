@@ -41,7 +41,7 @@ public class DateTimeFormatter {
         return dateString;
     }
 
-    public static String formatDatetime(String dateString){
+    public static String formatDatetimeToDate(String dateString){
 
         try {
 
@@ -49,6 +49,23 @@ public class DateTimeFormatter {
             Date date = fmt.parse(dateString);
 
             SimpleDateFormat fmtOut = new SimpleDateFormat("cccc, MMMM dd");
+            return fmtOut.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateString;
+    }
+
+    public static String formatDatetimeToTime(String dateString){
+
+        try {
+
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = fmt.parse(dateString);
+
+            SimpleDateFormat fmtOut = new SimpleDateFormat("kk:mm");
             return fmtOut.format(date);
 
         } catch (ParseException e) {

@@ -45,4 +45,9 @@ public class Schedule {
     
     public Integer position;
 
+    @SerializedName("best_of")
+    public String bestOf;
+
+    public String group;
+
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.OverviewItem;
+import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 
 /**
  * Created by jossayjacobo on 7/23/14
@@ -56,8 +57,8 @@ public class OverviewMatchDetailsItem extends RelativeLayout {
         blueScore.setText(matchDetailsItem.blueScore);
         purpleTeamName.setText(matchDetailsItem.purpleTeam);
         purpleScore.setText(matchDetailsItem.purpleScore);
-        date.setText(matchDetailsItem.date);
-        time.setText(matchDetailsItem.time);
+        date.setText(DateTimeFormatter.formatDatetimeToDate(matchDetailsItem.datetime));
+        time.setText(DateTimeFormatter.formatDatetimeToTime(matchDetailsItem.datetime));
 
         switch (matchDetailsItem.type){
             case OverviewItem.TYPE_MATCH_RESULTS:
