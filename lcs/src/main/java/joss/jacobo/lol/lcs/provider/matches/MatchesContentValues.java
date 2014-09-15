@@ -84,7 +84,7 @@ public class MatchesContentValues extends AbstractContentValues {
     }
 
 
-    public MatchesContentValues putWeek(Integer value) {
+    public MatchesContentValues putWeek(String value) {
         mContentValues.put(MatchesColumns.WEEK, value);
         return this;
     }

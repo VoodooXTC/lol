@@ -145,35 +145,16 @@ public class MatchesSelection extends AbstractSelection<MatchesSelection> {
     }
 
 
-    public MatchesSelection week(Integer... value) {
+    public MatchesSelection week(String... value) {
         addEquals(MatchesColumns.WEEK, value);
         return this;
     }
 
-    public MatchesSelection weekNot(Integer... value) {
+    public MatchesSelection weekNot(String... value) {
         addNotEquals(MatchesColumns.WEEK, value);
         return this;
     }
 
-    public MatchesSelection weekGt(int value) {
-        addGreaterThan(MatchesColumns.WEEK, value);
-        return this;
-    }
-
-    public MatchesSelection weekGtEq(int value) {
-        addGreaterThanOrEquals(MatchesColumns.WEEK, value);
-        return this;
-    }
-
-    public MatchesSelection weekLt(int value) {
-        addLessThan(MatchesColumns.WEEK, value);
-        return this;
-    }
-
-    public MatchesSelection weekLtEq(int value) {
-        addLessThanOrEquals(MatchesColumns.WEEK, value);
-        return this;
-    }
 
     public MatchesSelection day(Integer... value) {
         addEquals(MatchesColumns.DAY, value);
