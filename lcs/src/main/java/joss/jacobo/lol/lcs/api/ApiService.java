@@ -110,7 +110,7 @@ public class ApiService extends IntentService {
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                        Log.e(TAG, "onFailure");
                     }
                 });
                 break;

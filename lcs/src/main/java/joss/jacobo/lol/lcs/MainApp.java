@@ -31,10 +31,8 @@ public class MainApp extends Application implements IObjectGraph {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "onCreate");
 
         Bugsnag.register(this, "3f3a012ad7eb6703e8b327f33ae37abd");
-//        Picasso.with(this).setDebugging(true);
 
         /**
          * Ensure the keys generated for the CryptoSharedPreferences are strong and sufficiently

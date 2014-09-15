@@ -15,6 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import joss.jacobo.lol.lcs.R;
@@ -51,6 +54,10 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
 
         loadingItem = inflater.inflate(R.layout.view_item_loading, listView, false);
         setHasOptionsMenu(true);
+
+        AdView mAdView = (AdView) view.findViewById(R.id.ads);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         return view;
     }
