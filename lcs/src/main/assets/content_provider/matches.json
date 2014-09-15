@@ -22,7 +22,7 @@
         },
         {
             "name" : "week",
-            "type" : "Integer"
+            "type" : "String"
         },
         {
             "name" : "day",

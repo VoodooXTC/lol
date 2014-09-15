@@ -16,7 +16,7 @@ public class Schedule {
     
     public String datetime;
     
-    public Integer week;
+    public String week;
     
     public Integer day;
     

@@ -36,7 +36,7 @@ public class TeamsFragment extends BaseFragment {
     @InjectView(R.id.teams_page_strip)
     PagerTitleStrip pagerTitleStrip;
 
-    String[] titles = {"About", "Roster", "Social", "Statistics", "Replays"};
+    String[] titles = {"Roster", "About", "Social"};
     int teamId;
     TeamsModel team;
 
@@ -76,7 +76,7 @@ public class TeamsFragment extends BaseFragment {
 
     private void setupPagerTabStrip() {
         pagerTitleStrip.setBackgroundColor(getResources().getColor(R.color.purple_dark));
-        pagerTitleStrip.setNonPrimaryAlpha(0.1f);
+        pagerTitleStrip.setNonPrimaryAlpha(0.5f);
         pagerTitleStrip.setTextSpacing(25);
         pagerTitleStrip.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         pagerTitleStrip.setTextColor(getResources().getColor(R.color.white));
@@ -84,7 +84,7 @@ public class TeamsFragment extends BaseFragment {
 
     private void setupViewPager() {
         viewPager.setAdapter(new TeamsPagerAdapter(getChildFragmentManager(), getFragments(), titles));
-        viewPager.setCurrentItem(2);
+        viewPager.setCurrentItem(1);
         viewPager.setOffscreenPageLimit(5);
     }
 
@@ -104,11 +104,9 @@ public class TeamsFragment extends BaseFragment {
         TeamSocialFragment overview = new TeamSocialFragment();
         overview.setArguments(arguments);
 
-        fragments.add(about);
         fragments.add(roster);
+        fragments.add(about);
         fragments.add(overview);
-        fragments.add(new Fragment());
-        fragments.add(new Fragment());
 
         return fragments;
     }

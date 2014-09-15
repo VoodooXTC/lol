@@ -36,7 +36,7 @@ public interface MatchesColumns extends BaseColumns {
 
     String DEFAULT_ORDER = _ID;
 
-	// @formatter:off
+    // @formatter:off
     String[] FULL_PROJECTION = new String[] {
             _ID,
             MATCH_ID,

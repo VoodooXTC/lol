@@ -13,7 +13,7 @@ public class MatchesModel{
     public String tournamentAbrev;
     public String split;
     public String datetime;
-    public Integer week;
+    public String week;
     public Integer day;
     public String date;
     public Integer team1Id;

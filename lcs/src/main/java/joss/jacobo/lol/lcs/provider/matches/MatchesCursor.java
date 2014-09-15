@@ -66,8 +66,9 @@ public class MatchesCursor extends AbstractCursor {
      * Get the {@code week} value.
      * Can be {@code null}.
      */
-    public Integer getWeek() {
-        return getIntegerOrNull(MatchesColumns.WEEK);
+    public String getWeek() {
+        Integer index = getCachedColumnIndexOrThrow(MatchesColumns.WEEK);
+        return getString(index);
     }
 
     /**

@@ -175,7 +175,7 @@ public class ScheduleFragment extends BaseListFragment {
             // Add section title if datetime is new
             String matchDate = DateTimeFormatter.formatDatetimeToDate(match.datetime);
             if(!matchDate.equals(date)){
-                items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE_SCHEDULE_MATCHES, matchDate));
+                items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE_SCHEDULE_MATCHES, match.week + " - " + matchDate));
                 date = matchDate;
 
                 // Hide the bottom divider of the previous item
