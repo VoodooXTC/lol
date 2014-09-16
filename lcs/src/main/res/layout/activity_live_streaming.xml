@@ -16,6 +16,7 @@
         layout="@layout/fragment_base_list"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_below="@id/live_streaming_youtube_player"/>
+        android:layout_below="@id/live_streaming_youtube_player"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

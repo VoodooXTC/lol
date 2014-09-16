@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -47,6 +49,11 @@ public class TeamAboutFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about_team, container, false);
         ButterKnife.inject(this, view);
+
+        AdView mAdView = (AdView) view.findViewById(R.id.ads);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         return view;
     }
 

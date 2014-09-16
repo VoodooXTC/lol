@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -122,6 +124,11 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liveticker);
         ButterKnife.inject(this);
+
+        AdView mAdView = (AdView) findViewById(R.id.ads);
+        mAdView.setVisibility(View.GONE);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
 
         slidingUpPanelLayout.setPanelSlideListener(this);
 

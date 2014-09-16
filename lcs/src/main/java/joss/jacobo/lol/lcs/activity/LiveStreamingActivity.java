@@ -30,6 +30,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -75,6 +77,9 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     @InjectView(R.id.loadingView)
     LinearLayout loadingView;
 
+    ActionBar actionBar;
+    AdView mAdView;
+
     boolean fullscreen = false;
     boolean fetching = false;
     private LocalBroadcastManager broadcastManager;
@@ -109,6 +114,10 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         setupActionBar("Live");
         setupListView();
         showLoading();
+
+        mAdView = (AdView) findViewById(R.id.ads);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         youTubePlayerView.initialize(API_KEY, this);
 
@@ -215,7 +224,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     public void onError(YouTubePlayer.ErrorReason errorReason) {
         Toast.makeText(this,
                 errorReason.toString(),
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -348,8 +357,9 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
                                 dropDownAdapter.setVideos(videos);
                                 cueVideo(videos.get(0).id);
 
-                                if(getActionBar() != null)
-                                    getActionBar().setDisplayShowCustomEnabled(false);
+                                if(actionBar != null) {
+                                    actionBar.setDisplayShowTitleEnabled(false);
+                                }
                             }else{
                                 // TODO ERROR
                                 setupActionBar("No Live Streams Available");
@@ -418,21 +428,25 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     }
 
     public void setupActionBar(String title) {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowCustomEnabled(false);
-        getActionBar().setDisplayShowTitleEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_LIST);
+        actionBar = getActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowCustomEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_LIST);
 
-        dropDownAdapter = new DropDownAdapter(new ArrayList<Video>());
-        getActionBar().setListNavigationCallbacks(dropDownAdapter, this);
+            dropDownAdapter = new DropDownAdapter(new ArrayList<Video>());
+            actionBar.setListNavigationCallbacks(dropDownAdapter, this);
 
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/" + getString(R.string.font_gothic_regular));
-        CustomTypefaceSpan light = new CustomTypefaceSpan("",font);
-        light.setColor(getResources().getColor(R.color.white));
-        SpannableStringBuilder sb = new SpannableStringBuilder(title);
-        sb.setSpan(light,0,title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        getActionBar().setTitle(sb);
+            Typeface font = Typeface.createFromAsset(getAssets(), "fonts/" + getString(R.string.font_gothic_regular));
+            CustomTypefaceSpan light = new CustomTypefaceSpan("",font);
+            light.setColor(getResources().getColor(R.color.white));
+            SpannableStringBuilder sb = new SpannableStringBuilder(title);
+            sb.setSpan(light,0,title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            actionBar.setTitle(sb);
+        }
+
     }
 
     private void showLoading(){
@@ -461,9 +475,12 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
             LAYOUT_FLAGS |= View.SYSTEM_UI_FLAG_IMMERSIVE;
 
         getWindow().getDecorView().setSystemUiVisibility(LAYOUT_FLAGS);
+
+        mAdView.setVisibility(View.GONE);
     }
 
     private void showSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(0);
+        mAdView.setVisibility(View.VISIBLE);
     }
 }
