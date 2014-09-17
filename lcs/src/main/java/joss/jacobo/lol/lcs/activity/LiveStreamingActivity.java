@@ -43,6 +43,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.adapters.TweetsAdapter;
 import joss.jacobo.lol.lcs.api.ApiService;
@@ -116,8 +117,12 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         showLoading();
 
         mAdView = (AdView) findViewById(R.id.ads);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        if (BuildConfig.DEBUG){
+            mAdView.setVisibility(View.GONE);
+        }else{
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
 
         youTubePlayerView.initialize(API_KEY, this);
 
@@ -476,11 +481,14 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
         getWindow().getDecorView().setSystemUiVisibility(LAYOUT_FLAGS);
 
-        mAdView.setVisibility(View.GONE);
+        if (!BuildConfig.DEBUG)
+            mAdView.setVisibility(View.GONE);
     }
 
     private void showSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(0);
-        mAdView.setVisibility(View.VISIBLE);
+
+        if (!BuildConfig.DEBUG)
+            mAdView.setVisibility(View.VISIBLE);
     }
 }
