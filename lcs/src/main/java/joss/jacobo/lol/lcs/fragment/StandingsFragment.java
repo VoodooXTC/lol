@@ -7,6 +7,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
@@ -56,6 +57,25 @@ public class StandingsFragment extends BaseListFragment {
 
         getLoaderManager().initLoader(STANDINGS_CALLBACK, null, new StandingsCallBack());
         ApiService.getLatestStandings(getActivity());
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        StandingsType item = adapter.items.get(position);
+        switch (item.getType()){
+            case StandingsType.TYPE_ITEM:
+                StandingsItem standingsItem = (StandingsItem) item;
+
+                TeamDetailsSelection where = new TeamDetailsSelection();
+                where.abrev(standingsItem.teamAbrev);
+                TeamDetailsCursor cursor = where.query(getActivity().getContentResolver());
+
+                if(cursor.moveToFirst()){
+                    listener.teamSelected(cursor.getTeamId());
+                }
+
+                break;
+        }
     }
 
     public class StandingsAdapter extends BaseAdapter {
