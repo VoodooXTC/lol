@@ -25,4 +25,6 @@ public class Standing {
     
     public Integer delta;
 
+    public String group;
+
 }

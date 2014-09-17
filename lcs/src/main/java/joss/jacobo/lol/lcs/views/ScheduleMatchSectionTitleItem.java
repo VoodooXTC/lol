@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.interfaces.StandingsType;
 import joss.jacobo.lol.lcs.items.OverviewItem;
 
 /**
@@ -36,5 +37,9 @@ public class ScheduleMatchSectionTitleItem extends LinearLayout {
 
     public void setContent(OverviewItem item){
         title.setText(item.titleFirstWord);
+    }
+
+    public void setContent(StandingsType item) {
+        title.setText(item.getSeparatorText());
     }
 }

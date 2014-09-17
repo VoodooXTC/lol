@@ -35,6 +35,10 @@
         {
             "name" : "standing_position",
             "type" : "Integer"
+        },
+        {
+            "name" : "tournament_group",
+            "type" : "String"
         }
 	]
 }

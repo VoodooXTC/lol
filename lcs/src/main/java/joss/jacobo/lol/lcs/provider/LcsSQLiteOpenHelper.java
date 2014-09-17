@@ -25,7 +25,7 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = LcsSQLiteOpenHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "lcs.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // @formatter:off
     private static final String SQL_CREATE_TABLE_MATCHES = "CREATE TABLE IF NOT EXISTS "
@@ -124,8 +124,13 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
             + StandingsColumns.WINS + " INTEGER, "
             + StandingsColumns.LOSSES + " INTEGER, "
             + StandingsColumns.DELTA + " INTEGER, "
-            + StandingsColumns.STANDING_POSITION + " INTEGER "
+            + StandingsColumns.STANDING_POSITION + " INTEGER, "
+            + StandingsColumns.TOURNAMENT_GROUP + " TEXT "
             + " );";
+
+    private static final String SQL_UPDATE_TABLE_STANDINGS_ADD_GROUP_COLUMN = "ALTER TABLE "
+            + StandingsColumns.TABLE_NAME + " ADD COLUMN "
+            + StandingsColumns.TOURNAMENT_GROUP + " TEXT";
 
     private static final String SQL_CREATE_TABLE_TEAMS = "CREATE TABLE IF NOT EXISTS "
             + TeamsColumns.TABLE_NAME + " ( "
@@ -239,5 +244,9 @@ public class LcsSQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
+
+        if(oldVersion <= 1){
+            db.execSQL(SQL_UPDATE_TABLE_STANDINGS_ADD_GROUP_COLUMN);
+        }
     }
 }

@@ -17,6 +17,7 @@ public class StandingsModel{
     public Integer losses;
     public Integer delta;
     public Integer standingPosition;
+    public String tournamentGroup;
 
     public StandingsModel(){}
 
@@ -30,6 +31,7 @@ public class StandingsModel{
         this.losses = cursor.getLosses();
         this.delta = cursor.getDelta();
         this.standingPosition = cursor.getStandingPosition();
+        this.tournamentGroup = cursor.getTournamentGroup();
     }
 
     public StandingsModel(Standing standing) {
@@ -42,5 +44,6 @@ public class StandingsModel{
         this.losses = standing.losses;
         this.delta = standing.delta;
         this.standingPosition = standing.position;
+        this.tournamentGroup = standing.group;
     }
 }

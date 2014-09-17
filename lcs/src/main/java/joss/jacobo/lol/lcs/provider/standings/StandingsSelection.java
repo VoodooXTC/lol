@@ -1,7 +1,5 @@
 package joss.jacobo.lol.lcs.provider.standings;
 
-import java.util.Date;
-
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -264,4 +262,15 @@ public class StandingsSelection extends AbstractSelection<StandingsSelection> {
         addLessThanOrEquals(StandingsColumns.STANDING_POSITION, value);
         return this;
     }
+
+    public StandingsSelection tournamentGroup(String... value) {
+        addEquals(StandingsColumns.TOURNAMENT_GROUP, value);
+        return this;
+    }
+    
+    public StandingsSelection tournamentGroupNot(String... value) {
+        addNotEquals(StandingsColumns.TOURNAMENT_GROUP, value);
+        return this;
+    }
+
 }

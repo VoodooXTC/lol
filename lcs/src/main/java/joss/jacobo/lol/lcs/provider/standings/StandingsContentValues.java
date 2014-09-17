@@ -128,6 +128,17 @@ public class StandingsContentValues extends AbstractContentValues {
     }
 
 
+    public StandingsContentValues putTournamentGroup(String value) {
+        mContentValues.put(StandingsColumns.TOURNAMENT_GROUP, value);
+        return this;
+    }
+
+    public StandingsContentValues putTournamentGroupNull() {
+        mContentValues.putNull(StandingsColumns.TOURNAMENT_GROUP);
+        return this;
+    }
+
+
     public static ContentValues[] getContentValues(List<StandingsModel> items){
         List<ContentValues> values = new ArrayList<ContentValues>();
         for(StandingsModel item : items){
@@ -147,6 +158,7 @@ public class StandingsContentValues extends AbstractContentValues {
         values.putLosses(item.losses);
         values.putDelta(item.delta);
         values.putStandingPosition(item.standingPosition);
+        values.putTournamentGroup(item.tournamentGroup);
         return values.values();
     }
 }

@@ -22,6 +22,7 @@ public interface StandingsColumns extends BaseColumns {
     String LOSSES = "losses";
     String DELTA = "delta";
     String STANDING_POSITION = "standing_position";
+    String TOURNAMENT_GROUP = "tournament_group";
 
     String DEFAULT_ORDER = _ID;
 
@@ -36,7 +37,8 @@ public interface StandingsColumns extends BaseColumns {
             WINS,
             LOSSES,
             DELTA,
-            STANDING_POSITION
+            STANDING_POSITION,
+            TOURNAMENT_GROUP
     };
     // @formatter:on
 }

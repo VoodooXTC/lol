@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.content.Context;
 import android.database.Cursor;
 
 import joss.jacobo.lol.lcs.items.StandingsItem;
@@ -91,6 +90,15 @@ public class StandingsCursor extends AbstractCursor {
      */
     public Integer getStandingPosition() {
         return getIntegerOrNull(StandingsColumns.STANDING_POSITION);
+    }
+
+    /**
+     * Get the {@code tournament_group} value.
+     * Can be {@code null}.
+     */
+    public String getTournamentGroup() {
+        Integer index = getCachedColumnIndexOrThrow(StandingsColumns.TOURNAMENT_GROUP);
+        return getString(index);
     }
 
     public List<StandingsItem> getListAsStandingItems() {

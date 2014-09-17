@@ -21,8 +21,8 @@ import joss.jacobo.lol.lcs.provider.news.NewsColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
 import joss.jacobo.lol.lcs.provider.replays.ReplaysColumns;
 import joss.jacobo.lol.lcs.provider.standings.StandingsColumns;
-import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsColumns;
+import joss.jacobo.lol.lcs.provider.teams.TeamsColumns;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsColumns;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsColumns;
 
@@ -53,11 +53,11 @@ public class LcsProvider extends ContentProvider {
     private static final int URI_TYPE_STANDINGS = 8;
     private static final int URI_TYPE_STANDINGS_ID = 9;
 
-    private static final int URI_TYPE_TEAMS = 10;
-    private static final int URI_TYPE_TEAMS_ID = 11;
+    private static final int URI_TYPE_TEAM_DETAILS = 10;
+    private static final int URI_TYPE_TEAM_DETAILS_ID = 11;
 
-    private static final int URI_TYPE_TEAM_DETAILS = 12;
-    private static final int URI_TYPE_TEAM_DETAILS_ID = 13;
+    private static final int URI_TYPE_TEAMS = 12;
+    private static final int URI_TYPE_TEAMS_ID = 13;
 
     private static final int URI_TYPE_TOURNAMENTS = 14;
     private static final int URI_TYPE_TOURNAMENTS_ID = 15;
@@ -80,10 +80,10 @@ public class LcsProvider extends ContentProvider {
         URI_MATCHER.addURI(AUTHORITY, ReplaysColumns.TABLE_NAME + "/#", URI_TYPE_REPLAYS_ID);
         URI_MATCHER.addURI(AUTHORITY, StandingsColumns.TABLE_NAME, URI_TYPE_STANDINGS);
         URI_MATCHER.addURI(AUTHORITY, StandingsColumns.TABLE_NAME + "/#", URI_TYPE_STANDINGS_ID);
-        URI_MATCHER.addURI(AUTHORITY, TeamsColumns.TABLE_NAME, URI_TYPE_TEAMS);
-        URI_MATCHER.addURI(AUTHORITY, TeamsColumns.TABLE_NAME + "/#", URI_TYPE_TEAMS_ID);
         URI_MATCHER.addURI(AUTHORITY, TeamDetailsColumns.TABLE_NAME, URI_TYPE_TEAM_DETAILS);
         URI_MATCHER.addURI(AUTHORITY, TeamDetailsColumns.TABLE_NAME + "/#", URI_TYPE_TEAM_DETAILS_ID);
+        URI_MATCHER.addURI(AUTHORITY, TeamsColumns.TABLE_NAME, URI_TYPE_TEAMS);
+        URI_MATCHER.addURI(AUTHORITY, TeamsColumns.TABLE_NAME + "/#", URI_TYPE_TEAMS_ID);
         URI_MATCHER.addURI(AUTHORITY, TournamentsColumns.TABLE_NAME, URI_TYPE_TOURNAMENTS);
         URI_MATCHER.addURI(AUTHORITY, TournamentsColumns.TABLE_NAME + "/#", URI_TYPE_TOURNAMENTS_ID);
         URI_MATCHER.addURI(AUTHORITY, TweetsColumns.TABLE_NAME, URI_TYPE_TWEETS);
@@ -127,15 +127,15 @@ public class LcsProvider extends ContentProvider {
             case URI_TYPE_STANDINGS_ID:
                 return TYPE_CURSOR_ITEM + StandingsColumns.TABLE_NAME;
 
-            case URI_TYPE_TEAMS:
-                return TYPE_CURSOR_DIR + TeamsColumns.TABLE_NAME;
-            case URI_TYPE_TEAMS_ID:
-                return TYPE_CURSOR_ITEM + TeamsColumns.TABLE_NAME;
-
             case URI_TYPE_TEAM_DETAILS:
                 return TYPE_CURSOR_DIR + TeamDetailsColumns.TABLE_NAME;
             case URI_TYPE_TEAM_DETAILS_ID:
                 return TYPE_CURSOR_ITEM + TeamDetailsColumns.TABLE_NAME;
+
+            case URI_TYPE_TEAMS:
+                return TYPE_CURSOR_DIR + TeamsColumns.TABLE_NAME;
+            case URI_TYPE_TEAMS_ID:
+                return TYPE_CURSOR_ITEM + TeamsColumns.TABLE_NAME;
 
             case URI_TYPE_TOURNAMENTS:
                 return TYPE_CURSOR_DIR + TournamentsColumns.TABLE_NAME;
@@ -291,16 +291,16 @@ public class LcsProvider extends ContentProvider {
                 res.orderBy = StandingsColumns.DEFAULT_ORDER;
                 break;
 
-            case URI_TYPE_TEAMS:
-            case URI_TYPE_TEAMS_ID:
-                res.table = TeamsColumns.TABLE_NAME;
-                res.orderBy = TeamsColumns.DEFAULT_ORDER;
-                break;
-
             case URI_TYPE_TEAM_DETAILS:
             case URI_TYPE_TEAM_DETAILS_ID:
                 res.table = TeamDetailsColumns.TABLE_NAME;
                 res.orderBy = TeamDetailsColumns.DEFAULT_ORDER;
+                break;
+
+            case URI_TYPE_TEAMS:
+            case URI_TYPE_TEAMS_ID:
+                res.table = TeamsColumns.TABLE_NAME;
+                res.orderBy = TeamsColumns.DEFAULT_ORDER;
                 break;
 
             case URI_TYPE_TOURNAMENTS:
@@ -325,8 +325,8 @@ public class LcsProvider extends ContentProvider {
             case URI_TYPE_PLAYERS_ID:
             case URI_TYPE_REPLAYS_ID:
             case URI_TYPE_STANDINGS_ID:
-            case URI_TYPE_TEAMS_ID:
             case URI_TYPE_TEAM_DETAILS_ID:
+            case URI_TYPE_TEAMS_ID:
             case URI_TYPE_TOURNAMENTS_ID:
             case URI_TYPE_TWEETS_ID:
                 id = uri.getLastPathSegment();
