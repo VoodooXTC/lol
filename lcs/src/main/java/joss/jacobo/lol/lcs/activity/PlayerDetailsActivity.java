@@ -1,7 +1,9 @@
 package joss.jacobo.lol.lcs.activity;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +32,8 @@ public class PlayerDetailsActivity extends BaseActivity {
     TextView name;
     @InjectView(R.id.player_details_quote)
     TextView quote;
+    @InjectView(R.id.player_details_text)
+    TextView text;
 
     PlayersModel player;
     TeamDetailsModel teamDetails;
@@ -53,12 +57,21 @@ public class PlayerDetailsActivity extends BaseActivity {
     private void setContent(PlayersModel player, TeamDetailsModel teamDetails) {
         Picasso.with(this).load(player.image).placeholder(R.drawable.blank_silhouette).error(R.drawable.blank_silhouette).into(image);
         position.setText(player.playerPosition);
-        quote.setText(player.famousQuote);
+
+        if(player.famousQuote == null){
+            quote.setVisibility(View.GONE);
+        }else{
+            quote.setText(player.famousQuote);
+        }
 
         String displayName = player.irlFirstName + " \"" + player.name + "\" " + player.irlLastName;
         if(player.irlFirstName == null || player.irlLastName == null)
             displayName = displayName.replace("\"", "").trim();
         name.setText(displayName);
+
+        if(player.description != null){
+            text.setText(Html.fromHtml(player.description));
+        }
     }
 
     @Override

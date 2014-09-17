@@ -70,5 +70,16 @@
             oak:oakFont="@string/font_gothic_regular"
             />
 
+        <oak.widget.TextViewWithFont
+            android:id="@+id/player_details_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="16dp"
+            tools:text="Cloud9's dominant 25-3 regular season run was stopped short in the Season 3 World Championship quarterfinals with loss to Fnatic. The Team returned as a heavy favorite in the 2014 NA LCS spring split, taking first place in a commanding 3-0 rout of TSM. Looking towards the 2014 All-Stars even in Paris, Cloud9 has never looked strong, and is in prime form to take on and defeat the top teams in the world."
+            oak:oakFont="@string/font_gothic_bold"
+            />
+
     </LinearLayout>
 </ScrollView>
