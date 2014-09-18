@@ -75,7 +75,8 @@ public class LivetickerBottomDrawerMatchup extends LinearLayout {
             purpleTeamName.setText(purpleTeam.name);
         }
 
-        // TODO add games won and best of to API endpoint
+        blueScore.setText(match.blueTeamScore);
+        purpleScore.setText(match.purpleTeamScore);
     }
 
     private TeamDetailsModel getTeam(int teamId){

@@ -120,4 +120,9 @@ public class MatchDetails {
     @SerializedName("purple_ban_3_champ_image")
     public String purpleBan3ChampImage;
 
+    @SerializedName("blue_team_score")
+    public String blueTeamScore;
+    @SerializedName("purple_team_score")
+    public String purpleTeamScore;
+
 }

@@ -80,6 +80,8 @@ public class LivetickerEventItem extends LinearLayout {
         text.setText(event.event);
         if(type.containsKey(event.type)){
             icon.setImageResource(type.get(event.type));
+        }else{
+            icon.setImageResource(0);
         }
     }
 

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 /**
@@ -32,6 +33,7 @@ public class DateTimeFormatter {
             Date date = fmt.parse(dateString);
 
             SimpleDateFormat fmtOut = new SimpleDateFormat("cccc, MMMM dd");
+            fmtOut.setTimeZone(TimeZone.getDefault());
             return fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -46,9 +48,11 @@ public class DateTimeFormatter {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            fmt.setTimeZone(TimeZone.getDefault());
             Date date = fmt.parse(dateString);
 
             SimpleDateFormat fmtOut = new SimpleDateFormat("cccc, MMMM dd");
+            fmtOut.setTimeZone(TimeZone.getDefault());
             return fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -63,9 +67,11 @@ public class DateTimeFormatter {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            fmt.setTimeZone(TimeZone.getDefault());
             Date date = fmt.parse(dateString);
 
             SimpleDateFormat fmtOut = new SimpleDateFormat("kk:mm");
+            fmtOut.setTimeZone(TimeZone.getDefault());
             return fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -79,6 +85,7 @@ public class DateTimeFormatter {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            fmt.setTimeZone(TimeZone.getDefault());
             return fmt.parse(dateString);
 
         } catch (ParseException e) {
@@ -93,6 +100,7 @@ public class DateTimeFormatter {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            fmt.setTimeZone(TimeZone.getDefault());
             Date date = fmt.parse(datetime);
 
             return formatMillisToAgo(date.getTime(), type);
