@@ -213,7 +213,8 @@ public class OverviewFragment extends BaseListFragment {
 
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            return new CursorLoader(getActivity(), StandingsColumns.CONTENT_URI, null, null, null, null);
+            return new CursorLoader(getActivity(), StandingsColumns.CONTENT_URI, null, null, null,
+                    StandingsColumns.STANDING_POSITION + " ASC, " + StandingsColumns.WINS + " DESC");
         }
 
         @Override
@@ -258,7 +259,7 @@ public class OverviewFragment extends BaseListFragment {
                 standingsSelection.query(
                         getActivity().getContentResolver(),
                         null,
-                        StandingsColumns.STANDING_POSITION));
+                        StandingsColumns.STANDING_POSITION + " ASC, " + StandingsColumns.WINS + " DESC"));
         return c.getListAsStandingItemsTop3();
     }
 
