@@ -193,17 +193,20 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
         switch (orientation){
             case Configuration.ORIENTATION_LANDSCAPE:
-                youTubePlayer.setFullscreen(true);
+                if(youTubePlayer != null)
+                    youTubePlayer.setFullscreen(true);
                 hideSystemUI();
                 break;
 
             case Configuration.ORIENTATION_PORTRAIT:
-                youTubePlayer.setFullscreen(false);
+                if(youTubePlayer != null)
+                    youTubePlayer.setFullscreen(false);
                 showSystemUI();
                 break;
 
             case Configuration.ORIENTATION_UNDEFINED:
-                youTubePlayer.setFullscreen(false);
+                if(youTubePlayer != null)
+                    youTubePlayer.setFullscreen(false);
                 showSystemUI();
                 break;
         }
@@ -423,7 +426,8 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     @Override
     public void onBackPressed(){
         if(fullscreen){
-            youTubePlayer.setFullscreen(false);
+            if(youTubePlayer != null)
+                youTubePlayer.setFullscreen(false);
             fullscreen = false;
             showSystemUI();
             return;
