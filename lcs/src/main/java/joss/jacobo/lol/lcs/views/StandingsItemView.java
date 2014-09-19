@@ -65,7 +65,6 @@ public class StandingsItemView extends LinearLayout {
             delta.setText("+" + standing.delta);
             setDeltaAsPositive();
         }else if(standing.delta < 0){
-            delta.setText("-" + standing.delta);
             setDeltaAsNegative();
         }else{
             setDeltaAsNeutral();

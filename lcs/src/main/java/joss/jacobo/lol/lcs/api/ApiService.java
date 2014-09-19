@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.api.model.Config;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
 import joss.jacobo.lol.lcs.api.model.Liveticker.*;
@@ -241,8 +242,13 @@ public class ApiService extends IntentService {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Error livetickerError = (Error) error.getBodyAs(Error.class);
-                        sendLivetickerEventsBroadcast(null, ERROR, livetickerError.message);
+                        Error livetickerError = null;
+                        if (!error.isNetworkError() && error.getResponse() != null) {
+                            livetickerError = (Error) error.getBodyAs(Error.class);
+                        }
+                        sendLivetickerEventsBroadcast(null, ERROR,
+                                livetickerError != null
+                                        ? livetickerError.message : getString(R.string.livestream_error_starting_stream));
                     }
                 });
                 break;
