@@ -33,8 +33,8 @@ public class MatchDetailsItem extends OverviewItem {
 
     public MatchDetailsItem(Context context, MatchesModel match, int type) {
         this.type = type;
-        this.blueScore = String.valueOf(match.result2);
-        this.purpleScore = String .valueOf(match.result1);
+        this.blueScore = String.valueOf(match.result1);
+        this.purpleScore = String .valueOf(match.result2);
         this.datetime = match.datetime;
         this.winner = match.result1 > match.result2 ? 0 : 1;
 

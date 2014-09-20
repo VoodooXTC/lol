@@ -55,8 +55,10 @@ public class OverviewMatchDetailsItem extends RelativeLayout {
     public void setContent(MatchDetailsItem matchDetailsItem){
         blueTeamName.setText(matchDetailsItem.blueTeam);
         blueScore.setText(matchDetailsItem.blueScore);
+
         purpleTeamName.setText(matchDetailsItem.purpleTeam);
         purpleScore.setText(matchDetailsItem.purpleScore);
+
         date.setText(DateTimeFormatter.formatDatetimeToDate(matchDetailsItem.datetime));
         time.setText(DateTimeFormatter.formatDatetimeToTime(matchDetailsItem.datetime));
 
