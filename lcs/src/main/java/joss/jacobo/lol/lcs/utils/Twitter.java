@@ -44,6 +44,8 @@ public class Twitter {
 
         } catch (TwitterException e) {
             e.printStackTrace();
+        } catch (OutOfMemoryError e){
+            e.printStackTrace();
         }
 
         callback.onError("An Error Occurred");

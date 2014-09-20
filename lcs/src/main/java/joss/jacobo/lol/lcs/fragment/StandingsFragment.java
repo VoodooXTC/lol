@@ -73,6 +73,7 @@ public class StandingsFragment extends BaseListFragment {
                 if(cursor.moveToFirst()){
                     listener.teamSelected(cursor.getTeamId());
                 }
+                cursor.close();
 
                 break;
         }
@@ -160,8 +161,8 @@ public class StandingsFragment extends BaseListFragment {
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             if(data != null){
                 StandingsCursor cursor = new StandingsCursor(data);
-
                 List<StandingsItem> items = cursor.getListAsStandingItems();
+
                 for(StandingsItem item : items){
                     item.teamLogoUrl = getTeamLogoUrl(item.teamAbrev);
                 }
@@ -218,6 +219,7 @@ public class StandingsFragment extends BaseListFragment {
         if(cursor.moveToFirst()){
             return cursor.getLogo();
         }
+        cursor.close();
 
         return null;
     }

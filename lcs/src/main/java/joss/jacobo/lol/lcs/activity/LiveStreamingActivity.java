@@ -19,7 +19,6 @@ import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +155,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     public void onDestroy(){
         super.onDestroy();
         ApiService.deleteHashTagTweets(getContentResolver());
+        youTubePlayer = null;
     }
 
     private void setupListView() {
@@ -317,6 +317,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
             if(data != null){
                 TweetsCursor tweetsCursor = new TweetsCursor(data);
                 List<TweetsModel> tweets = tweetsCursor.getTweets();
+
                 adapter.setItems(tweets);
                 if(tweets != null && tweets.size() > 0)
                     showContent();

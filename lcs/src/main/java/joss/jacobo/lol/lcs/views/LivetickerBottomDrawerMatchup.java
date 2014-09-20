@@ -84,6 +84,12 @@ public class LivetickerBottomDrawerMatchup extends LinearLayout {
         where.teamId(teamId);
 
         TeamDetailsCursor cursor = where.query(context.getContentResolver());
-        return  cursor.moveToFirst() ? new TeamDetailsModel(cursor) : null;
+        TeamDetailsModel team = null;
+        if(cursor.moveToFirst()){
+            team = new TeamDetailsModel(cursor);
+        }
+        cursor.close();
+
+        return  team;
     }
 }

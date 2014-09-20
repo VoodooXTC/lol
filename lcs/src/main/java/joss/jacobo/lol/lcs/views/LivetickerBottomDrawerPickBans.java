@@ -123,7 +123,14 @@ public class LivetickerBottomDrawerPickBans extends LinearLayout {
         where.teamId(teamId).and().playerPosition(position).and().active(1);
 
         PlayersCursor cursor = where.query(context.getContentResolver());
-        return  cursor.moveToFirst() ? cursor.getName() : null;
+        String playerName = null;
+
+        if(cursor.moveToFirst()){
+            playerName = cursor.getName();
+        }
+        cursor.close();
+
+        return  playerName;
     }
 
 }

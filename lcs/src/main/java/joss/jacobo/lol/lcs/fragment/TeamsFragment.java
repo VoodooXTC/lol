@@ -36,7 +36,8 @@ public class TeamsFragment extends BaseFragment {
     @InjectView(R.id.teams_page_strip)
     PagerTitleStrip pagerTitleStrip;
 
-    String[] titles = {"Roster", "About", "Social"};
+    String[] titles;
+
     int teamId;
     TeamsModel team;
 
@@ -45,6 +46,7 @@ public class TeamsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         teamId = getArguments().getInt(TEAM_ID);
+        titles = getResources().getStringArray(R.array.team_fragment_titles);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class TeamsFragment extends BaseFragment {
 
         team = getTeam(teamId);
 
-        listener.onSetActionBarTitle(team.teamName, null);
+        listener.onSetActionBarTitle(team != null ? team.teamName : "", null);
         setupPagerTabStrip();
         setupViewPager();
 
@@ -68,10 +70,13 @@ public class TeamsFragment extends BaseFragment {
         TeamsSelection where = new TeamsSelection();
         where.teamId(teamId);
         TeamsCursor teamsCursor = where.query(getActivity().getContentResolver());
+
+        TeamsModel team = new TeamsModel();
         if(teamsCursor.moveToFirst()){
-            return new TeamsModel(teamsCursor);
+            team = new TeamsModel(teamsCursor);
         }
-        return new TeamsModel();
+        teamsCursor.close();
+        return team;
     }
 
     private void setupPagerTabStrip() {

@@ -33,7 +33,7 @@ import joss.jacobo.lol.lcs.views.ReplayItem;
 /**
  * Created by Joss on 9/1/2014
  */
-public class ReplaysFragment extends BaseListFragment {
+public class ReplaysFragment extends BaseListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int REPLAYS_CALLBACK = 0;
     private static final int NUM_OF_ITEMS = 5;
@@ -55,7 +55,7 @@ public class ReplaysFragment extends BaseListFragment {
     public void onViewCreated(View view, Bundle savedState){
         super.onViewCreated(view, savedState);
 
-        listener.onSetActionBarTitle("Replays", null);
+        listener.onSetActionBarTitle(getString(R.string.Replays), null);
 
         showLoading();
 
@@ -68,7 +68,7 @@ public class ReplaysFragment extends BaseListFragment {
         broadcastManager = LocalBroadcastManager.getInstance(getActivity());
         apiReceiver = new ApiReceiver();
 
-        getLoaderManager().initLoader(REPLAYS_CALLBACK, null, new ReplayLoaderCallBacks());
+        getLoaderManager().initLoader(REPLAYS_CALLBACK, null, this);
     }
 
     @Override
@@ -106,28 +106,26 @@ public class ReplaysFragment extends BaseListFragment {
         }
     }
 
-    private class ReplayLoaderCallBacks implements LoaderManager.LoaderCallbacks<Cursor> {
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(), ReplaysColumns.CONTENT_URI, null, null, null, null);
+    }
 
-        @Override
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            return new CursorLoader(getActivity(), ReplaysColumns.CONTENT_URI, null, null, null, null);
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        ReplaysCursor replaysCursor = new ReplaysCursor(data);
+        List<Replay> replays = replaysCursor.getList();
+
+        adapter.setReplays(replays);
+
+        if(replays.size() > 0){
+            showContent();
         }
 
-        @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            ReplaysCursor replaysCursor = new ReplaysCursor(data);
-            List<Replay> replays = replaysCursor.getList();
-            adapter.setReplays(replays);
+    }
 
-            if(replays.size() > 0){
-                showContent();
-            }
-        }
-
-        @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
-
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 

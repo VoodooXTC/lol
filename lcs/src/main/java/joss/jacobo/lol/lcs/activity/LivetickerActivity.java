@@ -316,7 +316,14 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
         TeamDetailsSelection where = new TeamDetailsSelection();
         where.teamId(teamId);
         TeamDetailsCursor cursor = where.query(getContentResolver());
-        return cursor.moveToFirst() ? cursor.getAbrev() : teamName;
+
+        String teamAbrev = null;
+        if(cursor.moveToFirst()){
+            teamAbrev = cursor.getAbrev();
+        }
+        cursor.close();
+
+        return teamAbrev == null ? teamName : teamAbrev;
     }
 
     @Override

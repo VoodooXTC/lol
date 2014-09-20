@@ -13,4 +13,17 @@
     <item type="id" name="fragment_team" />
     <item type="id" name="fragment_feedback" />
 
+    <string name="drawer_media">MEDIA</string>
+    <string name="drawer_livestream">Livestream</string>
+    <string name="drawer_liveticker">Liveticker</string>
+    <string name="drawer_replays">Replays</string>
+
+    <string name="drawer_general">GENERAL</string>
+    <string name="drawer_overview">Overview</string>
+    <string name="drawer_news">News</string>
+    <string name="drawer_schedule_results">Schedule &amp; Results</string>
+    <string name="drawer_standings">Standings</string>
+
+    <string name="drawer_teams">TEAMS</string>
+
 </resources>

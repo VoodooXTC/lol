@@ -204,6 +204,7 @@ public class OverviewFragment extends BaseListFragment {
                 if(cursor.moveToFirst()){
                     listener.teamSelected(cursor.getTeamId());
                 }
+                cursor.close();
 
                 break;
         }
@@ -260,7 +261,9 @@ public class OverviewFragment extends BaseListFragment {
                         getActivity().getContentResolver(),
                         null,
                         StandingsColumns.STANDING_POSITION + " ASC, " + StandingsColumns.WINS + " DESC"));
-        return c.getListAsStandingItemsTop3();
+        List<StandingsItem> list = c.getListAsStandingItemsTop3();
+        c.close();
+        return list;
     }
 
     private List<MatchDetailsItem> getLatestResults(int selectedTournament){
@@ -273,7 +276,10 @@ public class OverviewFragment extends BaseListFragment {
                 "DATETIME(" + MatchesColumns.DATETIME + ") DESC LIMIT 3");
 
         MatchesCursor matchesCursor = new MatchesCursor(cursor);
-        return matchesCursor.geListAsMatchDetailsItems(getActivity(), OverviewItem.TYPE_MATCH_RESULTS);
+        List<MatchDetailsItem> list = matchesCursor.geListAsMatchDetailsItems(getActivity(), OverviewItem.TYPE_MATCH_RESULTS);
+        matchesCursor.close();
+
+        return list;
     }
 
     private List<MatchDetailsItem> getUpcomingMatches(int selectedTournament){
@@ -286,7 +292,9 @@ public class OverviewFragment extends BaseListFragment {
                 "DATETIME(" + MatchesColumns.DATETIME + ") ASC LIMIT 3");
 
         MatchesCursor matchesCursor = new MatchesCursor(cursor);
-        return matchesCursor.geListAsMatchDetailsItems(getActivity(), OverviewItem.TYPE_MATCH_UPCOMING);
+        List<MatchDetailsItem> list = matchesCursor.geListAsMatchDetailsItems(getActivity(), OverviewItem.TYPE_MATCH_UPCOMING);
+        matchesCursor.close();
+        return list;
     }
 
     private Cursor rawQuery(String rawQuery, String[] args){

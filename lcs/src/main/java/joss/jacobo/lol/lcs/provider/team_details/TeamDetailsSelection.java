@@ -152,10 +152,14 @@ public class TeamDetailsSelection extends AbstractSelection<TeamDetailsSelection
         TeamDetailsSelection where = new TeamDetailsSelection();
         where.teamId(teamId);
         TeamDetailsCursor cursor = where.query(contentResolver);
+
+        TeamDetailsModel team = null;
         if(cursor.moveToFirst()){
-            return new TeamDetailsModel(cursor);
+            team = new TeamDetailsModel(cursor);
         }
-        return null;
+        cursor.close();
+
+        return team;
     }
 
 }

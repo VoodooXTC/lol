@@ -77,6 +77,8 @@ public class TeamSocialFragment extends BaseListFragment {
             if(data != null){
                 TweetsCursor tweetsCursor = new TweetsCursor(data);
                 List<TweetsModel> tweets = tweetsCursor.getTweets();
+                tweetsCursor.close();
+
                 adapter.setItems(tweets);
                 if(tweets != null && tweets.size() > 0)
                     showContent();

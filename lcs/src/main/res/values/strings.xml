@@ -45,4 +45,12 @@
 
     <string name="livestream_error_starting_stream">An error occurred trying to start your video, I don\'t know what to tell you…It was there, I saw it too. ¯\\(°_o)/¯</string>
 
+    <string name="Replays">Replays</string>
+
+    <string-array name="team_fragment_titles">
+        <item>Roster</item>
+        <item>About</item>
+        <item>Social</item>
+    </string-array>
+
 </resources>

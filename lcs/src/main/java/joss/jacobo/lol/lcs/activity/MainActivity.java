@@ -184,20 +184,20 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
     private List<DrawerItem> getDrawerItems() {
         List<DrawerItem> items = new ArrayList<DrawerItem>();
 
-        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "MEDIA"));
-        items.add(new DrawerItem(DrawerItem.TYPE_LIVESTREAM, 0, "Livesteam"));
-        items.add(new DrawerItem(DrawerItem.TYPE_LIVETICKER, 0, "Liveticker"));
-        items.add(new DrawerItem(DrawerItem.TYPE_REPLAYS, 0, "Replays"));
+        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, getString(R.string.drawer_media)));
+        items.add(new DrawerItem(DrawerItem.TYPE_LIVESTREAM, 0, getString(R.string.drawer_livestream)));
+        items.add(new DrawerItem(DrawerItem.TYPE_LIVETICKER, 0, getString(R.string.drawer_liveticker)));
+        items.add(new DrawerItem(DrawerItem.TYPE_REPLAYS, 0, getString(R.string.drawer_replays)));
 
-        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "GENERAL"));
-        items.add(new DrawerItem(DrawerItem.TYPE_OVERVIEW, 0, "Overview"));
-        items.add(new DrawerItem(DrawerItem.TYPE_NEWS, 0, "News"));
-        items.add(new DrawerItem(DrawerItem.TYPE_SCHEDULE_RESULTS, 0, "Schedule & Results"));
-        items.add(new DrawerItem(DrawerItem.TYPE_STANDINGS, 0, "Standings"));
+        items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, getString(R.string.drawer_general)));
+        items.add(new DrawerItem(DrawerItem.TYPE_OVERVIEW, 0, getString(R.string.drawer_overview)));
+        items.add(new DrawerItem(DrawerItem.TYPE_NEWS, 0, getString(R.string.drawer_news)));
+        items.add(new DrawerItem(DrawerItem.TYPE_SCHEDULE_RESULTS, 0, getString(R.string.drawer_schedule_results)));
+        items.add(new DrawerItem(DrawerItem.TYPE_STANDINGS, 0, getString(R.string.drawer_standings)));
 
         List<DrawerItem> teams = getTeams(datastore.getSelectedTournament());
         if(teams != null && teams.size() > 0){
-            items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, "Teams"));
+            items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, getString(R.string.drawer_teams)));
             items.addAll(teams);
         }
 
@@ -507,6 +507,8 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         TeamsSelection where = new TeamsSelection();
         where.tournamentId(selectedTournament);
         TeamsCursor cursor = new TeamsCursor(where.query(getContentResolver(), null, TeamsColumns.TEAM_NAME));
-        return cursor.getListAsDrawerItems();
+        List<DrawerItem> list = cursor.getListAsDrawerItems();
+        cursor.close();
+        return list;
     }
 }

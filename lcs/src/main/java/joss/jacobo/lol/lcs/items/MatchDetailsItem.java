@@ -46,6 +46,13 @@ public class MatchDetailsItem extends OverviewItem {
         TeamDetailsSelection where = new TeamDetailsSelection();
         where.teamId(teamId);
         TeamDetailsCursor cursor = where.query(context.getContentResolver());
-        return cursor.moveToFirst() ? cursor.getName() : null;
+
+        String teamName = null;
+        if(cursor.moveToFirst()){
+            teamName = cursor.getName();
+        }
+        cursor.close();
+
+        return teamName;
     }
 }

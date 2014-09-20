@@ -180,10 +180,13 @@ public class TournamentsSelection extends AbstractSelection<TournamentsSelection
         TournamentsSelection where = new TournamentsSelection();
         where.tournamentId(tournamentId);
         TournamentsCursor c = new TournamentsCursor(where.query(context.getContentResolver()));
+
+        String tournamentAbrev = null;
         if(c.moveToFirst()){
-            return c.getAbrev();
-        }else{
-            return null;
+            tournamentAbrev =  c.getAbrev();
         }
+        c.close();
+
+        return tournamentAbrev;
     }
 }
