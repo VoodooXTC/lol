@@ -48,7 +48,7 @@ public class DateTimeFormatter {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            fmt.setTimeZone(TimeZone.getDefault());
+            fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date date = fmt.parse(dateString);
 
             SimpleDateFormat fmtOut = new SimpleDateFormat("cccc, MMMM dd");
@@ -67,7 +67,7 @@ public class DateTimeFormatter {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            fmt.setTimeZone(TimeZone.getDefault());
+            fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date date = fmt.parse(dateString);
 
             SimpleDateFormat fmtOut = new SimpleDateFormat("kk:mm");
@@ -85,7 +85,7 @@ public class DateTimeFormatter {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            fmt.setTimeZone(TimeZone.getDefault());
+            fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
             return fmt.parse(dateString);
 
         } catch (ParseException e) {
@@ -100,7 +100,7 @@ public class DateTimeFormatter {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            fmt.setTimeZone(TimeZone.getDefault());
+            fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date date = fmt.parse(datetime);
 
             return formatMillisToAgo(date.getTime(), type);

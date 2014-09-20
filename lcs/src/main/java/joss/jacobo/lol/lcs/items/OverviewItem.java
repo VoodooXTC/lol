@@ -3,7 +3,7 @@ package joss.jacobo.lol.lcs.items;
 import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 
 /**
- * Created by Joss on 7/22/2014.
+ * Created by Joss on 7/22/2014
  */
 public class OverviewItem {
 
