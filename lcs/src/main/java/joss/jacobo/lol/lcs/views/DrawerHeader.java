@@ -82,7 +82,7 @@ public class DrawerHeader extends LinearLayout implements View.OnClickListener{
             subContainer.addView(subItem);
 
             if(selectedTournamentId == tournament.tournamentId)
-                title.setText(tournament.abrev + " - Menu");
+                title.setText(tournament.abrev + " - " + context.getString(R.string.drawer_header_menu));
         }
 
     }

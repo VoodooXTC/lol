@@ -248,7 +248,7 @@ public class ApiService extends IntentService {
                         }
                         sendLivetickerEventsBroadcast(null, ERROR,
                                 livetickerError != null
-                                        ? livetickerError.message : getString(R.string.livestream_error_starting_stream));
+                                        ? livetickerError.message : getString(R.string.live_streaming_error_starting_stream));
                     }
                 });
                 break;

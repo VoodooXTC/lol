@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.api.model.TeamDetail;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
@@ -55,7 +56,7 @@ public class OverviewFragment extends BaseListFragment {
         selectedTournament = datastore.getSelectedTournament();
         selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);
 
-        listener.onSetActionBarTitle("Overview", selectedTournamentAbrev);
+        listener.onSetActionBarTitle(getString(R.string.overview_actionbar_title), selectedTournamentAbrev);
 
         setupListView();
         showLoading();
@@ -80,7 +81,8 @@ public class OverviewFragment extends BaseListFragment {
 
         List<StandingsItem> standings = getStandings(selectedTournamentAbrev);
         if(standings != null && standings.size() > 0){
-            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "TOP", "TEAMS"));
+            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE,
+                    getString(R.string.overview_top), getString(R.string.overview_teams)));
             standings.get(standings.size() - 1).showDivider = false;
             items.addAll(standings);
             showContent();
@@ -89,7 +91,8 @@ public class OverviewFragment extends BaseListFragment {
 
         List<MatchDetailsItem> latestResults = getLatestResults(selectedTournament);
         if(latestResults != null && latestResults.size() > 0){
-            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "LATEST", "RESULTS"));
+            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE,
+                    getString(R.string.overview_latest), getString(R.string.overview_results)));
             latestResults.get(latestResults.size() - 1).showDivider = false;
             items.addAll(latestResults);
             showContent();
@@ -97,7 +100,8 @@ public class OverviewFragment extends BaseListFragment {
 
         List<MatchDetailsItem> upcomingMatches = getUpcomingMatches(selectedTournament);
         if(upcomingMatches != null && upcomingMatches.size() > 0){
-            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE, "UPCOMING", "MATCHES"));
+            items.add(new OverviewItem(OverviewItem.TYPE_SECTION_TITLE,
+                    getString(R.string.overview_upcoming), getString(R.string.overview_matches)));
             upcomingMatches.get(upcomingMatches.size() - 1).showDivider = false;
             items.addAll(upcomingMatches);
             showContent();

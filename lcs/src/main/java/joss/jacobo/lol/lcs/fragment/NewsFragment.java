@@ -54,7 +54,7 @@ public class NewsFragment extends BaseListFragment {
     public void onViewCreated(View view, Bundle savedState){
         super.onViewCreated(view, savedState);
 
-        listener.onSetActionBarTitle("News", null);
+        listener.onSetActionBarTitle(getString(R.string.news_actionbar_title), null);
 
         showLoading();
 

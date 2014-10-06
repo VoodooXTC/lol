@@ -111,7 +111,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         setContentView(R.layout.activity_live_streaming);
         ButterKnife.inject(this);
 
-        setupActionBar("Live");
+        setupActionBar(getString(R.string.live_streaming_live));
         setupListView();
         showLoading();
 
@@ -183,7 +183,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        Toast.makeText(this, getString(R.string.livestream_error_starting_stream), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.live_streaming_error_starting_stream), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -371,7 +371,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
                                 }
                             }else{
                                 // TODO ERROR
-                                setupActionBar("No Live Streams Available");
+                                setupActionBar(getString(R.string.live_streaming_no_events_found));
                             }
                             break;
 

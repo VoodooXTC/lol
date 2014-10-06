@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.OverviewItem;
 import joss.jacobo.lol.lcs.model.MatchesModel;
@@ -44,7 +45,7 @@ public class ScheduleFragment extends BaseListFragment {
 
         selectedTournament = datastore.getSelectedTournament();
         selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);
-        listener.onSetActionBarTitle("Schedule", selectedTournamentAbrev);
+        listener.onSetActionBarTitle(getString(R.string.schedule_actionbar_title), selectedTournamentAbrev);
 
         setupListView();
         showLoading();

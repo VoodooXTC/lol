@@ -66,7 +66,9 @@ public class ReplayItem extends LinearLayout {
         publishedAtAndViews.setText(
                 DateTimeFormatter.formatDateTimeStringToAgo(replay.snippet.publishedAt, DateTimeFormatter.YOUTUBE)
                         + " · "
-                        + DateTimeFormatter.formatCountCommas(replay.statistics.viewCount) + " views");
+                        + DateTimeFormatter.formatCountCommas(replay.statistics.viewCount)
+                        + " " + context.getString(R.string.replay_views)
+        );
     }
 
     public void showDivider(boolean show){

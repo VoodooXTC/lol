@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.activity.PlayerDetailsActivity;
 import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.api.model.Players.Player;
@@ -171,7 +172,8 @@ public class TeamRosterFragment extends BaseListFragment {
     private List<PlayersModel> getItems() {
         List<PlayersModel> items = new ArrayList<PlayersModel>();
         if(players.size() > 0){
-            items.add(new PlayersModel(PlayersModel.TYPE_TITLE, "PRO", "PLAYERS"));
+            items.add(new PlayersModel(PlayersModel.TYPE_TITLE,
+                    getString(R.string.team_roster_pro), getString(R.string.team_roster_players)));
             items.addAll(players);
 
             // Remove the last divider

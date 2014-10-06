@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="25sp"
-                    android:text="1"
+                    tools:text="1"
                     oak:oakFont="@string/font_gothic_regular"
                     />
 
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="25sp"
-                    android:text="0"
+                    tools:text="0"
                     oak:oakFont="@string/font_gothic_regular"
                     />
 
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:text="Best of 5"
+                tools:text="Best of 5"
                 oak:oakFont="@string/font_gothic_regular"
                 />
         </LinearLayout>

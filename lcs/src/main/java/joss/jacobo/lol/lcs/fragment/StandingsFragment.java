@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.interfaces.StandingsType;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
@@ -48,7 +49,7 @@ public class StandingsFragment extends BaseListFragment {
 
         selectedTournament = datastore.getSelectedTournament();
         selectedTournamentAbrev = TournamentsSelection.getTournamentAbrev(getActivity(), selectedTournament);
-        listener.onSetActionBarTitle("Standings", selectedTournamentAbrev);
+        listener.onSetActionBarTitle(getString(R.string.standings_actiobar_title), selectedTournamentAbrev);
 
         setupListView();
         showLoading();

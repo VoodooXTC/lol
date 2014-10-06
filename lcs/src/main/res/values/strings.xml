@@ -25,9 +25,12 @@
 
     <string name="no_results">No Results</string>
 
+    <string name="drawer_header_menu">Menu</string>
+
     <string name="item_overview_L">L</string>
     <string name="item_overview_W">W</string>
     <string name="item_match_details_vs">vs</string>
+
     <string name="liveticker_dragon">DRAGON</string>
     <string name="liveticker_baron">BARON</string>
     <string name="liveticker_team_fight">TEAMFIGHT</string>
@@ -41,11 +44,34 @@
     <string name="liveticker_matchup">MATCHUP</string>
     <string name="liveticker_colon">:</string>
     <string name="liveticker_pick_bans">PICKS &amp; BANS</string>
+    <string name="live_ticker_no_live_events">No Live Events at the moment</string>
     <string name="vs">vs</string>
 
-    <string name="livestream_error_starting_stream">An error occurred trying to start your video, I don\'t know what to tell you…It was there, I saw it too. ¯\\(°_o)/¯</string>
+    <string name="live_streaming_live">Live</string>
+    <string name="live_streaming_no_events_found">No Live Streams Available</string>
+    <string name="live_streaming_error_starting_stream">
+        An error occurred trying to start your video, I don\'t know what to tell you…It was there,
+        I saw it too. ¯\\(°_o)/¯
+    </string>
+
+    <string name="news_actionbar_title">News</string>
+
+    <string name="overview_actionbar_title">Overview</string>
+    <string name="overview_top">TOP</string>
+    <string name="overview_teams">TEAMS</string>
+    <string name="overview_latest">LATEST</string>
+    <string name="overview_results">RESULTS</string>
+    <string name="overview_upcoming">UPCOMING</string>
+    <string name="overview_matches">MATCHES</string>
 
     <string name="Replays">Replays</string>
+    <string name="replay_views">views</string>
+
+    <string name="schedule_actionbar_title">Schedule</string>
+    <string name="standings_actiobar_title">Standings</string>
+
+    <string name="team_roster_pro">PRO</string>
+    <string name="team_roster_players">PLAYERS</string>
 
     <string-array name="team_fragment_titles">
         <item>Roster</item>

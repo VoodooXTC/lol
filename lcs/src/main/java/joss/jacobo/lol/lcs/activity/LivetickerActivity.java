@@ -244,7 +244,7 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
     }
 
     private void setupListView() {
-        emptyView.setText("No Live Events at the moment");
+        emptyView.setText(getString(R.string.live_ticker_no_live_events));
         listView.setEmptyView(emptyView);
         adapter = new LivetickerAdapter(this, new ArrayList<Event>());
         listView.setAdapter(adapter);
