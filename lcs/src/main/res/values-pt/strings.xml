@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LoL eSports</string>
+    <string name="action_settings">Configurações</string>
+
+    <string name="image_description_team_logo">team logo</string>
+    <string name="image_description_expand_collapse_icon">expand and collapse icon</string>
+    <string name="image_description_tweet_avatar">tweet avatar</string>
+    <string name="image_description_twitter_icon">Twitter Icon</string>
+
+    <string name="no_results">Sem Resultados</string>
+
+    <string name="drawer_header_menu">Menu</string>
+
+    <string name="item_overview_L">V</string>
+    <string name="item_overview_W">D</string>
+    <string name="item_match_details_vs">vs</string>
+
+    <string name="liveticker_dragon">DRAGON</string>
+    <string name="liveticker_baron">BARON</string>
+    <string name="liveticker_team_fight">TEAMFIGHT</string>
+    <string name="liveticker_kill">KILL</string>
+    <string name="liveticker_tower">TORRE</string>
+    <string name="liveticker_inhibitor">INIBIDOR</string>
+    <string name="liveticker_buff">BUFF</string>
+    <string name="liveticker_nexus">NEXUS</string>
+    <string name="liveticker_first_blood">FIRST_BLOOD</string>
+    <string name="liveticker_scores">PONTUAÇÃO</string>
+    <string name="liveticker_matchup">COMPOSIÇÃO</string>
+    <string name="liveticker_colon">:</string>
+    <string name="liveticker_pick_bans">PICKS &amp; BANS</string>
+    <string name="live_ticker_no_live_events">Sem Eventos Online no momento</string>
+    <string name="vs">vs</string>
+
+    <string name="live_streaming_live">Online</string>
+    <string name="live_streaming_no_events_found">Sem Streams Online no momento</string>
+    <string name="live_streaming_error_starting_stream">
+        Um erro ocorreu ao tentar iniciar o seu vídeo, não sei como explicar mas..… Estava bem aqui,
+        eu o vi também! ¯\\(°_o)/¯
+    </string>
+
+    <string name="news_actionbar_title">NOVIDADES</string>
+
+    <string name="overview_actionbar_title">Visão Geral</string>
+    <string name="overview_top">TOPO</string>
+    <string name="overview_teams">TIMES</string>
+    <string name="overview_latest">RECENTES</string>
+    <string name="overview_results">RESULTADOS</string>
+    <string name="overview_upcoming">Á SEGUIR</string>
+    <string name="overview_matches">PARTIDAS</string>
+
+    <string name="Replays">Replays</string>
+    <string name="replay_views">visualizações</string>
+
+    <string name="schedule_actionbar_title">Programação</string>
+    <string name="standings_actiobar_title">Colocações</string>
+
+    <string name="team_roster_pro">PRO</string>
+    <string name="team_roster_players">PLAYERS</string>
+
+    <string-array name="team_fragment_titles">
+        <item>Roster</item>
+        <item>About</item>
+        <item>Social</item>
+    </string-array>
+
+</resources>
