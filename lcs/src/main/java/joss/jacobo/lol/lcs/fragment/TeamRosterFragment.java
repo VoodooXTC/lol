@@ -29,6 +29,7 @@ import joss.jacobo.lol.lcs.provider.players.PlayersColumns;
 import joss.jacobo.lol.lcs.provider.players.PlayersCursor;
 import joss.jacobo.lol.lcs.provider.players.PlayersSelection;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
+import joss.jacobo.lol.lcs.utils.GGson;
 import joss.jacobo.lol.lcs.views.OverviewSectionTitle;
 import joss.jacobo.lol.lcs.views.PlayerItem;
 
@@ -39,8 +40,6 @@ public class TeamRosterFragment extends BaseListFragment {
 
     private static final int PLAYER_CALLBACK = 123;
 
-    Gson gson;
-
     List<PlayersModel> players;
     TeamsModel team;
     TeamDetailsModel teamDetail;
@@ -49,8 +48,7 @@ public class TeamRosterFragment extends BaseListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gson = new Gson();
-        team = gson.fromJson(getArguments().getString(TeamsFragment.TEAM), TeamsModel.class);
+        team = GGson.fromJson(getArguments().getString(TeamsFragment.TEAM), TeamsModel.class);
         teamDetail = TeamDetailsSelection.getTeamDetails(getActivity().getContentResolver(), team.teamId);
     }
 
@@ -70,8 +68,8 @@ public class TeamRosterFragment extends BaseListFragment {
         PlayersModel player = adapter.items.get(position);
         if(player.type == PlayersModel.TYPE_PLAYER){
             Intent i = new Intent(getActivity(), PlayerDetailsActivity.class);
-            i.putExtra(PlayerDetailsActivity.PLAYER, gson.toJson(player));
-            i.putExtra(PlayerDetailsActivity.TEAM_DETAILS, gson.toJson(teamDetail));
+            i.putExtra(PlayerDetailsActivity.PLAYER, GGson.toJson(player));
+            i.putExtra(PlayerDetailsActivity.TEAM_DETAILS, GGson.toJson(teamDetail));
             startActivity(i);
         }
     }

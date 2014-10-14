@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drawer_media">MÍDIA</string>
+    <string name="drawer_livestream">Stream Online</string>
+    <string name="drawer_liveticker">Minuto-a-minuto</string>
+    <string name="drawer_replays">Replays</string>
+
+    <string name="drawer_general">GERAL</string>
+    <string name="drawer_overview">Visão Geral</string>
+    <string name="drawer_news">Notícias</string>
+    <string name="drawer_schedule_results">Programação &amp; Resultados</string>
+    <string name="drawer_standings">Colocações</string>
+
+    <string name="drawer_teams">TIMES</string>
+
+</resources>

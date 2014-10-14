@@ -20,14 +20,14 @@
     <string name="liveticker_dragon">DRAGON</string>
     <string name="liveticker_baron">BARON</string>
     <string name="liveticker_team_fight">TEAMFIGHT</string>
-    <string name="liveticker_kill">KILL</string>
+    <string name="liveticker_kill">KILLS</string>
     <string name="liveticker_tower">TORRE</string>
     <string name="liveticker_inhibitor">INIBIDOR</string>
     <string name="liveticker_buff">BUFF</string>
     <string name="liveticker_nexus">NEXUS</string>
     <string name="liveticker_first_blood">FIRST_BLOOD</string>
-    <string name="liveticker_scores">PONTUAÇÃO</string>
-    <string name="liveticker_matchup">COMPOSIÇÃO</string>
+    <string name="liveticker_scores">PLACAR</string>
+    <string name="liveticker_matchup">CONFRONTO</string>
     <string name="liveticker_colon">:</string>
     <string name="liveticker_pick_bans">PICKS &amp; BANS</string>
     <string name="live_ticker_no_live_events">Sem Eventos Online no momento</string>
@@ -40,14 +40,14 @@
         eu o vi também! ¯\\(°_o)/¯
     </string>
 
-    <string name="news_actionbar_title">NOVIDADES</string>
+    <string name="news_actionbar_title">NOTÍCIAS</string>
 
     <string name="overview_actionbar_title">Visão Geral</string>
-    <string name="overview_top">TOPO</string>
+    <string name="overview_top">MELHORES</string>
     <string name="overview_teams">TIMES</string>
-    <string name="overview_latest">RECENTES</string>
-    <string name="overview_results">RESULTADOS</string>
-    <string name="overview_upcoming">Á SEGUIR</string>
+    <string name="overview_latest">RESULTADOS</string>
+    <string name="overview_results">RECENTES</string>
+    <string name="overview_upcoming">PRÓXIMAS</string>
     <string name="overview_matches">PARTIDAS</string>
 
     <string name="Replays">Replays</string>

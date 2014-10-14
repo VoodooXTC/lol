@@ -20,6 +20,9 @@ public interface RestService{
     @GET("/config/initial/")
     void getInitialConfig(Callback<Config> callback);
 
+    @GET("/config/initial/")
+    Config getInitialConfig();
+
     @GET("/standings/getLatestStanding/")
     void getLatestStandings(Callback<Standings> callback);
 

@@ -5,12 +5,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -19,6 +17,8 @@ import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.model.TeamDetailsModel;
 import joss.jacobo.lol.lcs.model.TeamsModel;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
+import joss.jacobo.lol.lcs.utils.GGson;
+import joss.jacobo.lol.lcs.views.CancelableAdView;
 
 /**
  * Created by jossayjacobo on 7/25/14
@@ -31,16 +31,16 @@ public class TeamAboutFragment extends Fragment {
     TextView title;
     @InjectView(R.id.team_about_text1)
     TextView text1;
+    @InjectView(R.id.cancelableAds)
+    CancelableAdView cancelableAdView;
 
-    Gson gson;
     TeamsModel team;
     TeamDetailsModel teamDetail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gson = new Gson();
-        team = gson.fromJson(getArguments().getString(TeamsFragment.TEAM), TeamsModel.class);
+        team = GGson.fromJson(getArguments().getString(TeamsFragment.TEAM), TeamsModel.class);
         teamDetail = TeamDetailsSelection.getTeamDetails(getActivity().getContentResolver(), team.teamId);
     }
 
@@ -50,9 +50,14 @@ public class TeamAboutFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_about_team, container, false);
         ButterKnife.inject(this, view);
 
-        AdView mAdView = (AdView) view.findViewById(R.id.ads);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        cancelableAdView.initAds();
+        cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                cancelableAdView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                text1.setPadding(0, 0, 0, cancelableAdView.getMeasuredHeight());
+            }
+        });
 
         return view;
     }

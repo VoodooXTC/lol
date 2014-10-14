@@ -120,6 +120,13 @@
             android:layout_centerInParent="true"
             />
 
+        <joss.jacobo.lol.lcs.views.CancelableAdView
+            android:id="@+id/cancelableAds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            />
+
     </RelativeLayout>
 
 </joss.jacobo.lol.lcs.views.DenyFocusRequestScrollView>

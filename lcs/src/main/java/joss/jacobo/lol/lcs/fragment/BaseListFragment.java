@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
@@ -11,17 +12,13 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.views.CancelableAdView;
 
 /**
  * Created by jossayjacobo on 7/22/14
@@ -36,6 +33,8 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
     LinearLayout loadingView;
     @InjectView(R.id.emptyView)
     TextView emptyView;
+    @InjectView(R.id.cancelableAds)
+    CancelableAdView cancelableAdView;
 
     ListAdapter adapter;
     View loadingItem;
@@ -56,13 +55,14 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
         loadingItem = inflater.inflate(R.layout.view_item_loading, listView, false);
         setHasOptionsMenu(true);
 
-        AdView mAdView = (AdView) view.findViewById(R.id.ads);
-        if (BuildConfig.DEBUG){
-            mAdView.setVisibility(View.GONE);
-        }else{
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }
+        cancelableAdView.initAds();
+        cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                cancelableAdView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                listView.setPadding(0, 0, 0, cancelableAdView.getMeasuredHeight());
+            }
+        });
 
         return view;
     }

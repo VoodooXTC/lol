@@ -22,6 +22,7 @@ import android.text.SpannableStringBuilder;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
@@ -29,8 +30,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -54,6 +53,7 @@ import joss.jacobo.lol.lcs.provider.tweets.TweetsSelection;
 import joss.jacobo.lol.lcs.utils.CustomTypefaceSpan;
 import joss.jacobo.lol.lcs.utils.GGson;
 import joss.jacobo.lol.lcs.views.ActionBarDropDownItem;
+import joss.jacobo.lol.lcs.views.CancelableAdView;
 
 /**
  * Created by Joss on 8/2/2014
@@ -76,9 +76,10 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     TextView emptyView;
     @InjectView(R.id.loadingView)
     LinearLayout loadingView;
+    @InjectView(R.id.cancelableAds)
+    CancelableAdView cancelableAdView;
 
     ActionBar actionBar;
-    AdView mAdView;
 
     boolean fullscreen = false;
     boolean fetching = false;
@@ -115,13 +116,14 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         setupListView();
         showLoading();
 
-        mAdView = (AdView) findViewById(R.id.ads);
-        if (BuildConfig.DEBUG){
-            mAdView.setVisibility(View.GONE);
-        }else{
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }
+        cancelableAdView.initAds();
+        cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                cancelableAdView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                listView.setPadding(0, 0, 0, cancelableAdView.getMeasuredHeight());
+            }
+        });
 
         youTubePlayerView.initialize(API_KEY, this);
 
@@ -487,13 +489,13 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         getWindow().getDecorView().setSystemUiVisibility(LAYOUT_FLAGS);
 
         if (!BuildConfig.DEBUG)
-            mAdView.setVisibility(View.GONE);
+            cancelableAdView.setVisibility(View.GONE);
     }
 
     private void showSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(0);
 
         if (!BuildConfig.DEBUG)
-            mAdView.setVisibility(View.VISIBLE);
+            cancelableAdView.setVisibility(View.VISIBLE);
     }
 }

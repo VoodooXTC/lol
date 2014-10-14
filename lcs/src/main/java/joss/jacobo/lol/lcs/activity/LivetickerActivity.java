@@ -21,8 +21,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -38,7 +36,6 @@ import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.api.model.Liveticker.Event;
 import joss.jacobo.lol.lcs.api.model.Liveticker.Liveticker;
 import joss.jacobo.lol.lcs.model.MatchesModel;
-import joss.jacobo.lol.lcs.model.TeamDetailsModel;
 import joss.jacobo.lol.lcs.provider.matches.MatchesCursor;
 import joss.jacobo.lol.lcs.provider.matches.MatchesSelection;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsCursor;
@@ -46,6 +43,7 @@ import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
 import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 import joss.jacobo.lol.lcs.utils.GGson;
 import joss.jacobo.lol.lcs.views.ActionBarCustomCenteredTitle;
+import joss.jacobo.lol.lcs.views.CancelableAdView;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerHeader;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerMatchup;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerPickBans;
@@ -82,6 +80,8 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
     ScrollView bottomDrawerScrollView;
     @InjectView(R.id.lt_scroll_view_container)
     LinearLayout bottomDrawerScrollViewContainer;
+    @InjectView(R.id.cancelableAds)
+    CancelableAdView cancelableAdView;
 
     LivetickerBottomDrawerHeader btHeader;
     LivetickerBottomDrawerScores btScores;
@@ -125,11 +125,7 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
         setContentView(R.layout.activity_liveticker);
         ButterKnife.inject(this);
 
-        AdView mAdView = (AdView) findViewById(R.id.ads);
-        mAdView.setVisibility(View.GONE);
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        mAdView.loadAd(adRequest);
-
+        cancelableAdView.setVisibility(View.GONE);
         slidingUpPanelLayout.setPanelSlideListener(this);
 
         setupActionBar("Liveticker");
