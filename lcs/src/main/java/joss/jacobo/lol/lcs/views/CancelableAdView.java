@@ -1,5 +1,6 @@
 package joss.jacobo.lol.lcs.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -9,7 +10,13 @@ import android.widget.RelativeLayout;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
+import javax.inject.Inject;
+
+import joss.jacobo.lol.lcs.Datastore;
+import joss.jacobo.lol.lcs.MainApp;
 import joss.jacobo.lol.lcs.R;
 
 /**
@@ -17,6 +24,10 @@ import joss.jacobo.lol.lcs.R;
  */
 public class CancelableAdView extends RelativeLayout implements View.OnClickListener {
 
+    @Inject
+    Datastore datastore;
+
+    Context context;
     ImageView cancel;
     AdView mAdView;
 
@@ -34,6 +45,8 @@ public class CancelableAdView extends RelativeLayout implements View.OnClickList
     }
 
     private void init(Context context) {
+        this.context = context;
+        ((MainApp) ((Activity) context).getApplication()).inject(this);
         LayoutInflater.from(context).inflate(R.layout.view_cancelable_adview, this, true);
 
         cancel = (ImageView) findViewById(R.id.cancel);
@@ -43,8 +56,19 @@ public class CancelableAdView extends RelativeLayout implements View.OnClickList
     }
 
     public void initAds(){
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+
+        switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(context)){
+            case ConnectionResult.SUCCESS:
+                if(datastore.isAdsFree()){
+                    setVisibility(GONE);
+                }else{
+                    AdRequest adRequest = new AdRequest.Builder().build();
+                    mAdView.loadAd(adRequest);
+                }
+                break;
+            default:
+                setVisibility(GONE);
+        }
     }
 
     @Override

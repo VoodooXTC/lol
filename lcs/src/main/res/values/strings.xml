@@ -79,4 +79,8 @@
         <item>Social</item>
     </string-array>
 
+    <string name="purchase_error">An error occurred…I don\'t know what to tell you…It was there,
+        I saw it too. ¯\\(°_o)/¯
+    </string>
+
 </resources>

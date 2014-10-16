@@ -21,6 +21,10 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +44,8 @@ import joss.jacobo.lol.lcs.provider.teams.TeamsCursor;
 import joss.jacobo.lol.lcs.provider.teams.TeamsSelection;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsColumns;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsCursor;
+import joss.jacobo.lol.lcs.purchaseUtils.IabHelper;
+import joss.jacobo.lol.lcs.purchaseUtils.PurchaseConstants;
 import joss.jacobo.lol.lcs.views.DrawerHeader;
 import joss.jacobo.lol.lcs.views.DrawerItemSectionTitle;
 import joss.jacobo.lol.lcs.views.DrawerItemView;
@@ -51,6 +57,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
     private static final String CURRENT_FRAG = "current_frag";
 
     private static final int TOURNAMENT_CALLBACK = 0;
+    private static final int REQUEST_ADS_FREE_PURCHASE = 1988;
 
     private DrawerLayout mDrawerLayout;
     private FrameLayout contentView;
@@ -87,7 +94,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
 
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
         if (fragment == null) {
-            selectFragment(R.id.fragment_overview, 4);
+            selectFragment(R.id.fragment_overview, getFragmentPosition(DrawerItem.TYPE_OVERVIEW));
         }
 
         ApiService.getInitialConfig(this);
@@ -96,9 +103,15 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        adapter.setItems(getDrawerItems());
+    }
+
+    @Override
     public void onBackPressed(){
         if(currentFrag != R.id.fragment_overview) {
-            selectFragment(R.id.fragment_overview, 4);
+            selectFragment(R.id.fragment_overview, getFragmentPosition(DrawerItem.TYPE_OVERVIEW));
             return;
         }
 
@@ -153,7 +166,7 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         drawerHeader = new DrawerHeader(this);
         mDrawerList.addHeaderView(drawerHeader);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        adapter = new MenuListAdapter(this, getDrawerItems());
+        adapter = new MenuListAdapter(this, new ArrayList<DrawerItem>());
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -199,6 +212,15 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         if(teams != null && teams.size() > 0){
             items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, getString(R.string.drawer_teams)));
             items.addAll(teams);
+        }
+
+        switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this)){
+            case ConnectionResult.SUCCESS:
+                if(!datastore.isAdsFree()){
+                    items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, getString(R.string.drawer_support)));
+                    items.add(new DrawerItem(DrawerItem.TYPE_ADS_FREE, 0, getString(R.string.drawer_ads_fre)));
+                }
+                break;
         }
 
         return items;
@@ -354,6 +376,16 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
                     case DrawerItem.TYPE_TEAM:
                         selectFragment(R.id.fragment_team, position - 1);
                         break;
+
+                    case DrawerItem.TYPE_ADS_FREE:
+                        switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(MainActivity.this)){
+                            case ConnectionResult.SUCCESS:
+                                Intent intent = new Intent(MainActivity.this, PurchaseAdsFreeActivity.class);
+                                intent.putExtra(PurchaseAdsFreeActivity.SKU, PurchaseConstants.SKU_ADS_FREE);
+                                startActivityForResult(intent, REQUEST_ADS_FREE_PURCHASE);
+                                break;
+                        }
+                        break;
                 }
             }else if(position == 0){
 
@@ -462,6 +494,26 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (REQUEST_ADS_FREE_PURCHASE == requestCode) {
+            if (RESULT_OK == resultCode) {
+                dealWithSuccessfulPurchase();
+            } else {
+                dealWithFailedPurchase();
+            }
+        }
+    }
+
+    private void dealWithSuccessfulPurchase() {
+        Toast.makeText(this, "Thank you for supporting!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void dealWithFailedPurchase() {
+
+    }
+
     private class TournamentCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
 
         @Override
@@ -501,6 +553,16 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         public void onLoaderReset(Loader<Cursor> loader) {
 
         }
+    }
+
+    private int getFragmentPosition(int type) {
+        List<DrawerItem> items = getDrawerItems();
+        for(int i = 0; i < items.size(); i++){
+            if(items.get(i).type == type){
+                return i;
+            }
+        }
+        return 0;
     }
 
     private List<DrawerItem> getTeams(int selectedTournament){

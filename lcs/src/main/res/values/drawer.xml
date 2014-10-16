@@ -26,4 +26,7 @@
 
     <string name="drawer_teams">TEAMS</string>
 
+    <string name="drawer_support">SUPPORT</string>
+    <string name="drawer_ads_fre">Remove Ads</string>
+
 </resources>

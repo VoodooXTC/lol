@@ -116,7 +116,6 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         setupListView();
         showLoading();
 
-        cancelableAdView.initAds();
         cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -145,6 +144,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         message.what = GET_HASHTAG_TWEETS;
         tweetHandler.sendMessageDelayed(message, DELAY);
 
+        cancelableAdView.initAds();
     }
 
     @Override

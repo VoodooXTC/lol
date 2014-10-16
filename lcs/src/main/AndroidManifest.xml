@@ -26,14 +26,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.NewsDetailsActivity" />
-        <activity android:name=".activity.PlayerDetailsActivity" />
-        <activity android:name=".activity.LiveStreamingActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".activity.LivetickerActivity" android:theme="@style/AppTheme.LiveTicker" />
-        <activity android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@android:style/Theme.Translucent" />
-
+        <activity android:name=".activity.NewsDetailsActivity"          />
+        <activity android:name=".activity.PlayerDetailsActivity"        />
+        <activity android:name=".activity.LiveStreamingActivity"        android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".activity.LivetickerActivity"           android:theme="@style/AppTheme.LiveTicker" />
+        <activity android:name=".activity.PurchaseAdsFreeActivity"      android:theme="@style/Translucent" />
+        <activity android:name="com.google.android.gms.ads.AdActivity"  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+                                                                        android:theme="@android:style/Theme.Translucent" />
         <service
             android:name=".api.ApiService"
             android:enabled="true" />

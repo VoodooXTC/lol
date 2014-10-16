@@ -50,7 +50,6 @@ public class TeamAboutFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_about_team, container, false);
         ButterKnife.inject(this, view);
 
-        cancelableAdView.initAds();
         cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -65,8 +64,13 @@ public class TeamAboutFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedState) {
         super.onViewCreated(view, savedState);
-
         setContent();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        cancelableAdView.initAds();
     }
 
     private void setContent() {

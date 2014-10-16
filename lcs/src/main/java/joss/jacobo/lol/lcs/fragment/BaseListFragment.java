@@ -55,7 +55,6 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
         loadingItem = inflater.inflate(R.layout.view_item_loading, listView, false);
         setHasOptionsMenu(true);
 
-        cancelableAdView.initAds();
         cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -65,6 +64,12 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        cancelableAdView.initAds();
     }
 
     public void setupListView(){

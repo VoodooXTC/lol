@@ -30,6 +30,7 @@ import joss.jacobo.lol.lcs.fragment.TeamAboutFragment;
 import joss.jacobo.lol.lcs.fragment.TeamSocialFragment;
 import joss.jacobo.lol.lcs.fragment.TeamRosterFragment;
 import joss.jacobo.lol.lcs.fragment.TeamsFragment;
+import joss.jacobo.lol.lcs.views.CancelableAdView;
 import joss.jacobo.lol.lcs.views.DrawerHeader;
 
 @Module(
@@ -56,7 +57,8 @@ import joss.jacobo.lol.lcs.views.DrawerHeader;
                 NewsFragment.class,
                 ReplaysFragment.class,
 
-                DrawerHeader.class
+                DrawerHeader.class,
+                CancelableAdView.class
 
 }, library = true, complete = true)
 public class AppModule {

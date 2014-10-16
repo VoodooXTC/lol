@@ -16,7 +16,8 @@ public class DrawerItem {
     public static final int TYPE_TEAM = 6;
     public static final int TYPE_SECTION_TITLE = 7;
     public static final int TYPE_REPLAYS = 8;
-    public static final int TYPE_MAX = TYPE_REPLAYS + 1;
+    public static final int TYPE_ADS_FREE = 9;
+    public static final int TYPE_MAX = TYPE_ADS_FREE + 1;
 
     public int type;
     public int teamId;
