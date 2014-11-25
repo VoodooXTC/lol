@@ -3,10 +3,9 @@ package joss.jacobo.lol.lcs;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.util.Log;
+import android.support.multidex.MultiDex;
 
 import com.bugsnag.android.Bugsnag;
-import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -57,6 +56,13 @@ public class MainApp extends Application implements IObjectGraph {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void attachBaseContext(Context base){
+        super.attachBaseContext(base);
+
+        MultiDex.install(base);
     }
 
     private void onVersionUpdate(int oldVersionCode, int newVersionCode) {
