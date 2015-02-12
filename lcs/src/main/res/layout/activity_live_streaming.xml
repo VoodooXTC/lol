@@ -6,10 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Include the toolbar -->
+    <include
+        layout="@layout/toolbar_live_stream"
+        style="@style/MatchWidthWrapHeight"
+        />
+
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/live_streaming_youtube_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         />
 
     <include

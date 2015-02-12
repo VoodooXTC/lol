@@ -1,7 +1,6 @@
 package joss.jacobo.lol.lcs.views;
 
 import android.content.Context;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,7 @@ public class ReplayItem extends LinearLayout {
 
     private void init(Context context) {
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.view_item_replay, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_replay, this, true);
         image = (ImageView) findViewById(R.id.replay_image);
         duration = (TextView) findViewById(R.id.replay_duration);
         title = (TextView) findViewById(R.id.replay_title);

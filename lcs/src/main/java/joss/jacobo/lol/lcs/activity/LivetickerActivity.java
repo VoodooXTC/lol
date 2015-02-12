@@ -49,6 +49,7 @@ import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerMatchup;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerPickBans;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerScores;
 import joss.jacobo.lol.lcs.views.LivetickerEventItem;
+import joss.jacobo.lol.lcs.views.ToolbarTitle;
 
 /**
  * Created by Joss on 9/6/2014
@@ -374,9 +375,13 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
     }
 
     public void setupActionBar(String title) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        setSupportActionBar(toolbar);
+        View toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setVisibility(View.GONE);
+
+        getSupportActionBar().setDisplayShowCustomEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         customTitle = new ActionBarCustomCenteredTitle(this);

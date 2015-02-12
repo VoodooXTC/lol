@@ -40,7 +40,7 @@ public class NewsItem extends LinearLayout {
 
     private void init(Context context) {
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.view_item_news, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_news, this, true);
         image = (ImageView) findViewById(R.id.news_image);
         category = (TextView) findViewById(R.id.news_category);
         title = (TextView) findViewById(R.id.news_title);

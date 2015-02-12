@@ -42,7 +42,7 @@ public class StandingsItemView extends LinearLayout {
 
     private void init(Context context) {
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.view_item_standings, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_standings, this, true);
         position = (TextView) findViewById(R.id.item_match_position);
         delta = (TextView) findViewById(R.id.item_match_delta);
         teamLogo = (ImageView) findViewById(R.id.item_match_team_logo);

@@ -15,6 +15,7 @@ import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
  */
 public class ActionBarDropDownItem extends LinearLayout {
 
+    Video video;
     TextView title;
     TextView subtitle;
 
@@ -38,7 +39,12 @@ public class ActionBarDropDownItem extends LinearLayout {
     }
 
     public void setContent(Video video){
+        this.video = video;
         this.title.setText(video.snippet.title);
         this.subtitle.setVisibility(View.GONE);
+    }
+
+    public Video getVideo(){
+        return video;
     }
 }

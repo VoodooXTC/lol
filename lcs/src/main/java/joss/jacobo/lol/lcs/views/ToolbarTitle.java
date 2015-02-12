@@ -12,20 +12,20 @@ import joss.jacobo.lol.lcs.R;
 /**
  * Created by Joss on 7/24/2014
  */
-public class ActionBarCustomTitle extends LinearLayout {
+public class ToolbarTitle extends LinearLayout {
 
     TextView title;
     TextView subtitle;
 
-    public ActionBarCustomTitle(Context context) {
+    public ToolbarTitle(Context context) {
         this(context, null);
     }
 
-    public ActionBarCustomTitle(Context context, AttributeSet attrs) {
+    public ToolbarTitle(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ActionBarCustomTitle(Context context, AttributeSet attrs, int defStyle) {
+    public ToolbarTitle(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -36,9 +36,19 @@ public class ActionBarCustomTitle extends LinearLayout {
         subtitle = (TextView) findViewById(R.id.action_bar_subtitle);
     }
 
+    public void setContent(String title){
+        setContent(title, null);
+    }
+
     public void setContent(String title, String subtitle){
         this.title.setText(title);
         this.subtitle.setText(subtitle);
+
+        if(subtitle == null) {
+            hideSubtitle();
+        }else {
+            showSubtitle();
+        }
     }
 
     public void showTitle(){

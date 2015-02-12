@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import joss.jacobo.lol.lcs.R;
-import joss.jacobo.lol.lcs.api.model.Players.Player;
 import joss.jacobo.lol.lcs.model.PlayersModel;
 
 /**
@@ -41,7 +40,7 @@ public class PlayerItem extends LinearLayout {
 
     private void init(Context context) {
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.view_item_player, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_player, this, true);
         teamLogo = (ImageView) findViewById(R.id.item_player_team_logo);
         name = (TextView) findViewById(R.id.item_player_name);
         position = (TextView) findViewById(R.id.item_player_position);

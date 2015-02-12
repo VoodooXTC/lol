@@ -48,7 +48,7 @@ public class TweetItem extends LinearLayout {
 
     private void init(Context context) {
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.view_item_tweet, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_tweet, this, true);
         avatar = (ImageView) findViewById(R.id.tweet_item_avatar);
         username = (TextView) findViewById(R.id.tweet_item_username);
         twitterHandle = (TextView) findViewById(R.id.tweet_item_twitter_handle);

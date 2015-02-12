@@ -49,8 +49,8 @@ public class PlayerDetailsActivity extends BaseActivity {
         teamDetails = gson.fromJson(getIntent().getStringExtra(TEAM_DETAILS), TeamDetailsModel.class);
 
         setContent(player, teamDetails);
-        setupActionBar();
-        onSetActionBarTitle(teamDetails.name, null);
+        setupActionBar(toolbar);
+        setToolbarTitle(teamDetails.name);
 
     }
 
@@ -83,5 +83,4 @@ public class PlayerDetailsActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

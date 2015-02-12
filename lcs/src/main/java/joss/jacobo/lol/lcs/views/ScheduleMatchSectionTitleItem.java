@@ -31,7 +31,7 @@ public class ScheduleMatchSectionTitleItem extends LinearLayout {
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.view_item_schedule_match_section_title, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_schedule_match_section_title, this, true);
         title = (TextView) findViewById(R.id.standing_section_title);
     }
 

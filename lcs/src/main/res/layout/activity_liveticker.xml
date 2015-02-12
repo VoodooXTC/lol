@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    style="@style/Match">
 
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/liveticker_sliding_up_panel"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:panelHeight="40dp"
-    sothree:shadowHeight="4dp"
-    >
-
+    <!-- Include the toolbar -->
     <include
-        layout="@layout/fragment_base_list"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
-
-    <include
-        layout="@layout/view_liveticker_bottom_drawer"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
+        layout="@layout/toolbar"
+        style="@style/MatchWidthWrapHeight"
         />
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/liveticker_sliding_up_panel"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:panelHeight="40dp"
+        sothree:shadowHeight="4dp"
+        >
+
+        <include
+            layout="@layout/fragment_base_list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+
+        <include
+            layout="@layout/view_liveticker_bottom_drawer"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            />
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</RelativeLayout>

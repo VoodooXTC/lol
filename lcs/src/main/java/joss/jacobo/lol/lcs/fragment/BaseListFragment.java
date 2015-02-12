@@ -52,7 +52,7 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
                 container, false);
         ButterKnife.inject(this, view);
 
-        loadingItem = inflater.inflate(R.layout.view_item_loading, listView, false);
+        loadingItem = inflater.inflate(R.layout.li_loading, listView, false);
         setHasOptionsMenu(true);
 
         cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

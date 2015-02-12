@@ -31,7 +31,8 @@ public class MainApp extends Application implements IObjectGraph {
     public void onCreate() {
         super.onCreate();
 
-        Bugsnag.register(this, "3f3a012ad7eb6703e8b327f33ae37abd");
+        if (!BuildConfig.DEBUG)
+            Bugsnag.register(this, "3f3a012ad7eb6703e8b327f33ae37abd");
 
         /**
          * Ensure the keys generated for the CryptoSharedPreferences are strong and sufficiently

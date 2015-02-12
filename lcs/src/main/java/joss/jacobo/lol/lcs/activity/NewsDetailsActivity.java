@@ -96,8 +96,8 @@ public class NewsDetailsActivity extends BaseActivity {
         showLoading();
         setContent(newsModel);
 
-        setupActionBar();
-        onSetActionBarTitle("News", null);
+        setupActionBar(toolbar);
+        setToolbarTitle("News");
 
         image.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -260,5 +260,4 @@ public class NewsDetailsActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

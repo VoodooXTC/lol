@@ -3,6 +3,8 @@ package joss.jacobo.lol.lcs.activity;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.Window;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -10,26 +12,28 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
 import joss.jacobo.lol.lcs.Datastore;
 import joss.jacobo.lol.lcs.MainApp;
 import joss.jacobo.lol.lcs.R;
-import joss.jacobo.lol.lcs.interfaces.BaseFragmentListener;
 import joss.jacobo.lol.lcs.purchaseUtils.PurchaseConstants;
 import joss.jacobo.lol.lcs.purchaseUtils.IabHelper;
 import joss.jacobo.lol.lcs.purchaseUtils.IabResult;
 import joss.jacobo.lol.lcs.purchaseUtils.Inventory;
 import joss.jacobo.lol.lcs.purchaseUtils.Purchase;
-import joss.jacobo.lol.lcs.views.ActionBarCustomTitle;
+import joss.jacobo.lol.lcs.views.ToolbarTitle;
 
 /**
  * Created by jossayjacobo on 7/20/14
  */
-public class BaseActivity extends ActionBarActivity implements BaseFragmentListener, IabHelper.OnIabSetupFinishedListener, IabHelper.QueryInventoryFinishedListener {
+public abstract class BaseActivity extends ActionBarActivity implements
+        IabHelper.OnIabSetupFinishedListener, IabHelper.QueryInventoryFinishedListener {
 
     @Inject
     Datastore datastore;
 
-    ActionBarCustomTitle customTitle;
+    @InjectView(R.id.toolbar)
+    public Toolbar toolbar;
 
     IabHelper mHelper;
 
@@ -55,6 +59,17 @@ public class BaseActivity extends ActionBarActivity implements BaseFragmentListe
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         Window window = this.getWindow();
@@ -63,41 +78,32 @@ public class BaseActivity extends ActionBarActivity implements BaseFragmentListe
         window.setFormat(PixelFormat.RGBA_8888);
     }
 
-    public void setupActionBar() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected void setupActionBar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowCustomEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    @Override
-    public void onSetActionBarTitle(String title, String subtitle) {
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        if(customTitle == null){
-            customTitle = new ActionBarCustomTitle(this);
-            getSupportActionBar().setCustomView(customTitle);
-        }
-
-        customTitle.setContent(title, subtitle);
-
-        if(title == null) {
-            customTitle.hideTitle();
-        }else{
-            customTitle.showTitle();
-        }
-
-        if(subtitle == null) {
-            customTitle.hideSubtitle();
-        }else{
-            customTitle.showSubtitle();
-        }
+    public void setToolbarTitle(String title) {
+        setTitle(title, null);
     }
 
-    @Override
-    public void teamSelected(int teamId) {
+    public void setToolbarTitleAndSubtitle(String title, String subtitle) {
+        setTitle(title, subtitle);
+    }
 
+    public void setTitle(String title, String subtitle){
+        if (getSupportActionBar() != null && title != null){
+
+            if (toolbar == null){
+                return;
+            }
+
+            ToolbarTitle toolbarTitle = (ToolbarTitle) toolbar.findViewById(R.id.toolbar_title);
+            toolbarTitle.setContent(title, subtitle);
+        }
     }
 
     @Override

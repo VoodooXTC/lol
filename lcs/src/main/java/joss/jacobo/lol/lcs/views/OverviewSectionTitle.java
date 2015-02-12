@@ -32,7 +32,7 @@ public class OverviewSectionTitle extends LinearLayout {
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.view_item_overview_section_title, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_overview_section_title, this, true);
         firstWord = (TextView) findViewById(R.id.item_overview_section_title_first_word);
         secondWord = (TextView) findViewById(R.id.item_overview_section_title_second_word);
     }

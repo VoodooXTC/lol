@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import joss.jacobo.lol.lcs.R;
-import joss.jacobo.lol.lcs.items.MatchDetailsItem;
 import joss.jacobo.lol.lcs.items.StandingsItem;
 
 /**
@@ -36,7 +35,7 @@ public class OverviewStandingsItem extends RelativeLayout {
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.view_item_overview_standings, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_overview_standings, this, true);
         position = (TextView) findViewById(R.id.item_overview_position);
         teamName = (TextView) findViewById(R.id.item_overview_team_name);
         wins = (TextView) findViewById(R.id.item_overview_wins);

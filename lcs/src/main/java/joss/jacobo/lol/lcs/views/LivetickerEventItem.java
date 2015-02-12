@@ -58,7 +58,7 @@ public class LivetickerEventItem extends LinearLayout {
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.view_item_liveticker_event, this, true);
+        LayoutInflater.from(context).inflate(R.layout.li_liveticker_event, this, true);
         time = (TextView) findViewById(R.id.liveticker_event_time);
         icon = (ImageView) findViewById(R.id.liveticker_event_icon);
         title = (TextView) findViewById(R.id.liveticker_event_title);

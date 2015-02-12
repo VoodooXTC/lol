@@ -1,6 +1,6 @@
 package joss.jacobo.lol.lcs.activity;
 
-import android.app.ActionBar;
+import android.animation.Animator;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,23 +10,22 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.adapters.DropDownAdapter;
 import joss.jacobo.lol.lcs.adapters.TweetsAdapter;
 import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.api.model.LiveStreams.Video;
@@ -50,15 +50,18 @@ import joss.jacobo.lol.lcs.model.TweetsModel;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsColumns;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsCursor;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsSelection;
-import joss.jacobo.lol.lcs.utils.CustomTypefaceSpan;
 import joss.jacobo.lol.lcs.utils.GGson;
 import joss.jacobo.lol.lcs.views.ActionBarDropDownItem;
 import joss.jacobo.lol.lcs.views.CancelableAdView;
+import joss.jacobo.lol.lcs.views.ToolbarTitle;
 
 /**
  * Created by Joss on 8/2/2014
  */
-public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, ActionBar.OnNavigationListener, AdapterView.OnItemClickListener, YouTubePlayer.OnFullscreenListener, YouTubePlayer.PlaybackEventListener, YouTubePlayer.PlayerStateChangeListener {
+public class LiveStreamingActivity extends YouTubeBaseActivity implements
+        YouTubePlayer.OnInitializedListener, AdapterView.OnItemClickListener,
+        YouTubePlayer.OnFullscreenListener, YouTubePlayer.PlaybackEventListener,
+        YouTubePlayer.PlayerStateChangeListener, AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private static final String API_KEY = "AIzaSyBXyu6ZqTxhkWybwxPtwmWrEbadtxF1m4A";
     private static final String VIDEO_ID = "eREuD2_43Zo";
@@ -68,6 +71,8 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
     private static final int DELAY = 1000 * 30;
 
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
     @InjectView(R.id.live_streaming_youtube_player)
     YouTubePlayerView youTubePlayerView;
     @InjectView(R.id.listview)
@@ -79,7 +84,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     @InjectView(R.id.cancelableAds)
     CancelableAdView cancelableAdView;
 
-    ActionBar actionBar;
+    ToolbarTitle toolbarTitle;
 
     boolean fullscreen = false;
     boolean fetching = false;
@@ -103,6 +108,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         }
     };
 
+    Spinner spinner;
     DropDownAdapter dropDownAdapter;
     String currentVideo;
 
@@ -165,6 +171,19 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         adapter = new TweetsAdapter(this, new ArrayList<TweetsModel>());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+    }
+
+    public void setupActionBar(String title) {
+        dropDownAdapter = new DropDownAdapter(this, new ArrayList<Video>());
+        toolbarTitle = (ToolbarTitle) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setContent(title);
+
+        spinner = (Spinner) toolbar.findViewById(R.id.toolbar_dropdown);
+        spinner.setAdapter(dropDownAdapter);
+        spinner.setOnItemSelectedListener(this);
+
+        View back = toolbar.findViewById(R.id.toolbar_back);
+        back.setOnClickListener(this);
     }
 
     @Override
@@ -292,17 +311,30 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
     }
 
     @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        Video video = dropDownAdapter.videos.get(itemPosition);
-        cueVideo(video.id);
-        return true;
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TweetsModel tweet = adapter.items.get(position);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + tweet.twitterHandle + "/status/" + tweet.tweetId));
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Video video = ((ActionBarDropDownItem) view).getVideo();
+        cueVideo(video.id);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case  R.id.toolbar_back:
+                onBackPressed();
+                break;
+        }
     }
 
     private class TweetsCallBack implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -368,8 +400,8 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
                                 dropDownAdapter.setVideos(videos);
                                 cueVideo(videos.get(0).id);
 
-                                if(actionBar != null) {
-                                    actionBar.setDisplayShowTitleEnabled(false);
+                                if(toolbarTitle != null) {
+                                    toolbarTitle.setVisibility(View.GONE);
                                 }
                             }else{
                                 // TODO ERROR
@@ -386,46 +418,6 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         }
     }
 
-    public class DropDownAdapter extends BaseAdapter{
-
-        public List<Video> videos;
-
-        public DropDownAdapter(List<Video> videos){
-            this.videos = videos;
-        }
-
-        @Override
-        public int getCount() {
-            return videos != null ? videos.size() : 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return videos.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        public void setVideos(List<Video> videos){
-            this.videos = videos;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ActionBarDropDownItem item = convertView == null ?
-                    new ActionBarDropDownItem(LiveStreamingActivity.this) :
-                    (ActionBarDropDownItem) convertView;
-            item.setContent(videos.get(position));
-
-            return item;
-        }
-    }
-
     @Override
     public void onBackPressed(){
         if(fullscreen){
@@ -437,28 +429,6 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
         }
 
         super.onBackPressed();
-    }
-
-    public void setupActionBar(String title) {
-        actionBar = getActionBar();
-        if(actionBar != null){
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowCustomEnabled(false);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_LIST);
-
-            dropDownAdapter = new DropDownAdapter(new ArrayList<Video>());
-            actionBar.setListNavigationCallbacks(dropDownAdapter, this);
-
-            Typeface font = Typeface.createFromAsset(getAssets(), "fonts/" + getString(R.string.font_gothic_regular));
-            CustomTypefaceSpan light = new CustomTypefaceSpan("",font);
-            light.setColor(getResources().getColor(R.color.white));
-            SpannableStringBuilder sb = new SpannableStringBuilder(title);
-            sb.setSpan(light,0,title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            actionBar.setTitle(sb);
-        }
-
     }
 
     private void showLoading(){
@@ -490,6 +460,8 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
         if (!BuildConfig.DEBUG)
             cancelableAdView.setVisibility(View.GONE);
+
+        toolbar.setVisibility(View.GONE);
     }
 
     private void showSystemUI() {
@@ -497,5 +469,7 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements YouTub
 
         if (!BuildConfig.DEBUG)
             cancelableAdView.setVisibility(View.VISIBLE);
+
+        toolbar.setVisibility(View.VISIBLE);
     }
 }

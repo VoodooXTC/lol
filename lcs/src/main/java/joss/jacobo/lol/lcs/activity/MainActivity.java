@@ -1,26 +1,14 @@
 package joss.jacobo.lol.lcs.activity;
 
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -44,26 +32,17 @@ import joss.jacobo.lol.lcs.provider.teams.TeamsCursor;
 import joss.jacobo.lol.lcs.provider.teams.TeamsSelection;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsColumns;
 import joss.jacobo.lol.lcs.provider.tournaments.TournamentsCursor;
-import joss.jacobo.lol.lcs.purchaseUtils.IabHelper;
 import joss.jacobo.lol.lcs.purchaseUtils.PurchaseConstants;
 import joss.jacobo.lol.lcs.views.DrawerHeader;
-import joss.jacobo.lol.lcs.views.DrawerItemSectionTitle;
-import joss.jacobo.lol.lcs.views.DrawerItemView;
 
 
-public class MainActivity extends BaseActivity implements DrawerHeader.TournamentListener{
+public class MainActivity extends BaseDrawerActivity implements DrawerHeader.TournamentListener{
 
     private static final String FRAGMENT_TAG = "fragment_tag";
     private static final String CURRENT_FRAG = "current_frag";
 
     private static final int TOURNAMENT_CALLBACK = 0;
     private static final int REQUEST_ADS_FREE_PURCHASE = 1988;
-
-    private DrawerLayout mDrawerLayout;
-    private FrameLayout contentView;
-    private ListView mDrawerList;
-    private MenuListAdapter adapter;
-    private ActionBarDrawerToggle mDrawerToggle;
 
     private int currentFrag = 0;
     private int currentTeam = -1;
@@ -72,22 +51,11 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
     int selectedTournament;
     private List<TournamentsModel> tournaments;
 
-    private DrawerHeader drawerHeader;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        contentView = (FrameLayout) findViewById(R.id.content_container);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.drawer_list_view);
-
         tournaments = new ArrayList<TournamentsModel>();
         selectedTournament = datastore.getSelectedTournament();
-
-        setUpDrawerLayout();
-        setupActionBar();
 
         if (savedInstanceState != null)
             currentFrag = savedInstanceState.getInt(CURRENT_FRAG);
@@ -116,82 +84,6 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         }
 
         super.onBackPressed();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen((View) mDrawerList.getParent());
-        for (int i = 0; i < menu.size(); i++) {
-            menu.getItem(i).setVisible(!drawerOpen);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (mDrawerToggle.isDrawerIndicatorEnabled()) {
-            if (mDrawerToggle.onOptionsItemSelected(item)) {
-                return true;
-            }
-        }
-        // Handle your other action bar items...
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    private void setUpDrawerLayout() {
-
-        drawerHeader = new DrawerHeader(this);
-        mDrawerList.addHeaderView(drawerHeader);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        adapter = new MenuListAdapter(this, new ArrayList<DrawerItem>());
-        mDrawerList.setAdapter(adapter);
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                R.drawable.ic_drawer,
-                R.string.drawer_open,
-                R.string.drawer_close
-        ) {
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-            }
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     private List<DrawerItem> getDrawerItems() {
@@ -271,130 +163,63 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         }
     }
 
-    public class MenuListAdapter extends BaseAdapter {
+    @Override
+    public void onDrawerItemClicked(View view, int position) {
+        if (position > 0) {
 
-        private Context context;
-        private List<DrawerItem> items;
-        private int hintPosition;
+            //Compensate for headerView in position 0
+            DrawerItem clicked = adapter.items.get(position - 1);
 
-        public MenuListAdapter(Context c, List<DrawerItem> i) {
-            this.context = c;
-            this.items = i;
-        }
+            switch (clicked.type){
+                case DrawerItem.TYPE_LIVESTREAM:
+                    selectFragment(R.id.fragment_livestream, position - 1);
+                    break;
 
-        public void setItems(List<DrawerItem> items){
-            this.items = items;
-            notifyDataSetChanged();
-        }
+                case DrawerItem.TYPE_LIVETICKER:
+                    selectFragment(R.id.fragment_liveticker, position - 1);
+                    break;
 
-        @Override
-        public int getCount() {
-            return items.size();
-        }
+                case DrawerItem.TYPE_REPLAYS:
+                    selectFragment(R.id.fragment_replays, position - 1);
+                    break;
 
-        @Override
-        public int getItemViewType(int position){
-            return items.get(position).type;
-        }
+                case DrawerItem.TYPE_OVERVIEW:
+                    selectFragment(R.id.fragment_overview, position - 1);
+                    break;
 
-        @Override
-        public int getViewTypeCount(){
-            return DrawerItem.TYPE_MAX;
-        }
+                case DrawerItem.TYPE_NEWS:
+                    selectFragment(R.id.fragment_news, position - 1);
+                    break;
 
-        @Override
-        public Object getItem(int i) {
-            return items.get(i);
-        }
+                case DrawerItem.TYPE_SCHEDULE_RESULTS:
+                    selectFragment(R.id.fragment_schedule_results, position - 1);
+                    break;
 
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
+                case DrawerItem.TYPE_STANDINGS:
+                    selectFragment(R.id.fragment_standings, position - 1);
+                    break;
 
-        public void setHint(int position) {
-            hintPosition = position;
-            notifyDataSetChanged();
-        }
+                case DrawerItem.TYPE_TEAM:
+                    selectFragment(R.id.fragment_team, position - 1);
+                    break;
 
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-
-            DrawerItem item = items.get(i);
-
-            switch(item.type){
-                case DrawerItem.TYPE_SECTION_TITLE:
-                    DrawerItemSectionTitle drawerItemSectionTitle = view == null ? new DrawerItemSectionTitle(context) : (DrawerItemSectionTitle) view;
-                    drawerItemSectionTitle.setContent(item);
-                    return drawerItemSectionTitle;
-                default:
-                    DrawerItemView drawerItem = view == null ? new DrawerItemView(context) : (DrawerItemView) view;
-                    drawerItem.setContent(item);
-                    drawerItem.title.setSelected(i == hintPosition);
-                    return drawerItem;
+                case DrawerItem.TYPE_ADS_FREE:
+                    switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(MainActivity.this)){
+                        case ConnectionResult.SUCCESS:
+                            Intent intent = new Intent(MainActivity.this, PurchaseAdsFreeActivity.class);
+                            intent.putExtra(PurchaseAdsFreeActivity.SKU, PurchaseConstants.SKU_ADS_FREE);
+                            startActivityForResult(intent, REQUEST_ADS_FREE_PURCHASE);
+                            break;
+                    }
+                    break;
             }
-        }
-    }
+        }else if(position == 0){
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener{
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position > 0) {
-
-                //Compensate for headerView in position 0
-                DrawerItem clicked = adapter.items.get(position - 1);
-
-                switch (clicked.type){
-                    case DrawerItem.TYPE_LIVESTREAM:
-                        selectFragment(R.id.fragment_livestream, position - 1);
-                        break;
-
-                    case DrawerItem.TYPE_LIVETICKER:
-                        selectFragment(R.id.fragment_liveticker, position - 1);
-                        break;
-
-                    case DrawerItem.TYPE_REPLAYS:
-                        selectFragment(R.id.fragment_replays, position - 1);
-                        break;
-
-                    case DrawerItem.TYPE_OVERVIEW:
-                        selectFragment(R.id.fragment_overview, position - 1);
-                        break;
-
-                    case DrawerItem.TYPE_NEWS:
-                        selectFragment(R.id.fragment_news, position - 1);
-                        break;
-
-                    case DrawerItem.TYPE_SCHEDULE_RESULTS:
-                        selectFragment(R.id.fragment_schedule_results, position - 1);
-                        break;
-
-                    case DrawerItem.TYPE_STANDINGS:
-                        selectFragment(R.id.fragment_standings, position - 1);
-                        break;
-
-                    case DrawerItem.TYPE_TEAM:
-                        selectFragment(R.id.fragment_team, position - 1);
-                        break;
-
-                    case DrawerItem.TYPE_ADS_FREE:
-                        switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(MainActivity.this)){
-                            case ConnectionResult.SUCCESS:
-                                Intent intent = new Intent(MainActivity.this, PurchaseAdsFreeActivity.class);
-                                intent.putExtra(PurchaseAdsFreeActivity.SKU, PurchaseConstants.SKU_ADS_FREE);
-                                startActivityForResult(intent, REQUEST_ADS_FREE_PURCHASE);
-                                break;
-                        }
-                        break;
-                }
-            }else if(position == 0){
-
-                DrawerHeader header = (DrawerHeader) view;
-                if(header.subMenuShowing){
-                    header.hideSub();
-                }else{
-                    header.showSub();
-                }
+            DrawerHeader header = (DrawerHeader) view;
+            if(header.subMenuShowing){
+                header.hideSub();
+            }else{
+                header.showSub();
             }
         }
     }
@@ -486,12 +311,6 @@ public class MainActivity extends BaseActivity implements DrawerHeader.Tournamen
         ft.replace(contentView.getId(), frag, FRAGMENT_TAG);
         ft.commit();
         closeDrawer();
-    }
-
-    public void closeDrawer() {
-        if (mDrawerLayout.isShown()) {
-            mDrawerLayout.closeDrawers();
-        }
     }
 
     @Override
