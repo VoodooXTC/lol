@@ -26,8 +26,7 @@ import joss.jacobo.lol.lcs.views.ToolbarTitle;
 /**
  * Created by jossayjacobo on 7/20/14
  */
-public abstract class BaseActivity extends ActionBarActivity implements
-        IabHelper.OnIabSetupFinishedListener, IabHelper.QueryInventoryFinishedListener {
+public abstract class BaseActivity extends ActionBarActivity{
 
     @Inject
     Datastore datastore;
@@ -41,21 +40,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
     public void onCreate(Bundle savedState){
         super.onCreate(savedState);
         ((MainApp) getApplication()).inject(this);
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        if(!datastore.isAdsFree()){
-            switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this)){
-                case ConnectionResult.SUCCESS:
-                    mHelper = new IabHelper(this, PurchaseConstants.PUBLIC_KEY);
-                    mHelper.startSetup(this);
-                    break;
-            }
-        }
-
     }
 
     @Override
@@ -104,41 +88,5 @@ public abstract class BaseActivity extends ActionBarActivity implements
             ToolbarTitle toolbarTitle = (ToolbarTitle) toolbar.findViewById(R.id.toolbar_title);
             toolbarTitle.setContent(title, subtitle);
         }
-    }
-
-    @Override
-    public void onIabSetupFinished(IabResult result) {
-        if (!result.isSuccess()) {
-            // Oh noes, there was a problem.
-            return;
-        }
-
-        // Have we been disposed of in the meantime? If so, quit.
-        if (mHelper == null) return;
-
-        // IAB is fully set up. Now, let's get an inventory of stuff we own.
-        mHelper.queryInventoryAsync(this);
-    }
-
-    @Override
-    public void onQueryInventoryFinished(IabResult result, Inventory inv) {
-        // Have we been disposed of in the meantime? If so, quit.
-        if (mHelper == null) return;
-
-        // Is it a failure?
-        if (result.isFailure()) {
-            return;
-        }
-
-        /**
-         * Query inventory was successful
-         *
-         * Check for items we own. Notice that for each purchase, we check
-         * the developer payload to see if it's correct! See
-         * verifyDeveloperPayload().
-         */
-
-        Purchase adsFreePurchase = inv.getPurchase(PurchaseConstants.SKU_ADS_FREE);
-        datastore.persistIsAdsFree(adsFreePurchase != null);
     }
 }

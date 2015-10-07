@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import joss.jacobo.lol.lcs.R;
-import joss.jacobo.lol.lcs.views.CancelableAdView;
 
 /**
  * Created by jossayjacobo on 7/22/14
@@ -33,8 +31,6 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
     LinearLayout loadingView;
     @InjectView(R.id.emptyView)
     TextView emptyView;
-    @InjectView(R.id.cancelableAds)
-    CancelableAdView cancelableAdView;
 
     ListAdapter adapter;
     View loadingItem;
@@ -55,22 +51,9 @@ public class BaseListFragment extends BaseFragment implements AbsListView.OnScro
         loadingItem = inflater.inflate(R.layout.li_loading, listView, false);
         setHasOptionsMenu(true);
 
-        cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                cancelableAdView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                listView.setPadding(0, 0, 0, cancelableAdView.getMeasuredHeight());
-            }
-        });
-
         return view;
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-        cancelableAdView.initAds();
-    }
 
     public void setupListView(){
         emptyView.setVisibility(customEmptyView != null ? View.GONE : View.VISIBLE);

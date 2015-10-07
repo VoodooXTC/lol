@@ -43,13 +43,11 @@ import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
 import joss.jacobo.lol.lcs.utils.DateTimeFormatter;
 import joss.jacobo.lol.lcs.utils.GGson;
 import joss.jacobo.lol.lcs.views.ActionBarCustomCenteredTitle;
-import joss.jacobo.lol.lcs.views.CancelableAdView;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerHeader;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerMatchup;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerPickBans;
 import joss.jacobo.lol.lcs.views.LivetickerBottomDrawerScores;
 import joss.jacobo.lol.lcs.views.LivetickerEventItem;
-import joss.jacobo.lol.lcs.views.ToolbarTitle;
 
 /**
  * Created by Joss on 9/6/2014
@@ -81,8 +79,6 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
     ScrollView bottomDrawerScrollView;
     @InjectView(R.id.lt_scroll_view_container)
     LinearLayout bottomDrawerScrollViewContainer;
-    @InjectView(R.id.cancelableAds)
-    CancelableAdView cancelableAdView;
 
     LivetickerBottomDrawerHeader btHeader;
     LivetickerBottomDrawerScores btScores;
@@ -126,7 +122,6 @@ public class LivetickerActivity extends BaseActivity implements SlidingUpPanelLa
         setContentView(R.layout.activity_liveticker);
         ButterKnife.inject(this);
 
-        cancelableAdView.setVisibility(View.GONE);
         slidingUpPanelLayout.setPanelSlideListener(this);
 
         setupActionBar("Liveticker");

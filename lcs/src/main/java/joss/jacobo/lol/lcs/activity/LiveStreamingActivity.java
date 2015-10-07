@@ -40,7 +40,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import joss.jacobo.lol.lcs.BuildConfig;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.adapters.DropDownAdapter;
 import joss.jacobo.lol.lcs.adapters.TweetsAdapter;
@@ -52,7 +51,6 @@ import joss.jacobo.lol.lcs.provider.tweets.TweetsCursor;
 import joss.jacobo.lol.lcs.provider.tweets.TweetsSelection;
 import joss.jacobo.lol.lcs.utils.GGson;
 import joss.jacobo.lol.lcs.views.ActionBarDropDownItem;
-import joss.jacobo.lol.lcs.views.CancelableAdView;
 import joss.jacobo.lol.lcs.views.ToolbarTitle;
 
 /**
@@ -81,8 +79,6 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements
     TextView emptyView;
     @InjectView(R.id.loadingView)
     LinearLayout loadingView;
-    @InjectView(R.id.cancelableAds)
-    CancelableAdView cancelableAdView;
 
     ToolbarTitle toolbarTitle;
 
@@ -122,14 +118,6 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements
         setupListView();
         showLoading();
 
-        cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                cancelableAdView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                listView.setPadding(0, 0, 0, cancelableAdView.getMeasuredHeight());
-            }
-        });
-
         youTubePlayerView.initialize(API_KEY, this);
 
         broadcastManager = LocalBroadcastManager.getInstance(this);
@@ -149,8 +137,6 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements
         Message message = new Message();
         message.what = GET_HASHTAG_TWEETS;
         tweetHandler.sendMessageDelayed(message, DELAY);
-
-        cancelableAdView.initAds();
     }
 
     @Override
@@ -458,17 +444,11 @@ public class LiveStreamingActivity extends YouTubeBaseActivity implements
 
         getWindow().getDecorView().setSystemUiVisibility(LAYOUT_FLAGS);
 
-        if (!BuildConfig.DEBUG)
-            cancelableAdView.setVisibility(View.GONE);
-
         toolbar.setVisibility(View.GONE);
     }
 
     private void showSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(0);
-
-        if (!BuildConfig.DEBUG)
-            cancelableAdView.setVisibility(View.VISIBLE);
 
         toolbar.setVisibility(View.VISIBLE);
     }

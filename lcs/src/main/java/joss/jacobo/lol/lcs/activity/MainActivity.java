@@ -105,16 +105,6 @@ public class MainActivity extends BaseDrawerActivity implements DrawerHeader.Tou
             items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, getString(R.string.drawer_teams)));
             items.addAll(teams);
         }
-
-        switch (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this)){
-            case ConnectionResult.SUCCESS:
-                if(!datastore.isAdsFree()){
-                    items.add(new DrawerItem(DrawerItem.TYPE_SECTION_TITLE, 0, getString(R.string.drawer_support)));
-                    items.add(new DrawerItem(DrawerItem.TYPE_ADS_FREE, 0, getString(R.string.drawer_ads_fre)));
-                }
-                break;
-        }
-
         return items;
     }
 
@@ -256,21 +246,6 @@ public class MainActivity extends BaseDrawerActivity implements DrawerHeader.Tou
                     currentFrag = R.id.fragment_team;
                     adapter.setHint(position);
                     onTeamSelected(adapter.items.get(position).teamId);
-                    return;
-                case R.id.fragment_feedback:
-
-//                    closeDrawer();
-//
-//                    String query = Saguaro.getSendFeedbackIntent(this).getData().toString();
-//                    query += Uri.encode("\n");
-//                    query += Uri.encode(Device.getFullDeviceName());
-//                    query += Uri.encode("\n");
-//                    query += Uri.encode(Device.getOSVersion());
-//
-//                    Intent feedBackIntent = new Intent(Intent.ACTION_SENDTO);
-//                    feedBackIntent.setData(Uri.parse(query));
-//                    startActivity(feedBackIntent);
-
                     return;
             }
             currentTeam = 0;

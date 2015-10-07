@@ -63,12 +63,4 @@
 
             </LinearLayout>
     </ScrollView>
-
-    <joss.jacobo.lol.lcs.views.CancelableAdView
-        android:id="@+id/cancelableAds"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        />
-
 </RelativeLayout>

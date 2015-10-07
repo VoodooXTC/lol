@@ -34,7 +34,6 @@ import butterknife.InjectView;
 import joss.jacobo.lol.lcs.R;
 import joss.jacobo.lol.lcs.model.NewsModel;
 import joss.jacobo.lol.lcs.utils.Bootstrap;
-import joss.jacobo.lol.lcs.views.CancelableAdView;
 
 /**
  * Created by Joss on 7/31/2014
@@ -64,8 +63,6 @@ public class NewsDetailsActivity extends BaseActivity {
     LinearLayout loadingView;
     @InjectView(R.id.news_animation_image)
     ImageView animationImage;
-    @InjectView(R.id.cancelableAds)
-    CancelableAdView cancelableAdView;
 
     NewsModel newsModel;
     int[] imagePosition;
@@ -77,8 +74,6 @@ public class NewsDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
         ButterKnife.inject(this);
-
-        cancelableAdView.setVisibility(View.GONE);
 
         Bundle bundle = savedInstanceState != null ? savedInstanceState : getIntent().getExtras();
         Gson gson = new Gson();
@@ -97,7 +92,7 @@ public class NewsDetailsActivity extends BaseActivity {
         setContent(newsModel);
 
         setupActionBar(toolbar);
-        setToolbarTitle("News");
+        setToolbarTitle(getString(R.string.news_actionbar_title));
 
         image.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -226,8 +221,6 @@ public class NewsDetailsActivity extends BaseActivity {
 
         @Override
         public void onPageFinished(WebView webView, String url) {
-            cancelableAdView.setVisibility(View.VISIBLE);
-            cancelableAdView.initAds();
         }
 
         @Override

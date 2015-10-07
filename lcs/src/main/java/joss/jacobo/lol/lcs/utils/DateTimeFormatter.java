@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
@@ -32,7 +33,7 @@ public class DateTimeFormatter {
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
             Date date = fmt.parse(dateString);
 
-            SimpleDateFormat fmtOut = new SimpleDateFormat("cccc, MMMM dd");
+            SimpleDateFormat fmtOut = new SimpleDateFormat("cccc, MMMM dd", Locale.getDefault());
             fmtOut.setTimeZone(TimeZone.getDefault());
             return fmtOut.format(date);
 

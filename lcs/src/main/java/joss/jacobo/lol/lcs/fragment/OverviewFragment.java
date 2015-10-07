@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import joss.jacobo.lol.lcs.R;
+import joss.jacobo.lol.lcs.adapters.OverviewAdapter;
 import joss.jacobo.lol.lcs.api.ApiService;
 import joss.jacobo.lol.lcs.api.model.TeamDetail;
 import joss.jacobo.lol.lcs.items.MatchDetailsItem;
@@ -60,7 +61,7 @@ public class OverviewFragment extends BaseListFragment {
 
         setupListView();
         showLoading();
-        adapter = new OverviewAdapter(getItems());
+        adapter = new OverviewAdapter(getActivity(), getItems());
         setAdapter(adapter);
 
         getLoaderManager().initLoader(STANDINGS_CALLBACK, null, new StandingsCallBack());
@@ -108,90 +109,6 @@ public class OverviewFragment extends BaseListFragment {
         }
 
         return items;
-    }
-
-    public class OverviewAdapter extends BaseAdapter {
-
-        public List<OverviewItem> items;
-
-        public OverviewAdapter(List<OverviewItem> items){
-            this.items = items;
-        }
-
-        public void setItems(List<OverviewItem> newItems) {
-            this.items = newItems;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-
-        @Override
-        public int getItemViewType(int position){
-            return items.get(position).type;
-        }
-
-        @Override
-        public int getViewTypeCount(){
-            return OverviewItem.TYPE_MAX;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return items.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            OverviewItem item = items.get(position);
-
-            switch (item.type){
-                case OverviewItem.TYPE_STANDINGS:
-                    StandingsItem standingsItem = (StandingsItem) item;
-
-                    OverviewStandingsItem overviewStandingsItem = convertView == null
-                            ? new OverviewStandingsItem(getActivity())
-                            : (OverviewStandingsItem) convertView;
-                    overviewStandingsItem.setContent(standingsItem);
-
-                    return overviewStandingsItem;
-
-                case OverviewItem.TYPE_MATCH_RESULTS:
-                    MatchDetailsItem matchDetailsItem = (MatchDetailsItem) item;
-
-                    OverviewMatchDetailsItem overviewMatchDetailsItem = convertView == null
-                            ? new OverviewMatchDetailsItem(getActivity())
-                            : (OverviewMatchDetailsItem) convertView;
-                    overviewMatchDetailsItem.setContent(matchDetailsItem);
-                    return overviewMatchDetailsItem;
-
-                case OverviewItem.TYPE_MATCH_UPCOMING:
-                    MatchDetailsItem matchDetailsUpcomingItem = (MatchDetailsItem) item;
-
-                    OverviewMatchDetailsItem overviewMatchDetailsUpcomingItem = convertView == null
-                            ? new OverviewMatchDetailsItem(getActivity())
-                            : (OverviewMatchDetailsItem) convertView;
-                    overviewMatchDetailsUpcomingItem.setContent(matchDetailsUpcomingItem);
-                    return overviewMatchDetailsUpcomingItem;
-
-                case OverviewItem.TYPE_SECTION_TITLE:
-                    OverviewSectionTitle overviewSectionTitle = convertView == null
-                            ? new OverviewSectionTitle(getActivity())
-                            : (OverviewSectionTitle) convertView;
-                    overviewSectionTitle.setContent(item);
-                    return overviewSectionTitle;
-            }
-
-            return convertView;
-        }
     }
 
     @Override

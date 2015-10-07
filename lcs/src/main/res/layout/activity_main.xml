@@ -28,7 +28,7 @@
             android:choiceMode="singleChoice"
             android:divider="@color/transparent"
             android:dividerHeight="1dp"
-            android:background="@drawable/blur_menu_bg"
+            android:background="@color/main_bg_color"
             android:overScrollFooter="@null"
             android:listSelector="@color/transparent"
             android:scrollbars="none"

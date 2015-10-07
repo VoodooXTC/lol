@@ -80,7 +80,7 @@ public class TeamsFragment extends BaseFragment {
     }
 
     private void setupPagerTabStrip() {
-        pagerTitleStrip.setBackgroundColor(getResources().getColor(R.color.purple_dark));
+        pagerTitleStrip.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         pagerTitleStrip.setNonPrimaryAlpha(0.5f);
         pagerTitleStrip.setTextSpacing(25);
         pagerTitleStrip.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);

@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +17,6 @@ import joss.jacobo.lol.lcs.model.TeamDetailsModel;
 import joss.jacobo.lol.lcs.model.TeamsModel;
 import joss.jacobo.lol.lcs.provider.team_details.TeamDetailsSelection;
 import joss.jacobo.lol.lcs.utils.GGson;
-import joss.jacobo.lol.lcs.views.CancelableAdView;
 
 /**
  * Created by jossayjacobo on 7/25/14
@@ -31,8 +29,6 @@ public class TeamAboutFragment extends Fragment {
     TextView title;
     @InjectView(R.id.team_about_text1)
     TextView text1;
-    @InjectView(R.id.cancelableAds)
-    CancelableAdView cancelableAdView;
 
     TeamsModel team;
     TeamDetailsModel teamDetail;
@@ -50,14 +46,6 @@ public class TeamAboutFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_about_team, container, false);
         ButterKnife.inject(this, view);
 
-        cancelableAdView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                cancelableAdView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                text1.setPadding(0, 0, 0, cancelableAdView.getMeasuredHeight());
-            }
-        });
-
         return view;
     }
 
@@ -65,12 +53,6 @@ public class TeamAboutFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedState) {
         super.onViewCreated(view, savedState);
         setContent();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        cancelableAdView.initAds();
     }
 
     private void setContent() {
