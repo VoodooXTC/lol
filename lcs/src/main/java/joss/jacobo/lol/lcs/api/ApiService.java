@@ -92,7 +92,7 @@ public class ApiService extends IntentService {
     public void onCreate() {
         super.onCreate();
         RestAdapter restAdapter = new RestAdapter.Builder()
-            .setEndpoint("http://lcs.voodootvdb.com")
+            .setEndpoint("http://lcs.jossay.com")
                 .setLogLevel(RestAdapter.LogLevel.FULL)
             .build();
         service = restAdapter.create(RestService.class);
